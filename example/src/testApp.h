@@ -2,8 +2,9 @@
 
 #include "ofMain.h"
 
-#include "ofUnicode.h"
 #include "ofUTF8.h"
+#include "ofUnicode.h"
+#include "ofTextConverter.h"
 
 class testApp : public ofBaseApp{
 	public:

@@ -26,6 +26,8 @@
 		E4EB6799138ADC1D00A09F29 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
 		FD7BF92D156ECF5B0016022F /* ofUnicode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD7BF929156ECF5B0016022F /* ofUnicode.cpp */; };
 		FD7BF92E156ECF5B0016022F /* ofUTF8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD7BF92B156ECF5B0016022F /* ofUTF8.cpp */; };
+		FDE358571570122E0084B43C /* ofTextConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDE358561570122E0084B43C /* ofTextConverter.cpp */; };
+		FDE3585A157020140084B43C /* ofUnicodeConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDE35858157020130084B43C /* ofUnicodeConverter.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,7 +72,7 @@
 		E45BE9770E8CC7DD009D7055 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
 		E45BE9790E8CC7DD009D7055 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		E45BE97A0E8CC7DD009D7055 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = /System/Library/Frameworks/QuickTime.framework; sourceTree = "<absolute>"; };
-		E4B69B5B0A3A1756003C02F2 /* ofxUTFCPPExampleDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ofxUTFCPPExampleDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4B69B5B0A3A1756003C02F2 /* ofxUnicodeExampleDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ofxUnicodeExampleDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = testApp.cpp; path = src/testApp.cpp; sourceTree = SOURCE_ROOT; };
 		E4B69E1F0A3A1BDC003C02F2 /* testApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = testApp.h; path = src/testApp.h; sourceTree = SOURCE_ROOT; };
@@ -81,13 +83,19 @@
 		E4EB691F138AFCF100A09F29 /* CoreOF.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = CoreOF.xcconfig; path = ../../../libs/openFrameworksCompiled/project/osx/CoreOF.xcconfig; sourceTree = SOURCE_ROOT; };
 		E4EB6923138AFD0F00A09F29 /* Project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Project.xcconfig; sourceTree = "<group>"; };
 		FD7BF929156ECF5B0016022F /* ofUnicode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofUnicode.cpp; sourceTree = "<group>"; };
-		FD7BF92A156ECF5B0016022F /* ofUnicode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofUnicode.h; sourceTree = "<group>"; };
-		FD7BF92B156ECF5B0016022F /* ofUTF8.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofUTF8.cpp; sourceTree = "<group>"; };
+		FD7BF92A156ECF5B0016022F /* ofUnicode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ofUnicode.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		FD7BF92B156ECF5B0016022F /* ofUTF8.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = ofUTF8.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		FD7BF92C156ECF5B0016022F /* ofUTF8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofUTF8.h; sourceTree = "<group>"; };
-		FD7BF936156ECF610016022F /* checked.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = checked.h; sourceTree = "<group>"; };
-		FD7BF937156ECF610016022F /* core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = core.h; sourceTree = "<group>"; };
-		FD7BF938156ECF610016022F /* unchecked.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unchecked.h; sourceTree = "<group>"; };
-		FD7BF939156ECF610016022F /* utf8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf8.h; sourceTree = "<group>"; };
+		FDE3581A156F3BDF0084B43C /* ReleaseNotes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReleaseNotes; sourceTree = "<group>"; };
+		FDE3581B156F3BDF0084B43C /* utf8cpp.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = utf8cpp.html; sourceTree = "<group>"; };
+		FDE3581E156F3BDF0084B43C /* checked.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = checked.h; sourceTree = "<group>"; };
+		FDE3581F156F3BDF0084B43C /* core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = core.h; sourceTree = "<group>"; };
+		FDE35820156F3BDF0084B43C /* unchecked.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unchecked.h; sourceTree = "<group>"; };
+		FDE35821156F3BDF0084B43C /* utf8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf8.h; sourceTree = "<group>"; };
+		FDE3585515700DB00084B43C /* ofTextConverter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofTextConverter.h; sourceTree = "<group>"; };
+		FDE358561570122E0084B43C /* ofTextConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofTextConverter.cpp; sourceTree = "<group>"; };
+		FDE35858157020130084B43C /* ofUnicodeConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofUnicodeConverter.cpp; sourceTree = "<group>"; };
+		FDE35859157020140084B43C /* ofUnicodeConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofUnicodeConverter.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,7 +184,7 @@
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
 				E45BE5980E8CC70C009D7055 /* frameworks */,
-				E4B69B5B0A3A1756003C02F2 /* ofxUTFCPPExampleDebug.app */,
+				E4B69B5B0A3A1756003C02F2 /* ofxUnicodeExampleDebug.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -202,7 +210,7 @@
 		FD7BF925156ECF430016022F /* ofxUnicode */ = {
 			isa = PBXGroup;
 			children = (
-				FD7BF92F156ECF610016022F /* lib */,
+				FDE35817156F3BDF0084B43C /* libs */,
 				FD7BF928156ECF5B0016022F /* src */,
 			);
 			name = ofxUnicode;
@@ -215,43 +223,57 @@
 				FD7BF92A156ECF5B0016022F /* ofUnicode.h */,
 				FD7BF92B156ECF5B0016022F /* ofUTF8.cpp */,
 				FD7BF92C156ECF5B0016022F /* ofUTF8.h */,
+				FDE3585515700DB00084B43C /* ofTextConverter.h */,
+				FDE358561570122E0084B43C /* ofTextConverter.cpp */,
+				FDE35858157020130084B43C /* ofUnicodeConverter.cpp */,
+				FDE35859157020140084B43C /* ofUnicodeConverter.h */,
 			);
 			name = src;
 			path = ../src;
 			sourceTree = "<group>";
 		};
-		FD7BF92F156ECF610016022F /* lib */ = {
+		FDE35817156F3BDF0084B43C /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				FD7BF930156ECF610016022F /* utf8cpp */,
+				FDE35818156F3BDF0084B43C /* utf8cpp */,
 			);
-			name = lib;
-			path = ../lib;
+			name = libs;
+			path = ../libs;
 			sourceTree = "<group>";
 		};
-		FD7BF930156ECF610016022F /* utf8cpp */ = {
+		FDE35818156F3BDF0084B43C /* utf8cpp */ = {
 			isa = PBXGroup;
 			children = (
-				FD7BF934156ECF610016022F /* include */,
+				FDE35819156F3BDF0084B43C /* doc */,
+				FDE3581C156F3BDF0084B43C /* include */,
 			);
 			path = utf8cpp;
 			sourceTree = "<group>";
 		};
-		FD7BF934156ECF610016022F /* include */ = {
+		FDE35819156F3BDF0084B43C /* doc */ = {
 			isa = PBXGroup;
 			children = (
-				FD7BF935156ECF610016022F /* utf8 */,
-				FD7BF939156ECF610016022F /* utf8.h */,
+				FDE3581A156F3BDF0084B43C /* ReleaseNotes */,
+				FDE3581B156F3BDF0084B43C /* utf8cpp.html */,
+			);
+			path = doc;
+			sourceTree = "<group>";
+		};
+		FDE3581C156F3BDF0084B43C /* include */ = {
+			isa = PBXGroup;
+			children = (
+				FDE3581D156F3BDF0084B43C /* utf8 */,
+				FDE35821156F3BDF0084B43C /* utf8.h */,
 			);
 			path = include;
 			sourceTree = "<group>";
 		};
-		FD7BF935156ECF610016022F /* utf8 */ = {
+		FDE3581D156F3BDF0084B43C /* utf8 */ = {
 			isa = PBXGroup;
 			children = (
-				FD7BF936156ECF610016022F /* checked.h */,
-				FD7BF937156ECF610016022F /* core.h */,
-				FD7BF938156ECF610016022F /* unchecked.h */,
+				FDE3581E156F3BDF0084B43C /* checked.h */,
+				FDE3581F156F3BDF0084B43C /* core.h */,
+				FDE35820156F3BDF0084B43C /* unchecked.h */,
 			);
 			path = utf8;
 			sourceTree = "<group>";
@@ -275,7 +297,7 @@
 			);
 			name = ofxUnicodeExample;
 			productName = myOFApp;
-			productReference = E4B69B5B0A3A1756003C02F2 /* ofxUTFCPPExampleDebug.app */;
+			productReference = E4B69B5B0A3A1756003C02F2 /* ofxUnicodeExampleDebug.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -344,6 +366,8 @@
 				E4B69E210A3A1BDC003C02F2 /* testApp.cpp in Sources */,
 				FD7BF92D156ECF5B0016022F /* ofUnicode.cpp in Sources */,
 				FD7BF92E156ECF5B0016022F /* ofUTF8.cpp in Sources */,
+				FDE358571570122E0084B43C /* ofTextConverter.cpp in Sources */,
+				FDE3585A157020140084B43C /* ofUnicodeConverter.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

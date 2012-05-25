@@ -1,100 +1,6 @@
 #include "ofUTF8.h"
 
 //------------------------------------------------------------------
-ofUTF8Iter ofUTF8::begin(const string& input) {
-    return input.c_str();
-}
-//------------------------------------------------------------------
-ofUTF8Iter ofUTF8::end(const string& input) {
-    return input.c_str() + input.length();
-}
-//------------------------------------------------------------------
-ofUTF8Iterator ofUTF8::iterator(const string& input) {
-    ofUTF8Iterator it(begin(input),begin(input),end(input));
-    return it;
-}
-
-//------------------------------------------------------------------
-string ofUTF8::convertFrom(const string& input, ofTextEncoding inputEncoding) {
-    
-    // pass through
-    if(inputEncoding == OF_TEXT_ENCODING_UTF8) {
-        return input;
-    }
-    
-    // converts from various encoding using poco.
-    string utf8String;
-    
-    if(inputEncoding == OF_TEXT_ENCODING_UTF16) {
-        Poco::TextConverter converter(utf16_enc, utf8_enc);
-        converter.convert(input, utf8String);
-    } else if(inputEncoding == OF_TEXT_ENCODING_ASCII) {
-        Poco::TextConverter converter(ascii_enc, utf8_enc);
-        converter.convert(input, utf8String);
-    } else if(inputEncoding == OF_TEXT_ENCODING_LATIN_1) {
-        Poco::TextConverter converter(latin1_enc, utf8_enc);
-        converter.convert(input, utf8String);
-    } else if(inputEncoding == OF_TEXT_ENCODING_LATIN_9) {
-        Poco::TextConverter converter(latin9_enc, utf8_enc);
-        converter.convert(input, utf8String);
-    } else if(inputEncoding == OF_TEXT_ENCODING_WINDOWS_1252) {
-        Poco::TextConverter converter(windows1252_enc, utf8_enc);
-        converter.convert(input, utf8String);
-    } else {
-        ofLog(OF_LOG_ERROR,"ofUTF8::convertFrom : unknown input encoding.");
-        return input;
-    }
-    
-    return utf8String;
-}
-
-//------------------------------------------------------------------
-string ofUTF8::toString(ofUniChar& unicode) {
-    string txt;
-    return append(txt, unicode);
-}
-
-//------------------------------------------------------------------
-string ofUTF8::toString(ofUniChars& unichars) {
-    string txt;
-    ofUniChars::iterator iter;// = unichars.begin();
-    iter = unichars.begin();
-    while(iter != unichars.end()) {
-        appendInPlace(txt,*iter);
-        iter++;
-    }
-}
-
-//------------------------------------------------------------------
-ofUniChars ofUTF8::toUniChars(string txt) {
-    ofUniChars utf32result;
-    try {
-        utf8::utf8to32(begin(txt), end(txt), back_inserter(utf32result));
-    } catch(const utf8::exception& utfcpp_ex) {
-        string err = utfcpp_ex.what();
-        ofLog(OF_LOG_ERROR, "ofUTF8::toUniChars : " + err);
-    }
-    return utf32result;
-}
-
-//------------------------------------------------------------------
-string ofUTF8::append(string txt, ofUniChar unicode) {
-    try {
-        utf8::append(unicode, back_inserter(txt));
-    } catch(const utf8::exception& utfcpp_ex) {
-        string err = utfcpp_ex.what();
-        ofLog(OF_LOG_ERROR, "ofUTF8::append : " + err);
-    }
-    return txt;
-}
-
-//------------------------------------------------------------------
-string& ofUTF8::appendInPlace(string& txt, ofUniChar unicode) {
-    txt = append(txt,unicode);
-    return txt;
-}
-
-//------------------------------------------------------------------
 bool ofUTF8::isValid(string txt) {
     try {
         string::iterator end_it = utf8::find_invalid(txt.begin(), txt.end());
@@ -113,7 +19,7 @@ bool ofUTF8::isValid(string txt) {
 }
 
 //------------------------------------------------------------------
-bool ofUTF8::isValid(ofUTF8Iter iter, ofUTF8Iter end) {
+bool ofUTF8::isValid(ofUTF8Ptr iter, ofUTF8Ptr end) {
     try {
         bool isValid = utf8::is_valid(iter,end);
         if(!isValid) {
@@ -132,11 +38,11 @@ bool ofUTF8::isValid(ofUTF8Iter iter, ofUTF8Iter end) {
 
 //------------------------------------------------------------------
 bool ofUTF8::startsWithBOM(string txt) {
-    return startsWithBOM(begin(txt),end(txt));
+    return startsWithBOM(beginPtr(txt),endPtr(txt));
 }
 
 //------------------------------------------------------------------
-bool ofUTF8::startsWithBOM(ofUTF8Iter iter, ofUTF8Iter end) {
+bool ofUTF8::startsWithBOM(ofUTF8Ptr iter, ofUTF8Ptr end) {
     return utf8::starts_with_bom(iter,end);
 }
 
@@ -172,7 +78,7 @@ int ofUTF8::distance(string txt) {
 }
 
 //------------------------------------------------------------------
-int ofUTF8::distance(ofUTF8Iter iter, ofUTF8Iter end) {
+int ofUTF8::distance(ofUTF8Ptr iter, ofUTF8Ptr end) {
     try {
         return utf8::distance(iter, end);
     } catch(const utf8::exception& utfcpp_ex) {
@@ -207,7 +113,31 @@ string& ofUTF8::toLowerInPlace(string& str) {
 }
 
 //------------------------------------------------------------------
-ofUniChar ofUTF8::getNext(ofUTF8Iter& iter, ofUTF8Iter end) {
+ofUTF8Ptr ofUTF8::beginPtr(const string& input) {
+    return input.c_str();
+}
+//------------------------------------------------------------------
+ofUTF8Ptr ofUTF8::endPtr(const string& input) {
+    return input.c_str() + input.length();
+}
+//------------------------------------------------------------------
+ofUTF8Iterator ofUTF8::iterator(const string& input) {
+    return ofUTF8Iterator(beginPtr(input),beginPtr(input),endPtr(input));
+}
+
+//------------------------------------------------------------------
+ofUTF8Iterator ofUTF8::begin(const string& input) {
+    return iterator(input);
+}
+
+//------------------------------------------------------------------
+ofUTF8Iterator ofUTF8::end(const string& input) {
+    return ofUTF8Iterator(endPtr(input),beginPtr(input),endPtr(input));
+}
+
+
+//------------------------------------------------------------------
+ofUniChar ofUTF8::getNext(ofUTF8Ptr& iter, ofUTF8Ptr end) {
     try {
         return utf8::next(iter,end);
     } catch(const utf8::exception& utfcpp_ex) {
@@ -218,7 +148,7 @@ ofUniChar ofUTF8::getNext(ofUTF8Iter& iter, ofUTF8Iter end) {
 }
 
 //------------------------------------------------------------------
-ofUniChar ofUTF8::getPrior(ofUTF8Iter& iter, ofUTF8Iter end) {
+ofUniChar ofUTF8::getPrior(ofUTF8Ptr& iter, ofUTF8Ptr end) {
     try {
         return utf8::prior(iter,end);
     } catch(const utf8::exception& utfcpp_ex) {
@@ -229,7 +159,7 @@ ofUniChar ofUTF8::getPrior(ofUTF8Iter& iter, ofUTF8Iter end) {
 }
 
 //------------------------------------------------------------------
-ofUTF8Iter ofUTF8::advance(ofUTF8Iter& iter, ofUTF8Iter end, int numToSkip) {
+ofUTF8Ptr ofUTF8::advance(ofUTF8Ptr& iter, ofUTF8Ptr end, int numToSkip) {
     try {
         utf8::advance(iter,numToSkip,end);
         return iter;
@@ -242,74 +172,74 @@ ofUTF8Iter ofUTF8::advance(ofUTF8Iter& iter, ofUTF8Iter end, int numToSkip) {
 
 //------------------------------------------------------------------
 //------------------------------------------------------------------
-ofUniChar ofUTF8::get(ofUTF8Iter iter, ofUTF8Iter end) {
+ofUniChar ofUTF8::get(ofUTF8Ptr iter, ofUTF8Ptr end) {
     return getNext(iter,end);
 }
 
 //------------------------------------------------------------------
-ofUTF8Iter ofUTF8::next(ofUTF8Iter iter, ofUTF8Iter end) {
+ofUTF8Ptr ofUTF8::next(ofUTF8Ptr iter, ofUTF8Ptr end) {
     getNext(iter, end); return iter;
 }
 
 //------------------------------------------------------------------
-ofUTF8Iter ofUTF8::prior(ofUTF8Iter iter, ofUTF8Iter end) {
+ofUTF8Ptr ofUTF8::prior(ofUTF8Ptr iter, ofUTF8Ptr end) {
     getPrior(iter, end); return iter;
 }
 
 
 //------------------------------------------------------------------
 //------------------------------------------------------------------
-ofUniChar ofUTF8::get(const string& input, ofUTF8Iter iter) {
-    return getNext(iter, end(input));
+ofUniChar ofUTF8::get(const string& input, ofUTF8Ptr iter) {
+    return getNext(iter, endPtr(input));
 }
 
 //------------------------------------------------------------------
-ofUTF8Iter ofUTF8::next(const string& input, ofUTF8Iter iter) {
-    next(iter, end(input));
+ofUTF8Ptr ofUTF8::next(const string& input, ofUTF8Ptr iter) {
+    next(iter, endPtr(input));
     return iter;
 }
 
 //------------------------------------------------------------------
-ofUTF8Iter ofUTF8::prior(const string& input, ofUTF8Iter iter) {
-    prior(iter, end(input));
+ofUTF8Ptr ofUTF8::prior(const string& input, ofUTF8Ptr iter) {
+    prior(iter, endPtr(input));
     return iter;
 }
 
 //------------------------------------------------------------------
-ofUTF8Iter ofUTF8::advance(const string& input, ofUTF8Iter iter, const int numToSkip) {
-    return advance(iter, end(input));
+ofUTF8Ptr ofUTF8::advance(const string& input, ofUTF8Ptr iter, const int numToSkip) {
+    return advance(iter, endPtr(input));
 }
 
 ////////////////////////////////////////////////////////////////////
 //------------------------------------------------------------------
-ofUniChar ofUTF8::get(ofUTF8Iter iter) { 
+ofUniChar ofUTF8::get(ofUTF8Ptr iter) { 
     return utf8::unchecked::next(iter); // same as peek
 }
 //------------------------------------------------------------------
-ofUTF8Iter ofUTF8::next(ofUTF8Iter iter) {
+ofUTF8Ptr ofUTF8::next(ofUTF8Ptr iter) {
     utf8::unchecked::next(iter); // we don't return the unicode, just advance
     return iter; // iter is advanced
 }
 
 //------------------------------------------------------------------
-ofUTF8Iter ofUTF8::prior(ofUTF8Iter iter) {
+ofUTF8Ptr ofUTF8::prior(ofUTF8Ptr iter) {
     utf8::unchecked::prior(iter); // we don't return the unicode, just move back
     return iter; // iter is advanced
 }
 
 //------------------------------------------------------------------
-ofUTF8Iter ofUTF8::advance(ofUTF8Iter iter, const int numToSkip) {
+ofUTF8Ptr ofUTF8::advance(ofUTF8Ptr iter, const int numToSkip) {
     utf8::unchecked::advance(iter,numToSkip); // we don't return the unicode, just advance
     return iter; // iter is advanced
 }
 
 //------------------------------------------------------------------
-ofUniChar ofUTF8::getNext(ofUTF8Iter& iter) {
+ofUniChar ofUTF8::getNext(ofUTF8Ptr& iter) {
     return utf8::unchecked::next(iter); // increment iter and return value
 }
 
 //------------------------------------------------------------------
-ofUniChar ofUTF8::getPrior(ofUTF8Iter& iter) {
+ofUniChar ofUTF8::getPrior(ofUTF8Ptr& iter) {
     return utf8::unchecked::prior(iter); // increment iter and return value
 }
 

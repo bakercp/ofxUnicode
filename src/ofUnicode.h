@@ -28,38 +28,78 @@
 #include "Poco/Latin9Encoding.h"
 #include "Poco/Windows1252Encoding.h"
 
-typedef unsigned int     ofUTF32Char;
-typedef unsigned short   ofUTF16Char;
-typedef unsigned char	 ofUTF8Char;
-typedef char             ofChar;
-typedef const char *     ofUTF8Iter;
-typedef utf8::iterator<ofUTF8Iter> ofUTF8Iterator;
+// types
+typedef char             ofChar;      // a standard signed char
+typedef const char *     ofCharPtr;
+typedef unsigned char    ofUTF8Char;    // a UTF8 type (unsigned char)
+typedef ofCharPtr        ofUTF8Ptr;     // a pointer type used when traversing
+                                        // a UTF8 encoded std::string.
+                                        // the "beginning" of the string would be
+                                        // ofUTF8Ptr b = input.c_str();
+                                        // the "end" of the string would be
+                                        // ofUTF8Ptr e = input.c_str() + input.length();
+                                        // this is wierd.
+
+typedef wchar_t          ofUTF16Char; // a UTF16 type
+typedef unsigned int     ofUTF32Char; // a UTF32 type        
+typedef ofUTF32Char      ofUniChar;     // a unicode character type for clarity
+
+typedef const ofUTF16Char * ofUTF16Ptr;   // a pointer to wstring, like above 
+typedef const ofUniChar *   ofUniCharPtr;  // a pointer to unicode character
+
+// we define some typedefs for string and wstring to be EXPLICIT 
+// about the data types that are returned.  This is just to be clear.
+
+typedef string                    ofUTF8String;  //
+typedef wstring                   ofUTF16String; // 
+typedef basic_string<ofUTF32Char> ofUTF32String; // aka unicode string
+typedef ofUTF32String             ofUniString; // this is a "unicode" string
+                                        // each vector entry contains one 
+                                        // unicode code point.  
+                                        // It is NOT UTF8 encoded.
 
 
-typedef ofUTF32Char      ofUniChar;
-
-typedef ofUniChar*       ofUniCharPtr;
-typedef unsigned int     ofUniCharCount;
-typedef signed   int     ofUniCharGlyphIdx;
-typedef ofUniCharCount*  ofUniCharCountPtr;
-
-
-typedef vector<ofUniChar> ofUniChars;
+typedef utf8::iterator<ofUTF8Ptr> ofUTF8Iterator;  
+// a bidirectional iterator for 
+// to allow stl-iterator-like iteration
+// through a UTF8 encoded std::string.
+// Not exactly like an STL iterator.
+// from the UTF8-CPP library.
 
 class ofUnicode {
 public:
     
-    static bool       isValid(const ofUniChar& unicode);
-
+    static bool       isValid(const ofUniChar& unicode);     // is this a valid unicode character?
+    static bool       isPrintable(const ofUniChar& unicode); // is this a "printable" character?
+                                                             // True if the unicode category is not CONTROL
+                                                             // This does not guarantee that the character
+                                                             // has a visible "glyph".
+    
+    static bool       isCntrl(const ofUniChar& unichar);    // is this a "control" unicode character?
+                                                            // this is broadly defined to include unicode
+                                                            // CONTROL category, and other invisible glyphs
+                                                            // this is Not the opposite of isPrintable.
+    static bool       isTitle(const ofUniChar& unichar);    // is this a unicode "Titlecase" codepoint?
     static bool       isSpace(const ofUniChar& unichar);
-    static bool       isDigit(const ofUniChar& unichar);
+    static bool       isDigit(const ofUniChar& unichar);    
     static bool       isPunct(const ofUniChar& unichar);
     static bool 	  isAlpha(const ofUniChar& unichar);
+    static bool 	  isAlphaNumeric(const ofUniChar& unichar); // isAlpha || isDigit
     static bool       isLower(const ofUniChar& unichar);
     static bool       isUpper(const ofUniChar& unichar);
+
+    // conversions
     static ofUniChar  toLower(const ofUniChar& unichar);
     static ofUniChar  toUpper(const ofUniChar& unichar);
     static ofUniChar& toLowerInPlace(ofUniChar& unichar);
     static ofUniChar& toUpperInPlace(ofUniChar& unichar);
+
+    // unicode string based conversions
+    static ofUniString  toLower(ofUniString& unichar);
+    static ofUniString  toUpper(ofUniString& unichar);
+    static ofUniString& toLowerInPlace(ofUniString& unichar);
+    static ofUniString& toUpperInPlace(ofUniString& unichar);
+
+private:
     
 };
