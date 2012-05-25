@@ -154,6 +154,24 @@ void testApp::setup(){
     }
 
     
+    // one more way
+    {
+        string goal = "8675309"; // just something to shoot for
+        string dest;
+        
+        ofUniString uni = ofTextConverter::toUTF32(utf8_0);
+    
+        dest += ofTextConverter::toUTF8(uni[8]);
+        dest += ofTextConverter::toUTF8(uni[6]);
+        dest += ofTextConverter::toUTF8(uni[7]);
+        dest += ofTextConverter::toUTF8(uni[5]);
+        dest += ofTextConverter::toUTF8(uni[3]);
+        dest += ofTextConverter::toUTF8(uni[0]);
+        dest += ofTextConverter::toUTF8(uni[9]);
+        
+        assert(goal == dest); // check!
+    }
+
         
 }
 
