@@ -1,0 +1,40 @@
+http://behdad.org/text/
+http://www.freetype.org/freetype2/docs/tutorial/step2.html
+https://github.com/roxlu/ofxPango
+http://opensource.apple.com/source/ICU/ICU-6.2.8/icuSources/samples/layout/GnomeFontInstance.cpp
+
+pillars of pango:
+
+http://behdad.org/download/Presentations/slippy/freetextstack_slides.pdf
+Pillars of Pango
+• pango_itemize()
+• pango_shape()
+• pango_break()
+
+http://www.freedesktop.org/wiki/Software/HarfBuzz
+http://cgit.freedesktop.org/harfbuzz/
+
+http://www.w3.org/Math/ <-- pango
+https://developer.mozilla.org/en/Mozilla_MathML_Project/Fonts
+http://www.pango.org/ScriptGallery
+
+http://userguide.icu-project.org/conversion/detection
+
+http://userguide.icu-project.org/transforms/normalization
+http://en.wikipedia.org/wiki/Text_normalization
+
+http://code.google.com/p/chromium-compact-language-detector/issues/list
+
+https://developers.google.com/translate/v2/libraries
+
+http://en.wikipedia.org/wiki/Pangram
+
+Compiling ICU for of:
+
+
+---- we do not need I18N or Layout library.  We DO need common library
+
+http://www.lingnu.com/en/programming/57-bidi-aware-programming-introduction.html
+http://www.lingnu.com/en/programming/60-bidi-aware-programming-2-pitfalls.html
+
+http://userguide.icu-project.org/transforms/bidi vs. fribidi

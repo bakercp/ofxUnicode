@@ -1,0 +1,26 @@
+// ICU INCLUDES
+ICU_PATH = ..
+
+HEADER_ICU = "$(ICU_PATH)/libs/icu/include"
+
+LIB_ICU_0 = "$(ICU_PATH)/libs/icu/lib/osx/libicudata.a"
+LIB_ICU_1 = "$(ICU_PATH)/libs/icu/lib/osx/libicui18n.a"
+LIB_ICU_2 = "$(ICU_PATH)/libs/icu/lib/osx/libicuio.a"
+LIB_ICU_3 = "$(ICU_PATH)/libs/icu/lib/osx/libicule.a"
+LIB_ICU_4 = "$(ICU_PATH)/libs/icu/lib/osx/libiculx.a"
+LIB_ICU_5 = "$(ICU_PATH)/libs/icu/lib/osx/libicutest.a"
+LIB_ICU_6 = "$(ICU_PATH)/libs/icu/lib/osx/libicutu.a"
+LIB_ICU_7 = "$(ICU_PATH)/libs/icu/lib/osx/libicuuc.a"
+
+HCU_HEADERS = $(HEADER_ICU)
+ICU_LIBS = $(LIB_ICU_0) $(LIB_ICU_1) $(LIB_ICU_2) $(LIB_ICU_3) $(LIB_ICU_4) $(LIB_ICU_5) $(LIB_ICU_6) $(LIB_ICU_7)
+
+//THE PATH TO THE ROOT OF OUR OF PATH RELATIVE TO THIS PROJECT.
+//THIS NEEDS TO BE DEFINED BEFORE CoreOF.xcconfig IS INCLUDED
+OF_PATH = ../../..
+
+//THIS HAS ALL THE HEADER AND LIBS FOR OF CORE
+#include "../../../libs/openFrameworksCompiled/project/osx/CoreOF.xcconfig"
+
+OTHER_LDFLAGS = $(OF_CORE_LIBS) $(ICU_LIBS)
+HEADER_SEARCH_PATHS = $(OF_CORE_HEADERS) $(HCU_HEADERS)
