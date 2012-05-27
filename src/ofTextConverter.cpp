@@ -106,67 +106,111 @@
 // Anyway, good luck!
 
 
-//------------------------------------------------------------------
-string ofTextConverter::convert(const string& input, ofTextEncoding inputEncoding, ofTextEncoding outputEncoding) {
-    // this returns a std::string -- which is just a sequence of bytes.
-    // the way those bytes is interpreted is up to the user.
-
-    // pass through
-    if(inputEncoding == outputEncoding) return input;
-        
-    string output;
-    Poco::TextEncoding& ie = getTextEncoding(inputEncoding);
-    Poco::TextEncoding& oe = getTextEncoding(outputEncoding);
-    Poco::TextConverter converter(ie,oe);
-    converter.convert(input, output);
-    return output;
-}
+////------------------------------------------------------------------
+//string ofTextConverter::convert(const ofBuffer& buffer, ofTextEncoding inputEncoding, ofTextEncoding outputEncoding) {
+//    return convert(buffer.getBinaryBuffer(), buffer.size(), inputEncoding, outputEncoding);
+//}
+//
+////------------------------------------------------------------------
+//string ofTextConverter::convert(const void* source, int length,  ofTextEncoding inputEncoding, ofTextEncoding outputEncoding) {
+//    string output;
+//    Poco::TextEncoding& ie = getTextEncoding(inputEncoding);
+//    Poco::TextEncoding& oe = getTextEncoding(outputEncoding);
+//    Poco::TextConverter converter(ie,oe);
+//    converter.convert(source, length, output);
+//    return output;
+//}
+//
+////------------------------------------------------------------------
+//string ofTextConverter::convert(const string& input, ofTextEncoding inputEncoding, ofTextEncoding outputEncoding) {
+//    // this returns a std::string -- which is just a sequence of bytes.
+//    // the way those bytes is interpreted is up to the user.
+//
+//    // pass through
+//    if(inputEncoding == outputEncoding) return input;
+//        
+//    string output;
+//    Poco::TextEncoding& ie = getTextEncoding(inputEncoding);
+//    Poco::TextEncoding& oe = getTextEncoding(outputEncoding);
+//    Poco::TextConverter converter(ie,oe);
+//    converter.convert(input, output);
+//    return output;
+//}
 
 
 // to UTF8
 //------------------------------------------------------------------
 ofUTF8String ofTextConverter::toUTF8(const ofUTF16String& input) {
-    ofUTF8String out;    
-    Poco::UnicodeConverter::toUTF8(input, out);
-    return out;
+    ofUTF8String utf8result;
+    try {
+        utf8::utf16to8(input.begin(),input.end(), back_inserter(utf8result));
+    } catch(const utf8::exception& utfcpp_ex) {
+        ofLog(OF_LOG_ERROR, "ofTextConverter::toUTF8 : " + ofToString(utfcpp_ex.what()));
+    }
+    
+    return utf8result;
 }
 
 //------------------------------------------------------------------
 ofUTF8String ofTextConverter::toUTF8(const ofUniChar& input) {
-    ofUTF8String txt;
+    
+    ofUTF8String utf8result;
     try {
-        utf8::append(input, back_inserter(txt));
+        utf8::utf32to8(&input,&input, back_inserter(utf8result));
     } catch(const utf8::exception& utfcpp_ex) {
-        string err = utfcpp_ex.what();
-        ofLog(OF_LOG_ERROR, "ofUTF8::append : " + err);
+        ofLog(OF_LOG_ERROR, "ofTextConverter::toUTF8 : " + ofToString(utfcpp_ex.what()));
     }
-    return txt;
+    
+    return utf8result;
+
+    
+    
+//    ofUTF8String txt;
+//    try {
+//        utf8::append(input, back_inserter(txt));
+//    } catch(const utf8::exception& utfcpp_ex) {
+//        string err = utfcpp_ex.what();
+//        ofLog(OF_LOG_ERROR, "ofUTF8::append : " + err);
+//    }
+//    return txt;
 }
 //------------------------------------------------------------------
 ofUTF8String ofTextConverter::toUTF8(const ofUniString& input) {
-    ofUTF8String utf8string;
-    for (int i = 0; i < (int)input.size(); i++) utf8string += toUTF8(input[i]);
-    return utf8string;
+    ofUTF8String utf8result;    
+    try {
+        utf8::utf32to8(input.begin(),input.end(), back_inserter(utf8result));
+    } catch(const utf8::exception& utfcpp_ex) {
+        ofLog(OF_LOG_ERROR, "ofTextConverter::toUniChar::toUniString : " + ofToString(utfcpp_ex.what()));
+    }
+    return utf8result;
+    
+//    ofUTF8String utf8string;
+//    for (int i = 0; i < (int)input.size(); i++) utf8string += toUTF8(input[i]);
+//    return utf8string;
 }
 
 // to UTF16
 //------------------------------------------------------------------
 ofUTF16String ofTextConverter::toUTF16(const ofUTF8String& input) {
-    ofUTF16String out;    
-    Poco::UnicodeConverter::toUTF16(input, out);
-    return out;
+    ofUTF16String utf16result;    
+    try {
+        utf8::utf32to8(&input,&input, back_inserter(utf16result));
+    } catch(const utf8::exception& utfcpp_ex) {
+        ofLog(OF_LOG_ERROR, "ofTextConverter::toUniChar::toUniString : " + ofToString(utfcpp_ex.what()));
+    }
+    return utf16result;
 }
 
 //------------------------------------------------------------------
 ofUTF16String ofTextConverter::toUTF16(const ofUniChar& input) {
     ofUTF16String out;    
-    Poco::UnicodeConverter::toUTF16(toUTF8(input), out); // well ... in the absence of a real UTF16 class.
+    //Poco::UnicodeConverter::toUTF16(toUTF8(input), out); // well ... in the absence of a real UTF16 class.
     return out;
 }
 //------------------------------------------------------------------
 ofUTF16String ofTextConverter::toUTF16(const ofUniString& input) {
     ofUTF16String out;    
-    Poco::UnicodeConverter::toUTF16(toUTF8(input), out); // well ... in the absence of a real UTF16 class.
+    //Poco::UnicodeConverter::toUTF16(toUTF8(input), out); // well ... in the absence of a real UTF16 class.
     return out;
 }
 
@@ -177,8 +221,7 @@ ofUniString ofTextConverter::toUTF32(const ofUTF8String& input) {
     try {
         utf8::utf8to32(ofUTF8::beginPtr(input),ofUTF8::endPtr(input), back_inserter(utf32result));
     } catch(const utf8::exception& utfcpp_ex) {
-        string err = utfcpp_ex.what();
-        ofLog(OF_LOG_ERROR, "ofTextConverter::toUniChar::toUniString : " + err);
+        ofLog(OF_LOG_ERROR, "ofTextConverter::toUniChar::toUniString : " + ofToString(utfcpp_ex.what()));
     }
     
     return utf32result;
@@ -193,25 +236,32 @@ ofUniString ofTextConverter::toUnicode(const ofUTF8String& input) {return toUTF3
 //------------------------------------------------------------------
 ofUniString ofTextConverter::toUnicode(const ofUTF16String& input) {return toUTF32(input);}
 
-
-//------------------------------------------------------------------
-Poco::TextEncoding& ofTextConverter::getTextEncoding(ofTextEncoding enc) {
-    if(enc == OF_TEXT_ENCODING_UTF8) {
-        return utf8_enc;
-    } else if(enc == OF_TEXT_ENCODING_UTF16) {
-        return utf16_enc;
-    } else if(enc == OF_TEXT_ENCODING_ASCII) {
-        return ascii_enc;
-    } else if(enc == OF_TEXT_ENCODING_LATIN_1) {
-        return latin1_enc;
-    } else if(enc == OF_TEXT_ENCODING_LATIN_9) {
-        return latin9_enc;
-    } else if(enc == OF_TEXT_ENCODING_WINDOWS_1252) {
-        return windows1252_enc;
-    } else {
-        ofLog(OF_LOG_WARNING, "ofTextConverter::getEncoding - unknown encoding, returning utf8.");
-        return utf8_enc;
-    }
-}
+//
+////------------------------------------------------------------------
+//Poco::TextEncoding& ofTextConverter::getTextEncoding(ofTextEncoding enc) {
+//    if(enc == OF_TEXT_ENCODING_UTF8) {
+//        static Poco::UTF8Encoding utf8_enc;
+//        return utf8_enc;
+//    } else if(enc == OF_TEXT_ENCODING_UTF16) {
+//        static Poco::UTF16Encoding utf16_enc;
+//        return utf16_enc;
+//    } else if(enc == OF_TEXT_ENCODING_ASCII) {
+//        static Poco::ASCIIEncoding ascii_enc;
+//        return ascii_enc;
+//    } else if(enc == OF_TEXT_ENCODING_LATIN_1) {
+//        static Poco::Latin1Encoding latin1_enc;
+//        return latin1_enc;
+//    } else if(enc == OF_TEXT_ENCODING_LATIN_9) {
+//        static Poco::Latin9Encoding latin9_enc;
+//        return latin9_enc;
+//    } else if(enc == OF_TEXT_ENCODING_WINDOWS_1252) {
+//        static Poco::Windows1252Encoding windows1252_enc;
+//        return windows1252_enc;
+//    } else {
+//        ofLog(OF_LOG_WARNING, "ofTextConverter::getEncoding - unknown encoding, returning utf8.");
+//        static Poco::UTF8Encoding utf8_enc;
+//        return utf8_enc;
+//    }
+//}
 
 

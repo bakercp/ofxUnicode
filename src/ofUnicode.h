@@ -40,18 +40,16 @@ typedef ofCharPtr        ofUTF8Ptr;     // a pointer type used when traversing
                                         // ofUTF8Ptr e = input.c_str() + input.length();
                                         // this is wierd.
 
-typedef wchar_t          ofUTF16Char; // a UTF16 type
-typedef unsigned int     ofUTF32Char; // a UTF32 type        
+typedef unsigned short   ofUTF16Char;   // a UTF16 type - stay clear of wstring. it's 4 bytes on *NIX, and 2 on Win
+typedef unsigned int     ofUTF32Char;   // a UTF32 type        
 typedef ofUTF32Char      ofUniChar;     // a unicode character type for clarity
 
 typedef const ofUTF16Char * ofUTF16Ptr;   // a pointer to wstring, like above 
+typedef const ofUTF32Char * ofUTF32Ptr;  // a pointer to unicode character
 typedef const ofUniChar *   ofUniCharPtr;  // a pointer to unicode character
 
-// we define some typedefs for string and wstring to be EXPLICIT 
-// about the data types that are returned.  This is just to be clear.
-
 typedef string                    ofUTF8String;  //
-typedef wstring                   ofUTF16String; // 
+typedef basic_string<ofUTF16Char> ofUTF16String; // std:wstring is a mess cross platform
 typedef basic_string<ofUTF32Char> ofUTF32String; // aka unicode string
 typedef ofUTF32String             ofUniString; // this is a "unicode" string
                                         // each vector entry contains one 
@@ -60,6 +58,7 @@ typedef ofUTF32String             ofUniString; // this is a "unicode" string
 
 
 typedef utf8::iterator<ofUTF8Ptr> ofUTF8Iterator;  
+
 // a bidirectional iterator for 
 // to allow stl-iterator-like iteration
 // through a UTF8 encoded std::string.

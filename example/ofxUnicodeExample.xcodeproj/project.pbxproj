@@ -27,7 +27,6 @@
 		FD7BF92D156ECF5B0016022F /* ofUnicode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD7BF929156ECF5B0016022F /* ofUnicode.cpp */; };
 		FD7BF92E156ECF5B0016022F /* ofUTF8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD7BF92B156ECF5B0016022F /* ofUTF8.cpp */; };
 		FDE358571570122E0084B43C /* ofTextConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDE358561570122E0084B43C /* ofTextConverter.cpp */; };
-		FDE3585A157020140084B43C /* ofUnicodeConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDE35858157020130084B43C /* ofUnicodeConverter.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,8 +93,6 @@
 		FDE35821156F3BDF0084B43C /* utf8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf8.h; sourceTree = "<group>"; };
 		FDE3585515700DB00084B43C /* ofTextConverter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofTextConverter.h; sourceTree = "<group>"; };
 		FDE358561570122E0084B43C /* ofTextConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofTextConverter.cpp; sourceTree = "<group>"; };
-		FDE35858157020130084B43C /* ofUnicodeConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofUnicodeConverter.cpp; sourceTree = "<group>"; };
-		FDE35859157020140084B43C /* ofUnicodeConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofUnicodeConverter.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,8 +222,6 @@
 				FD7BF92C156ECF5B0016022F /* ofUTF8.h */,
 				FDE3585515700DB00084B43C /* ofTextConverter.h */,
 				FDE358561570122E0084B43C /* ofTextConverter.cpp */,
-				FDE35858157020130084B43C /* ofUnicodeConverter.cpp */,
-				FDE35859157020140084B43C /* ofUnicodeConverter.h */,
 			);
 			name = src;
 			path = ../src;
@@ -367,7 +362,6 @@
 				FD7BF92D156ECF5B0016022F /* ofUnicode.cpp in Sources */,
 				FD7BF92E156ECF5B0016022F /* ofUTF8.cpp in Sources */,
 				FDE358571570122E0084B43C /* ofTextConverter.cpp in Sources */,
-				FDE3585A157020140084B43C /* ofUnicodeConverter.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,11 +1,11 @@
 #include "ofUTF8.h"
 
 //------------------------------------------------------------------
-bool ofUTF8::isValid(string txt) {
+bool ofUTF8::isValid(ofUTF8String txt) {
     try {
-        string::iterator end_it = utf8::find_invalid(txt.begin(), txt.end());
+        ofUTF8String::iterator end_it = utf8::find_invalid(txt.begin(), txt.end());
         if(end_it != txt.end()) {
-            string validPart(txt.begin(),end_it);
+            ofUTF8String validPart(txt.begin(),end_it);
             ofLog(OF_LOG_ERROR,"ofUTF8::isValid - detected invalid UTF8 - valid part: " + validPart);
             return false;
         } else {
@@ -29,15 +29,14 @@ bool ofUTF8::isValid(ofUTF8Ptr iter, ofUTF8Ptr end) {
             return true;
         }
     } catch(const utf8::exception& utfcpp_ex) {
-        string err = utfcpp_ex.what();
-        ofLog(OF_LOG_ERROR, "ofUTF8::isValid : " + err);
+        ofLog(OF_LOG_ERROR, "ofUTF8::isValid : " + ofToString(utfcpp_ex.what()));
         return false;
     }
 
 }
 
 //------------------------------------------------------------------
-bool ofUTF8::startsWithBOM(string txt) {
+bool ofUTF8::startsWithBOM(ofUTF8String txt) {
     return startsWithBOM(beginPtr(txt),endPtr(txt));
 }
 
@@ -47,8 +46,8 @@ bool ofUTF8::startsWithBOM(ofUTF8Ptr iter, ofUTF8Ptr end) {
 }
 
 //------------------------------------------------------------------
-string repair(string txt, ofUniChar replacement) {
-    string temp;
+ofUTF8String repair(ofUTF8String txt, ofUniChar replacement) {
+    ofUTF8String temp;
     try {
         if(replacement == -1) {
             utf8::replace_invalid(txt.begin(), txt.end(), back_inserter(temp));
@@ -56,24 +55,22 @@ string repair(string txt, ofUniChar replacement) {
             utf8::replace_invalid(txt.begin(), txt.end(), back_inserter(temp), replacement);
         }
     } catch(const utf8::exception& utfcpp_ex) {
-        string err = utfcpp_ex.what();
-        ofLog(OF_LOG_ERROR, "ofUTF8::repair : " + err);
+        ofLog(OF_LOG_ERROR, "ofUTF8::repair : " + ofToString(utfcpp_ex.what()));
     }
     return temp;
 }
 
 //------------------------------------------------------------------
-string& ofUTF8::repairInPlace(string& txt, ofUniChar replacement) {
+ofUTF8String& ofUTF8::repairInPlace(ofUTF8String& txt, ofUniChar replacement) {
     txt = repair(txt,replacement);
     return txt;
 }
 //------------------------------------------------------------------
-int ofUTF8::distance(string txt) {
+int ofUTF8::distance(ofUTF8String txt) {
     try {
         return utf8::distance(txt.begin(), txt.end());
     } catch(const utf8::exception& utfcpp_ex) {
-        string err = utfcpp_ex.what();
-        ofLog(OF_LOG_ERROR, "ofUTF8::distance : " + err);
+        ofLog(OF_LOG_ERROR, "ofUTF8::distance : " + ofToString(utfcpp_ex.what()));
     }
 }
 
@@ -82,56 +79,55 @@ int ofUTF8::distance(ofUTF8Ptr iter, ofUTF8Ptr end) {
     try {
         return utf8::distance(iter, end);
     } catch(const utf8::exception& utfcpp_ex) {
-        string err = utfcpp_ex.what();
-        ofLog(OF_LOG_ERROR, "ofUTF8::distance : " + err);
+        ofLog(OF_LOG_ERROR, "ofUTF8::distance : " + ofToString(utfcpp_ex.what()));
     }
 }
 
 //------------------------------------------------------------------
-int ofUTF8::icompare(const string& utf8String0, const string& utf8String1) {
+int ofUTF8::icompare(const ofUTF8String& utf8String0, const ofUTF8String& utf8String1) {
     return Poco::UTF8::icompare(utf8String0,utf8String1);
 }
 
 //------------------------------------------------------------------
-string ofUTF8::toUpper(const string& str) {
+ofUTF8String ofUTF8::toUpper(const ofUTF8String& str) {
     return Poco::UTF8::toUpper(str);
 }
 
 //------------------------------------------------------------------
-string& ofUTF8::toUpperInPlace(string& str) {
+ofUTF8String& ofUTF8::toUpperInPlace(ofUTF8String& str) {
     return Poco::UTF8::toUpperInPlace(str);
 }
 
 //------------------------------------------------------------------
-string ofUTF8::toLower(const string& str) {
+ofUTF8String ofUTF8::toLower(const ofUTF8String& str) {
     return Poco::UTF8::toLower(str);
 }
 
 //------------------------------------------------------------------
-string& ofUTF8::toLowerInPlace(string& str) {
+ofUTF8String& ofUTF8::toLowerInPlace(ofUTF8String& str) {
     return Poco::UTF8::toLowerInPlace(str);
 }
 
 //------------------------------------------------------------------
-ofUTF8Ptr ofUTF8::beginPtr(const string& input) {
+ofUTF8Ptr ofUTF8::beginPtr(const ofUTF8String& input) {
     return input.c_str();
 }
 //------------------------------------------------------------------
-ofUTF8Ptr ofUTF8::endPtr(const string& input) {
+ofUTF8Ptr ofUTF8::endPtr(const ofUTF8String& input) {
     return input.c_str() + input.length();
 }
 //------------------------------------------------------------------
-ofUTF8Iterator ofUTF8::iterator(const string& input) {
+ofUTF8Iterator ofUTF8::iterator(const ofUTF8String& input) {
     return ofUTF8Iterator(beginPtr(input),beginPtr(input),endPtr(input));
 }
 
 //------------------------------------------------------------------
-ofUTF8Iterator ofUTF8::begin(const string& input) {
+ofUTF8Iterator ofUTF8::begin(const ofUTF8String& input) {
     return iterator(input);
 }
 
 //------------------------------------------------------------------
-ofUTF8Iterator ofUTF8::end(const string& input) {
+ofUTF8Iterator ofUTF8::end(const ofUTF8String& input) {
     return ofUTF8Iterator(endPtr(input),beginPtr(input),endPtr(input));
 }
 
@@ -141,8 +137,7 @@ ofUniChar ofUTF8::getNext(ofUTF8Ptr& iter, ofUTF8Ptr end) {
     try {
         return utf8::next(iter,end);
     } catch(const utf8::exception& utfcpp_ex) {
-        string err = utfcpp_ex.what();
-        ofLog(OF_LOG_ERROR, "ofUTF8::getNext : " + err);
+        ofLog(OF_LOG_ERROR, "ofUTF8::getNext : " + ofToString(utfcpp_ex.what()));
         return -1;
     }
 }
@@ -152,8 +147,7 @@ ofUniChar ofUTF8::getPrior(ofUTF8Ptr& iter, ofUTF8Ptr end) {
     try {
         return utf8::prior(iter,end);
     } catch(const utf8::exception& utfcpp_ex) {
-        string err = utfcpp_ex.what();
-        ofLog(OF_LOG_ERROR, "ofUTF8::getPrior : " + err);
+        ofLog(OF_LOG_ERROR, "ofUTF8::getPrior : " + ofToString(utfcpp_ex.what()));
         return -1;
     }
 }
@@ -189,24 +183,24 @@ ofUTF8Ptr ofUTF8::prior(ofUTF8Ptr iter, ofUTF8Ptr end) {
 
 //------------------------------------------------------------------
 //------------------------------------------------------------------
-ofUniChar ofUTF8::get(const string& input, ofUTF8Ptr iter) {
+ofUniChar ofUTF8::get(const ofUTF8String& input, ofUTF8Ptr iter) {
     return getNext(iter, endPtr(input));
 }
 
 //------------------------------------------------------------------
-ofUTF8Ptr ofUTF8::next(const string& input, ofUTF8Ptr iter) {
+ofUTF8Ptr ofUTF8::next(const ofUTF8String& input, ofUTF8Ptr iter) {
     next(iter, endPtr(input));
     return iter;
 }
 
 //------------------------------------------------------------------
-ofUTF8Ptr ofUTF8::prior(const string& input, ofUTF8Ptr iter) {
+ofUTF8Ptr ofUTF8::prior(const ofUTF8String& input, ofUTF8Ptr iter) {
     prior(iter, endPtr(input));
     return iter;
 }
 
 //------------------------------------------------------------------
-ofUTF8Ptr ofUTF8::advance(const string& input, ofUTF8Ptr iter, const int numToSkip) {
+ofUTF8Ptr ofUTF8::advance(const ofUTF8String& input, ofUTF8Ptr iter, const int numToSkip) {
     return advance(iter, endPtr(input));
 }
 

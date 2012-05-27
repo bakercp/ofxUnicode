@@ -16,7 +16,7 @@
                                 // is excluded in the os x/linux version
                                 // the header guard should keep us safe.
 
-
+/*
 enum ofTextEncoding {
     OF_TEXT_ENCODING_UTF8 = 0        , // variable width encoding (http://en.wikipedia.org/wiki/UTF-8) backward compatible  w/ ASCII
     OF_TEXT_ENCODING_UTF16           , // 16-bit multi-byte (http://en.wikipedia.org/wiki/UTF-16)
@@ -25,11 +25,14 @@ enum ofTextEncoding {
     OF_TEXT_ENCODING_LATIN_9         , // 8-bit single-byte - (http://en.wikipedia.org/wiki/ISO/IEC_8859-15), western chars + €
     OF_TEXT_ENCODING_WINDOWS_1252      // Superset of Latin 1 (ISO 8859-1) http://en.wikipedia.org/wiki/Windows-1252
 };
+*/
 
 class ofTextConverter {
 public:
     // convert between string encodings
-    static string        convert(const string& input, ofTextEncoding inputEncoding, ofTextEncoding outputEncoding);
+//    static string        convert(const ofBuffer& buffer, ofTextEncoding inputEncoding, ofTextEncoding outputEncoding);
+//    static string        convert(const void* source, int length,  ofTextEncoding inputEncoding, ofTextEncoding outputEncoding);
+//    static string        convert(const string& input, ofTextEncoding inputEncoding, ofTextEncoding outputEncoding);
 
     // to UTF8
     static ofUTF8String  toUTF8(const ofUTF16String& input);  // utf16-utf8
@@ -53,15 +56,8 @@ public:
 
     
     
-protected:
-    static Poco::TextEncoding& getTextEncoding(ofTextEncoding enc);
-    
-private:
-    static Poco::UTF8Encoding        utf8_enc;
-    static Poco::UTF16Encoding       utf16_enc;
-    static Poco::ASCIIEncoding       ascii_enc;
-    static Poco::Latin1Encoding      latin1_enc;
-    static Poco::Latin9Encoding      latin9_enc;
-    static Poco::Windows1252Encoding windows1252_enc;
+//    static Poco::UTF8Encoding        utf8_enc;
+
+   // static Poco::TextEncoding& getTextEncoding(ofTextEncoding enc);
 
 };
