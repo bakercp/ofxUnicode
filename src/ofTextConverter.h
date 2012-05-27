@@ -12,7 +12,7 @@
 #include "ofUTF8.h"
 #include "ofUnicode.h"
 
-#include "ofUnicodeConverter.h" // for some reason, Poco/UnicodeConverter 
+//#include "ofUnicodeConverter.h" // for some reason, Poco/UnicodeConverter 
                                 // is excluded in the os x/linux version
                                 // the header guard should keep us safe.
 
@@ -40,11 +40,11 @@ public:
     static ofUTF8String  toUTF8(const ofUniChar& input);      // utf32-utf8
     static ofUTF8String  toUTF8(const ofUniString& input);    // utf32-utf8
     
-    // to UTF16
-    static ofUTF16String toUTF16(const ofUTF8String& input); // utf8->utf16
-    
-    static ofUTF16String toUTF16(const ofUniChar& input);    // utf32->utf16
-    static ofUTF16String toUTF16(const ofUniString& input);  // utf32->utf16
+//    // to UTF16
+//    static ofUTF16String toUTF16(const ofUTF8String& input); // utf8->utf16
+//    
+//    static ofUTF16String toUTF16(const ofUniChar& input);    // utf32->utf16
+//    static ofUTF16String toUTF16(const ofUniString& input);  // utf32->utf16
 
     // to UTF32 / Unicode
     static ofUniString   toUTF32(const ofUTF8String& input);   // utf8->utf32

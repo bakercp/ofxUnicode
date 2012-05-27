@@ -3,7 +3,7 @@
 #include "ofMain.h"
 
 #include "ofUTF8.h"
-#include "ofUTF16.h"
+//#include "ofUTF16.h"
 #include "ofUnicode.h"
 #include "ofTextConverter.h"
 

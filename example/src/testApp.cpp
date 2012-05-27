@@ -276,16 +276,16 @@ void testApp::iterationTests() {
 
 void testApp::fileReadWriteTests() {
 
-    // read files into strings
-    ofFile test0("test_UTF8.txt");
-    ofBuffer buff0 = test0.readToBuffer();
-    cout << buff0.size() << endl;
-    string t0 = ofTextConverter::convert(buff0,OF_TEXT_ENCODING_UTF8,OF_TEXT_ENCODING_UTF8); // only utf8 encoded
-    ofFile test1("test_UTF16.txt");
-    ofBuffer buff1 = test1.readToBuffer();
-    cout << buff1.size() << endl;
-    string t1 = ofTextConverter::convert(buff1,OF_TEXT_ENCODING_UTF16,OF_TEXT_ENCODING_UTF8); // only utf8 encoded
-    
+//    // read files into strings
+//    ofFile test0("test_UTF8.txt");
+//    ofBuffer buff0 = test0.readToBuffer();
+//    cout << buff0.size() << endl;
+//    string t0 = ofTextConverter::convert(buff0,OF_TEXT_ENCODING_UTF8,OF_TEXT_ENCODING_UTF8); // only utf8 encoded
+//    ofFile test1("test_UTF16.txt");
+//    ofBuffer buff1 = test1.readToBuffer();
+//    cout << buff1.size() << endl;
+//    string t1 = ofTextConverter::convert(buff1,OF_TEXT_ENCODING_UTF16,OF_TEXT_ENCODING_UTF8); // only utf8 encoded
+//    
     
     
     //assert(ofUTF8::isValid(t0) == true); 
@@ -302,16 +302,16 @@ void testApp::fileReadWriteTests() {
     
 //    for(int i = 0; i < t1_utf8;
 //    ofToHex(<#const T &value#>)
-    cout << " --- " << endl;
-    cout << t0.length() << "|" << ofUTF8::distance(t0) <<  endl;
-    cout << t1.size() << "|" << endl;
-    //cout << t1_utf8.length() << "|" << endl;
-    
-    cout << t0 << endl;
-    cout << t1 << endl;
-    
-    
-    
+//    cout << " --- " << endl;
+//    cout << t0.length() << "|" << ofUTF8::distance(t0) <<  endl;
+//    cout << t1.size() << "|" << endl;
+//    //cout << t1_utf8.length() << "|" << endl;
+//    
+//    cout << t0 << endl;
+//    cout << t1 << endl;
+//    
+//    
+//    
     
     
     

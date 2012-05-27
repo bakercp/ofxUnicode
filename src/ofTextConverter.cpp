@@ -154,25 +154,25 @@ ofUTF8String ofTextConverter::toUTF8(const ofUTF16String& input) {
 //------------------------------------------------------------------
 ofUTF8String ofTextConverter::toUTF8(const ofUniChar& input) {
     
-    ofUTF8String utf8result;
-    try {
-        utf8::utf32to8(&input,&input, back_inserter(utf8result));
-    } catch(const utf8::exception& utfcpp_ex) {
-        ofLog(OF_LOG_ERROR, "ofTextConverter::toUTF8 : " + ofToString(utfcpp_ex.what()));
-    }
-    
-    return utf8result;
+//    ofUTF8String utf8result;
+//    try {
+//        utf8::utf32to8(&input,&input, back_inserter(utf8result));
+//    } catch(const utf8::exception& utfcpp_ex) {
+//        ofLog(OF_LOG_ERROR, "ofTextConverter::toUTF8 : " + ofToString(utfcpp_ex.what()));
+//    }
+//    
+//    return utf8result;
 
     
     
-//    ofUTF8String txt;
-//    try {
-//        utf8::append(input, back_inserter(txt));
-//    } catch(const utf8::exception& utfcpp_ex) {
-//        string err = utfcpp_ex.what();
-//        ofLog(OF_LOG_ERROR, "ofUTF8::append : " + err);
-//    }
-//    return txt;
+    ofUTF8String txt;
+    try {
+        utf8::append(input, back_inserter(txt));
+    } catch(const utf8::exception& utfcpp_ex) {
+        string err = utfcpp_ex.what();
+        ofLog(OF_LOG_ERROR, "ofUTF8::append : " + err);
+    }
+    return txt;
 }
 //------------------------------------------------------------------
 ofUTF8String ofTextConverter::toUTF8(const ofUniString& input) {
@@ -189,30 +189,30 @@ ofUTF8String ofTextConverter::toUTF8(const ofUniString& input) {
 //    return utf8string;
 }
 
-// to UTF16
-//------------------------------------------------------------------
-ofUTF16String ofTextConverter::toUTF16(const ofUTF8String& input) {
-    ofUTF16String utf16result;    
-    try {
-        utf8::utf32to8(&input,&input, back_inserter(utf16result));
-    } catch(const utf8::exception& utfcpp_ex) {
-        ofLog(OF_LOG_ERROR, "ofTextConverter::toUniChar::toUniString : " + ofToString(utfcpp_ex.what()));
-    }
-    return utf16result;
-}
-
-//------------------------------------------------------------------
-ofUTF16String ofTextConverter::toUTF16(const ofUniChar& input) {
-    ofUTF16String out;    
-    //Poco::UnicodeConverter::toUTF16(toUTF8(input), out); // well ... in the absence of a real UTF16 class.
-    return out;
-}
-//------------------------------------------------------------------
-ofUTF16String ofTextConverter::toUTF16(const ofUniString& input) {
-    ofUTF16String out;    
-    //Poco::UnicodeConverter::toUTF16(toUTF8(input), out); // well ... in the absence of a real UTF16 class.
-    return out;
-}
+//// to UTF16
+////------------------------------------------------------------------
+//ofUTF16String ofTextConverter::toUTF16(const ofUTF8String& input) {
+//    ofUTF16String utf16result;    
+//    try {
+//        utf8::utf32to8(&input,&input, back_inserter(utf16result));
+//    } catch(const utf8::exception& utfcpp_ex) {
+//        ofLog(OF_LOG_ERROR, "ofTextConverter::toUniChar::toUniString : " + ofToString(utfcpp_ex.what()));
+//    }
+//    return utf16result;
+//}
+//
+////------------------------------------------------------------------
+//ofUTF16String ofTextConverter::toUTF16(const ofUniChar& input) {
+//    ofUTF16String out;    
+//    //Poco::UnicodeConverter::toUTF16(toUTF8(input), out); // well ... in the absence of a real UTF16 class.
+//    return out;
+//}
+////------------------------------------------------------------------
+//ofUTF16String ofTextConverter::toUTF16(const ofUniString& input) {
+//    ofUTF16String out;    
+//    //Poco::UnicodeConverter::toUTF16(toUTF8(input), out); // well ... in the absence of a real UTF16 class.
+//    return out;
+//}
 
 // to UTF32 / Unicode
 //------------------------------------------------------------------
