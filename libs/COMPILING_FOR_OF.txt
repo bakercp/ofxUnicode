@@ -1,3 +1,13 @@
+OSX
+./configure --with-library-bits=32 --enable-static --prefix=/Users/bakercp/Programming/c-cpp/of-my/openFrameworks/_MYAPPS/ofxUnicode/libs/icu
+
+
+
+
+
+----
+
+
 http://behdad.org/text/
 http://www.freetype.org/freetype2/docs/tutorial/step2.html
 https://github.com/roxlu/ofxPango

@@ -12,7 +12,7 @@
 #include "ofUTF8.h"
 #include "ofUnicode.h"
 
-#include "ofUnicodeConverter.h" // for some reason, Poco/UnicodeConverter 
+//#include "ofUnicodeConverter.h" // for some reason, Poco/UnicodeConverter 
                                 // is excluded in the os x/linux version
                                 // the header guard should keep us safe.
 
