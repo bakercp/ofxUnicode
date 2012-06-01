@@ -9,40 +9,55 @@
 #pragma once
 
 #include "ofUnicode.h"
-#include "utf8.h"
+#include "ofUTF16.h"
+#include "ofUTF32.h"
+
+#include "unicode/utf8.h" // icu
+
 
 class ofUTF8 {
 public:
-     
+    
     ////////////////////////////////////////////////////////////////////
     // UTF8 MANIPULATION TOOLS /////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////
 
+    static ofUTF16String toUTF16(const ofUTF8String& txt);
+    static ofUniString   toUTF32(const ofUTF8String& txt);
+    
+    
     // append unicode char to UTF8 string
-    //static ofUTF8String   append(ofUTF8String txt, ofUniChar unicode);
-    //static ofUTF8String   append(ofUTF8String txt, ofUniString unicode);
-    //static ofUTF8String&  appendInPlace(ofUTF8String& txt, ofUniChar unicode);
+    static ofUTF8String   append(ofUTF8String txt, ofUniChar unicode);
+    static ofUTF8String   append(ofUTF8String txt, ofUniString unicode);
+    static ofUTF8String&  appendInPlace(ofUTF8String& txt, ofUniChar unicode);
 
+    static ofUTF8String   appendUnsafe(ofUTF8String txt, ofUniChar unicode);
+    static ofUTF8String   appendUnsafe(ofUTF8String txt, ofUniString unicode);
+    static ofUTF8String&  appendInPlaceUnsafe(ofUTF8String& txt, ofUniChar unicode);
+
+    
     // check to see if a UTF8 string is valid
-    static bool     isValid(string txt);
-    static bool     isValid(ofUTF8Ptr iter, ofUTF8Ptr end);
-    
-    // check to see if a string starts with a UTF8 BOM (byte order mark)
-    static bool     startsWithBOM(ofUTF8String txt);
-    static bool     startsWithBOM(ofUTF8Ptr iter, ofUTF8Ptr end);
-    
-    // attempt to repair a broken UTF8 string
-    static ofUTF8String   repair(string txt, ofUniChar replacement = -1);
-    static ofUTF8String&  repairInPlace(string& txt, ofUniChar replacement = -1);
+    static bool     isValid(const ofUTF8String& txt);
+    static bool     isValid(const ofUTF8String& txt, ofCharPtr fromPtr);
+    static bool     isValid(const ofUTF8String& txt, ofCharPtr fromPtr, ofCharPtr toPtr);
+    static bool     isValid(const ofUTF8String& txt, ofUTF8Idx fromIdx);
+    static bool     isValid(const ofUTF8String& txt, ofUTF8Idx fromIdx, ofUTF8Idx toIdx);
     
     // calculate the number of UTF8 chars (string.length() returns the number of bytes)
-    static int      distance(ofUTF8String txt);
-    static int      distance(ofUTF8Ptr iter, ofUTF8Ptr end);
+    static int      distance(const ofUTF8String& txt);
+    static int      distance(const ofUTF8String& txt, ofCharPtr fromPtr);
+    static int      distance(const ofUTF8String& txt, ofCharPtr fromPtr, ofCharPtr toPtr);
+    static int      distance(const ofUTF8String& txt, ofUTF8Idx fromIdx);
+    static int      distance(const ofUTF8String& txt, ofUTF8Idx fromIdx, ofUTF8Idx toIdx);
+
+    // TODO:
+    // UTF8 repair method.
+    // UTF8 get valid part of string method.
     
-    // case insensitive comparison of UTF8 strings
     static int      icompare(const ofUTF8String& utf8String0, const ofUTF8String& utf8String1);
     
     // unicode-based case conversion
+    // TODO: can do all of these through ICU
 	static ofUTF8String   toUpper(const ofUTF8String& str);
 	static ofUTF8String&  toUpperInPlace(ofUTF8String& str);
 	static ofUTF8String   toLower(const ofUTF8String& str);
@@ -52,41 +67,58 @@ public:
     // UTF8 ITERATION TOOLS ////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////
     
+    // FROM ICU
+
     // custom iterator helper
-    static ofUTF8Ptr beginPtr(const ofUTF8String& input); // gets the start pointer to a string (input.c_str())
-    static ofUTF8Ptr endPtr(const ofUTF8String& input);
+    static ofCharPtr beginCharPtr(const ofUTF8String& input); // gets the start pointer to a string (input.c_str())
+    static ofCharPtr endCharPtr(const ofUTF8String& input);
+
+    static ofUTF8Ptr toUTF8Ptr(const ofCharPtr ptr);
+    static ofCharPtr toCharPtr(const ofUTF8Ptr ptr);
     
-    // custom bi-directional iterator
-    static ofUTF8Iterator iterator(const ofUTF8String& input);
-    static ofUTF8Iterator begin(const ofUTF8String& input);
-    static ofUTF8Iterator end(const ofUTF8String& input);
+    
+    // custom iterator helper
+    static ofUTF8Ptr beginUTF8Ptr(const ofUTF8String& input); // gets the start pointer to a string (input.c_str())
+    static ofUTF8Ptr endUTF8Ptr(const ofUTF8String& input);
     
     // Checked Iterators - No need to check input 
     ////////////////////////////////////////////////////////////////////
-    static ofUniChar   getNext(ofUTF8Ptr& iter, ofUTF8Ptr end);  // will increment iter and return value
-    static ofUniChar   getPrior(ofUTF8Ptr& iter, ofUTF8Ptr end); // will increment iter and return value
-    static ofUTF8Ptr   advance(ofUTF8Ptr& iter, ofUTF8Ptr end, int numToSkip = 1); // skips N unicode chars
-    //------------------------------------------------------------------
-    //------------------------------------------------------------------
-    static ofUniChar  get(ofUTF8Ptr iter, ofUTF8Ptr end);  // reads the unichar at the current iter position
-    static ofUTF8Ptr  next(ofUTF8Ptr iter, ofUTF8Ptr end); // moves the iterator to the next unicode start
-    static ofUTF8Ptr  prior(ofUTF8Ptr iter, ofUTF8Ptr start); // moves the iterator to the previous unicode start
-    //------------------------------------------------------------------
-    //------------------------------------------------------------------
-    static ofUniChar  get(const ofUTF8String& input, ofUTF8Ptr iter = NULL);  // reads the unichar at the current iter position
-    static ofUTF8Ptr  next(const ofUTF8String& input, ofUTF8Ptr iter = NULL); // moves the iterator to the next unicode start
-    static ofUTF8Ptr  prior(const ofUTF8String& input, ofUTF8Ptr iter = NULL); // moves the iterator to the previous unicode start
-    static ofUTF8Ptr  advance(const ofUTF8String& input, ofUTF8Ptr iter = NULL, int numToSkip = 1); // skips N unicode chars
+    static ofUniChar  get(const ofUTF8String& txt, ofCharPtr iter);  // reads the unichar at the current iter position
+    static ofCharPtr  next(const ofUTF8String& txt, ofCharPtr iter); // moves the iterator to the next unicode start
+    static ofCharPtr  prior(const ofUTF8String& txt, ofCharPtr iter); // moves the iterator to the previous unicode start
+    static ofCharPtr  advance(const ofUTF8String& txt, ofCharPtr iter, int numToSkip = 1); // skips N unicode chars
+    
+    static ofUniChar  getNext(const ofUTF8String& txt, ofCharPtr& iter); // moves the iterator to the next unicode start and returns it
+    static ofUniChar  getPrior(const ofUTF8String& txt, ofCharPtr& iter); // moves the iterator to the previous unicode start and returns it
+    
+    // do it with indicies
+    static ofUniChar  get(const ofUTF8String& txt, ofUTF8Idx idx);  // reads the unichar at the current iter position
+    static ofUTF8Idx  next(const ofUTF8String& txt, ofUTF8Idx idx); // moves the iterator to the next unicode start
+    static ofUTF8Idx  prior(const ofUTF8String& txt, ofUTF8Idx idx); // moves the iterator to the previous unicode start
+    static ofUTF8Idx  advance(const ofUTF8String& txt, ofUTF8Idx idx, int numToSkip = 1); // skips N unicode chars
+    
+    static ofUniChar  getNext(const ofUTF8String& txt, ofUTF8Idx& idx); // moves the iterator to the next unicode start and returns it
+    static ofUniChar  getPrior(const ofUTF8String& txt, ofUTF8Idx& idx); // moves the iterator to the previous unicode start and returns it
     
     // Unchecked Iterators - Should check input string for valid UTF8 first 
     ////////////////////////////////////////////////////////////////////
-    static ofUniChar  get(ofUTF8Ptr iter);  // reads the unichar at the current iter position
-    static ofUTF8Ptr  next(ofUTF8Ptr iter); // moves the iterator to the next unicode start
-    static ofUTF8Ptr  prior(ofUTF8Ptr iter); // moves the iterator to the previous unicode start
-    static ofUTF8Ptr  advance(ofUTF8Ptr iter, int numToSkip = 1); // skips N unicode chars
+    static ofUniChar  getUnsafe(const ofUTF8String& txt, ofCharPtr iter);  // reads the unichar at the current iter position
+    static ofCharPtr  nextUnsafe(const ofUTF8String& txt, ofCharPtr iter); // moves the iterator to the next unicode start
+    static ofCharPtr  priorUnsafe(const ofUTF8String& txt, ofCharPtr iter); // moves the iterator to the previous unicode start
+    static ofCharPtr  advanceUnsafe(const ofUTF8String& txt, ofCharPtr iter, int numToSkip = 1); // skips N unicode chars
     
-    static ofUniChar  getNext(ofUTF8Ptr& iter); // moves the iterator to the next unicode start and returns it
-    static ofUniChar  getPrior(ofUTF8Ptr& iter); // moves the iterator to the previous unicode start and returns it
+    static ofUniChar  getNextUnsafe(const ofUTF8String& txt, ofCharPtr& iter); // moves the iterator to the next unicode start and returns it
+    static ofUniChar  getPriorUnsafe(const ofUTF8String& txt, ofCharPtr& iter); // moves the iterator to the previous unicode start and returns it
 
+    // do it with indicies
+    static ofUniChar  getUnsafe(const ofUTF8String& txt, ofUTF8Idx idx);  // reads the unichar at the current iter position
+    static ofUTF8Idx  nextUnsafe(const ofUTF8String& txt, ofUTF8Idx idx); // moves the iterator to the next unicode start
+    static ofUTF8Idx  priorUnsafe(const ofUTF8String& txt, ofUTF8Idx idx); // moves the iterator to the previous unicode start
+    static ofUTF8Idx  advanceUnsafe(const ofUTF8String& txt, ofUTF8Idx idx, int numToSkip = 1); // skips N unicode chars
+    
+    static ofUniChar  getNextUnsafe(const ofUTF8String& txt, ofUTF8Idx& idx); // moves the iterator to the next unicode start and returns it
+    static ofUniChar  getPriorUnsafe(const ofUTF8String& txt, ofUTF8Idx& idx); // moves the iterator to the previous unicode start and returns it
+
+    
     
 };

@@ -12,36 +12,34 @@
 #include "ofLog.h"
 #include "ofUtils.h"
 
-#include "utf8.h"
+#include "unicode/utypes.h"
+#include "unicode/unistr.h"
+#include "unicode/stringpiece.h"
+#include "unicode/utf8.h"
+#include "unicode/uchar.h"
 
 #include "Poco/String.h"
 #include "Poco/UTF8String.h"
 #include "Poco/Ascii.h"
 #include "Poco/Unicode.h"
 #include "Poco/UTF8Encoding.h"
-#include "Poco/TextIterator.h"
-#include "Poco/TextConverter.h"
 
-#include "Poco/UTF16Encoding.h"
-#include "Poco/ASCIIEncoding.h"
-#include "Poco/Latin1Encoding.h"
-#include "Poco/Latin9Encoding.h"
-#include "Poco/Windows1252Encoding.h"
 
 // types
-typedef char             ofChar;      // a standard signed char
-typedef const char *     ofCharPtr;
-typedef unsigned char    ofUTF8Char;    // a UTF8 type (unsigned char)
-typedef ofCharPtr        ofUTF8Ptr;     // a pointer type used when traversing
+typedef char                 ofChar;      // a standard signed char
+typedef const char*          ofCharPtr;
+typedef unsigned char        ofUTF8Char;    // a UTF8 type (unsigned char)
+typedef const unsigned char* ofUTF8Ptr;     // a pointer type used when traversing
                                         // a UTF8 encoded std::string.
                                         // the "beginning" of the string would be
                                         // ofUTF8Ptr b = input.c_str();
                                         // the "end" of the string would be
                                         // ofUTF8Ptr e = input.c_str() + input.length();
                                         // this is wierd.
+typedef int               ofUTF8Idx;
 
-typedef unsigned short   ofUTF16Char;   // a UTF16 type - stay clear of wstring. it's 4 bytes on *NIX, and 2 on Win
-typedef unsigned int     ofUTF32Char;   // a UTF32 type        
+typedef UChar            ofUTF16Char;   // a UTF16 type - stay clear of wstring. it's 4 bytes on *NIX, and 2 on Win
+typedef UChar32          ofUTF32Char;   // a UTF32 type        
 typedef ofUTF32Char      ofUniChar;     // a unicode character type for clarity
 
 typedef const ofUTF16Char * ofUTF16Ptr;   // a pointer to wstring, like above 
@@ -49,21 +47,12 @@ typedef const ofUTF32Char * ofUTF32Ptr;  // a pointer to unicode character
 typedef const ofUniChar *   ofUniCharPtr;  // a pointer to unicode character
 
 typedef string                    ofUTF8String;  //
-typedef basic_string<ofUTF16Char> ofUTF16String; // std:wstring is a mess cross platform
+typedef UnicodeString             ofUTF16String; // std:wstring is a mess cross platform, let icu take care of it.
 typedef basic_string<ofUTF32Char> ofUTF32String; // aka unicode string
 typedef ofUTF32String             ofUniString; // this is a "unicode" string
                                         // each vector entry contains one 
                                         // unicode code point.  
                                         // It is NOT UTF8 encoded.
-
-
-typedef utf8::iterator<ofUTF8Ptr> ofUTF8Iterator;  
-
-// a bidirectional iterator for 
-// to allow stl-iterator-like iteration
-// through a UTF8 encoded std::string.
-// Not exactly like an STL iterator.
-// from the UTF8-CPP library.
 
 class ofUnicode {
 public:

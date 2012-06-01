@@ -39,7 +39,7 @@ void testApp::setup(){
 }
 
 void testApp::conversionTests() {
-    assert(ofTextConverter::toUTF8(0x30A1) == "\u30A1"); // just checking ...
+    assert(ofUTF32::toUTF8(0x30A1) == "\u30A1"); // just checking ...
     
     // do some case conversions
     string utf8_1_toLower = ofUTF8::toLower(testStrings[1]);
@@ -69,11 +69,11 @@ void testApp::concatTests() {
     ofUTF8String utf8_01a = testStrings[0] + testStrings[1];  // add two ofUTF8Strings (simply an alias for std::string)
     
     // convert strings to UTF32 and combine in the UTF32 domain
-    ofUniString uStr_0  = ofTextConverter::toUTF32(testStrings[0]); // UTF8 -> UTF32
-    ofUniString uStr_1  = ofTextConverter::toUTF32(testStrings[1]); // UTF8 -> UTF32
+    ofUniString uStr_0  = ofUTF8::toUTF32(testStrings[0]); // UTF8 -> UTF32
+    ofUniString uStr_1  = ofUTF8::toUTF32(testStrings[1]); // UTF8 -> UTF32
     ofUniString uStr_01 = uStr_0 + uStr_1;                  // add in UTF32 domain
     
-    ofUTF8String utf8_01b = ofTextConverter::toUTF8(uStr_01); // UTF32 -> UTF8
+    ofUTF8String utf8_01b = ofUTF32::toUTF8(uStr_01); // UTF32 -> UTF8
     
     assert(uStr_0.length()  == ofUTF8::distance(testStrings[0])); // are lengths in UTF32 the same as distance in UTF8?  
     assert(uStr_1.length()  == ofUTF8::distance(testStrings[1])); // are lengths in UTF32 the same as distance in UTF8?
@@ -88,16 +88,15 @@ void testApp::distanceTests() {
  }
 
 void testApp::iterationTests() {
-    // iteration using the checked iterators
+ //iteration using the checked iterators
     {
-        ofUTF8Ptr iter = ofUTF8::beginPtr(testStrings[1]);
-        ofUTF8Ptr start = ofUTF8::beginPtr(testStrings[1]);
-        ofUTF8Ptr stop = ofUTF8::endPtr(testStrings[1]);
+        ofCharPtr iter = ofUTF8::beginCharPtr(testStrings[1]);
+        ofCharPtr stop = ofUTF8::endCharPtr(testStrings[1]);
         
         string utf8_1_out;
         while(iter < stop) {
-            ofUniChar c = ofUTF8::getNext(iter,stop); // get the next unichar and iterate
-            utf8_1_out += ofTextConverter::toUTF8(c);
+            ofUniChar c = ofUTF8::getNext(testStrings[1],iter); // get the next unichar and iterate
+            utf8_1_out += ofUTF32::toUTF8(c);
         }
         
         assert(testStrings[1] == utf8_1_out); // check!
@@ -108,13 +107,15 @@ void testApp::iterationTests() {
     {
         // before using unchecked iterators, makes sure the whole thing is valid
         assert(ofUTF8::isValid(testStrings[1]) == true); // check a few for valid UTF8
-        ofUTF8Ptr iter = ofUTF8::beginPtr(testStrings[1]);
-        ofUTF8Ptr stop = ofUTF8::endPtr(testStrings[1]);
+        ofCharPtr iter = ofUTF8::beginCharPtr(testStrings[1]);
+        ofCharPtr stop = ofUTF8::endCharPtr(testStrings[1]);
         
         string utf8_1_out;
+        
+        int i = 0;
         while(iter < stop) {
-            ofUniChar c = ofUTF8::getNext(iter); // get the next unichar and iterate
-            utf8_1_out += ofTextConverter::toUTF8(c);
+            ofUniChar c = ofUTF8::getNextUnsafe(testStrings[1],iter); // get the next unichar and iterate
+            utf8_1_out += ofUTF32::toUTF8(c);
         }
         
         assert(testStrings[1] == utf8_1_out); // check!
@@ -127,66 +128,48 @@ void testApp::iterationTests() {
         string dest = "";
         // before using unchecked iterators, makes sure the whole thing is valid
         assert(ofUTF8::isValid(testStrings[0]) == true); // check a few for valid UTF8
-        ofUTF8Ptr iter = ofUTF8::beginPtr(testStrings[0]);
+        ofCharPtr iter = ofUTF8::beginCharPtr(testStrings[0]);
         
-        iter = ofUTF8::advance(iter,8); // advance to 8
-        dest += ofTextConverter::toUTF8(ofUTF8::get(iter));
-        iter = ofUTF8::prior(iter);  // back one
-        iter = ofUTF8::prior(iter); // back one
-        dest += ofTextConverter::toUTF8(ofUTF8::get(iter));
-        iter = ofUTF8::next(iter); // foward one
-        dest += ofTextConverter::toUTF8(ofUTF8::get(iter));
-        iter = ofUTF8::prior(iter); // back one
-        iter = ofUTF8::prior(iter);  // back one
-        dest += ofTextConverter::toUTF8(ofUTF8::get(iter));
-        iter = ofUTF8::prior(iter); // back one
-        iter = ofUTF8::prior(iter); // back one
-        dest += ofTextConverter::toUTF8(ofUTF8::get(iter));
-        iter = ofUTF8::prior(iter); // back one
-        iter = ofUTF8::prior(iter); // back one
-        iter = ofUTF8::prior(iter); // back one
-        dest += ofTextConverter::toUTF8(ofUTF8::get(iter));
-        iter = ofUTF8::advance(iter,9); // advance to 8
-        dest += ofTextConverter::toUTF8(ofUTF8::get(iter));
+        iter = ofUTF8::advance(testStrings[0],iter,8); // advance to 8
+        dest += ofUTF32::toUTF8(ofUTF8::get(testStrings[0],iter));
+        iter = ofUTF8::prior(testStrings[0],iter);  // back one
+        iter = ofUTF8::prior(testStrings[0],iter); // back one
+        dest += ofUTF32::toUTF8(ofUTF8::get(testStrings[0],iter));
+        iter = ofUTF8::next(testStrings[0],iter); // foward one
+        dest += ofUTF32::toUTF8(ofUTF8::get(testStrings[0],iter));
+        iter = ofUTF8::prior(testStrings[0],iter); // back one
+        iter = ofUTF8::prior(testStrings[0],iter);  // back one
+        dest += ofUTF32::toUTF8(ofUTF8::get(testStrings[0],iter));
+        iter = ofUTF8::prior(testStrings[0],iter); // back one
+        iter = ofUTF8::prior(testStrings[0],iter); // back one
+        dest += ofUTF32::toUTF8(ofUTF8::get(testStrings[0],iter));
+        iter = ofUTF8::prior(testStrings[0],iter); // back one
+        iter = ofUTF8::prior(testStrings[0],iter); // back one
+        iter = ofUTF8::prior(testStrings[0],iter); // back one
+        dest += ofUTF32::toUTF8(ofUTF8::get(testStrings[0],iter));
+        iter = ofUTF8::advance(testStrings[0],iter,9); // advance to 8
         
+        
+        
+        dest += ofUTF32::toUTF8(ofUTF8::get(testStrings[0],iter));
+                
         assert(goal == dest); // check!
     }
-    
-    // iteration using the the iterclass iterators
+
     {
+        
         string goal = "8675309"; // just something to shoot for
         string dest = "";
+        // before using unchecked iterators, makes sure the whole thing is valid
+        assert(ofUTF8::isValid(testStrings[0]) == true); // check a few for valid UTF8
+        ofCharPtr iter = ofUTF8::beginCharPtr(testStrings[0]);
         
-        ofUTF8Iterator it = ofUTF8::iterator(testStrings[0]);
+        for(int i = 0; i < 7; i++) {
+            dest += ofUTF32::toUTF8(ofUTF8::get(testStrings[0],iter));
+            iter = ofUTF8::advance(testStrings[0],iter,1); // advance to 8
+        }
         
-        it++;
-        it++;
-        it++;
-        it++;
-        it++;
-        it++;
-        it++;
-        it++;
-        dest += ofTextConverter::toUTF8(*it);
-        it--;
-        it--;
-        dest += ofTextConverter::toUTF8(*it);
-        it++;
-        dest += ofTextConverter::toUTF8(*it);
-        it--;
-        it--;
-        dest += ofTextConverter::toUTF8(*it);
-        it--;
-        it--;
-        dest += ofTextConverter::toUTF8(*it);
-        it = ofUTF8::begin(testStrings[0]); // cheat back to 0
-        dest += ofTextConverter::toUTF8(*it);
-        it = ofUTF8::end(testStrings[0]); // cheat to 9
-        it--;
-        dest += ofTextConverter::toUTF8(*it);
-        cout << dest << endl;
-        cout << goal << endl;
-        assert(goal == dest); // check!
+        cout << "dest=" << dest << endl;
     }
     
     
@@ -195,15 +178,15 @@ void testApp::iterationTests() {
         string goal = "8675309"; // just something to shoot for
         string dest;
         
-        ofUniString uni = ofTextConverter::toUTF32(testStrings[0]);
+        ofUniString uni = ofUTF8::toUTF32(testStrings[0]);
         
-        dest += ofTextConverter::toUTF8(uni[8]); // the index where 8 lives
-        dest += ofTextConverter::toUTF8(uni[6]); // etc
-        dest += ofTextConverter::toUTF8(uni[7]);
-        dest += ofTextConverter::toUTF8(uni[5]);
-        dest += ofTextConverter::toUTF8(uni[3]);
-        dest += ofTextConverter::toUTF8(uni[0]);
-        dest += ofTextConverter::toUTF8(uni[9]);
+        dest += ofUTF32::toUTF8(uni[8]); // the index where 8 lives
+        dest += ofUTF32::toUTF8(uni[6]); // etc
+        dest += ofUTF32::toUTF8(uni[7]);
+        dest += ofUTF32::toUTF8(uni[5]);
+        dest += ofUTF32::toUTF8(uni[3]);
+        dest += ofUTF32::toUTF8(uni[0]);
+        dest += ofUTF32::toUTF8(uni[9]);
         
         assert(goal == dest); // check!
     }
@@ -215,7 +198,7 @@ void testApp::iterationTests() {
      string goal = "8675309"; // just something to shoot for
      string dest;
      
-     ofUniString uni = ofTextConverter::toUTF32(testStrings[0]);
+     ofUniString uni = ofUTF8::toUTF32(testStrings[0]);
      ofUniString uniDest;
      
      uniDest.push_back(uni[8]);
@@ -226,7 +209,7 @@ void testApp::iterationTests() {
      uniDest.push_back(uni[0]);
      uniDest.push_back(uni[9]);
      
-     dest = ofTextConverter::toUTF8(uniDest);
+     dest = ofUTF32::toUTF8(uniDest);
      
      assert(goal == dest); // check!
      }
@@ -236,7 +219,7 @@ void testApp::iterationTests() {
          string goal = "8675309"; // just something to shoot for
          string dest;
          
-         ofUniString uni = ofTextConverter::toUTF32(testStrings[0]);
+         ofUniString uni = ofUTF8::toUTF32(testStrings[0]);
          ofUniString uniDest;
          
          uniDest += uni[8];
@@ -247,7 +230,7 @@ void testApp::iterationTests() {
          uniDest += uni[0];
          uniDest += uni[9];
          
-         dest = ofTextConverter::toUTF8(uniDest);
+         dest = ofUTF32::toUTF8(uniDest);
          assert(goal == dest); // check!
      }
      
@@ -256,7 +239,7 @@ void testApp::iterationTests() {
         string goal = "8675309"; // just something to shoot for
         string dest;
         
-        ofUniString uni = ofTextConverter::toUTF32(testStrings[0]);
+        ofUniString uni = ofUTF8::toUTF32(testStrings[0]);
         ofUniString uniDest;
         
         uniDest += uni[8];
@@ -267,7 +250,7 @@ void testApp::iterationTests() {
         uniDest += uni[0];
         uniDest += uni[9];
         
-        dest = ofTextConverter::toUTF8(uniDest);
+        dest = ofUTF32::toUTF8(uniDest);
         assert(goal == dest); // check!
     }
 
@@ -276,15 +259,17 @@ void testApp::iterationTests() {
 
 void testApp::fileReadWriteTests() {
 
-    // read files into strings
-    ofFile test0("test_UTF8.txt");
-    ofBuffer buff0 = test0.readToBuffer();
-    cout << buff0.size() << endl;
-    string t0 = ofTextConverter::convert(buff0,OF_TEXT_ENCODING_UTF8,OF_TEXT_ENCODING_UTF8); // only utf8 encoded
-    ofFile test1("test_UTF16.txt");
-    ofBuffer buff1 = test1.readToBuffer();
-    cout << buff1.size() << endl;
-    string t1 = ofTextConverter::convert(buff1,OF_TEXT_ENCODING_UTF16,OF_TEXT_ENCODING_UTF8); // only utf8 encoded
+//    // read files into strings
+//    ofFile test0("test_UTF8.txt");
+//    ofBuffer buff0 = test0.readToBuffer();
+//    cout << buff0.size() << endl;
+//    string t0 = ofTextConverter::convert(buff0,OF_TEXT_ENCODING_UTF8,OF_TEXT_ENCODING_UTF8); // only utf8 encoded
+//    ofFile test1("test_UTF16.txt");
+//    ofBuffer buff1 = test1.readToBuffer();
+//    cout << buff1.size() << endl;
+//    string t1 = ofTextConverter::convert(buff1,OF_TEXT_ENCODING_UTF16,OF_TEXT_ENCODING_UTF8); // only utf8 encoded
+//    
+    
     
     
     
@@ -302,13 +287,13 @@ void testApp::fileReadWriteTests() {
     
 //    for(int i = 0; i < t1_utf8;
 //    ofToHex(<#const T &value#>)
-    cout << " --- " << endl;
-    cout << t0.length() << "|" << ofUTF8::distance(t0) <<  endl;
-    cout << t1.size() << "|" << endl;
-    //cout << t1_utf8.length() << "|" << endl;
-    
-    cout << t0 << endl;
-    cout << t1 << endl;
+//    cout << " --- " << endl;
+//    cout << t0.length() << "|" << ofUTF8::distance(t0) <<  endl;
+//    cout << t1.size() << "|" << endl;
+//    //cout << t1_utf8.length() << "|" << endl;
+//    
+//    cout << t0 << endl;
+//    cout << t1 << endl;
     
     
     

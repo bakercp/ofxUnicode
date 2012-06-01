@@ -15,6 +15,7 @@
 #include "unicode/uclean.h"
 
 
+#include "ofTextUtilities.h"
 
 class testApp : public ofBaseApp{
 public:
