@@ -24,10 +24,11 @@
 		E4C2424810CC5A17004149E2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C2424510CC5A17004149E2 /* Cocoa.framework */; };
 		E4C2424910CC5A17004149E2 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4C2424610CC5A17004149E2 /* IOKit.framework */; };
 		E4EB6799138ADC1D00A09F29 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
-		FD7BF92D156ECF5B0016022F /* ofUnicode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD7BF929156ECF5B0016022F /* ofUnicode.cpp */; };
-		FD7BF92E156ECF5B0016022F /* ofUTF8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD7BF92B156ECF5B0016022F /* ofUTF8.cpp */; };
-		FDB02281157944AA008A406F /* ofUTF32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDB0227F157944AA008A406F /* ofUTF32.cpp */; };
-		FDB02284157944B5008A406F /* ofUTF16.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDB02282157944B5008A406F /* ofUTF16.cpp */; };
+		FD074849157E7A74002C021A /* ofTextUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD07483F157E7A74002C021A /* ofTextUtilities.cpp */; };
+		FD07484A157E7A74002C021A /* ofUnicode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD074841157E7A74002C021A /* ofUnicode.cpp */; };
+		FD07484B157E7A74002C021A /* ofUTF8.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD074843157E7A74002C021A /* ofUTF8.cpp */; };
+		FD07484C157E7A74002C021A /* ofUTF16.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD074845157E7A74002C021A /* ofUTF16.cpp */; };
+		FD07484D157E7A74002C021A /* ofUTF32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FD074847157E7A74002C021A /* ofUTF32.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,14 +83,16 @@
 		E4C2424610CC5A17004149E2 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = /System/Library/Frameworks/IOKit.framework; sourceTree = "<absolute>"; };
 		E4EB691F138AFCF100A09F29 /* CoreOF.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = CoreOF.xcconfig; path = ../../../libs/openFrameworksCompiled/project/osx/CoreOF.xcconfig; sourceTree = SOURCE_ROOT; };
 		E4EB6923138AFD0F00A09F29 /* Project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Project.xcconfig; sourceTree = "<group>"; };
-		FD7BF929156ECF5B0016022F /* ofUnicode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofUnicode.cpp; sourceTree = "<group>"; };
-		FD7BF92A156ECF5B0016022F /* ofUnicode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ofUnicode.h; sourceTree = "<group>"; };
-		FD7BF92B156ECF5B0016022F /* ofUTF8.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = ofUTF8.cpp; sourceTree = "<group>"; };
-		FD7BF92C156ECF5B0016022F /* ofUTF8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofUTF8.h; sourceTree = "<group>"; };
-		FDB0227F157944AA008A406F /* ofUTF32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofUTF32.cpp; sourceTree = "<group>"; };
-		FDB02280157944AA008A406F /* ofUTF32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofUTF32.h; sourceTree = "<group>"; };
-		FDB02282157944B5008A406F /* ofUTF16.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofUTF16.cpp; sourceTree = "<group>"; };
-		FDB02283157944B5008A406F /* ofUTF16.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofUTF16.h; sourceTree = "<group>"; };
+		FD07483F157E7A74002C021A /* ofTextUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofTextUtilities.cpp; sourceTree = "<group>"; };
+		FD074840157E7A74002C021A /* ofTextUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofTextUtilities.h; sourceTree = "<group>"; };
+		FD074841157E7A74002C021A /* ofUnicode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofUnicode.cpp; sourceTree = "<group>"; };
+		FD074842157E7A74002C021A /* ofUnicode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofUnicode.h; sourceTree = "<group>"; };
+		FD074843157E7A74002C021A /* ofUTF8.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofUTF8.cpp; sourceTree = "<group>"; };
+		FD074844157E7A74002C021A /* ofUTF8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofUTF8.h; sourceTree = "<group>"; };
+		FD074845157E7A74002C021A /* ofUTF16.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofUTF16.cpp; sourceTree = "<group>"; };
+		FD074846157E7A74002C021A /* ofUTF16.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofUTF16.h; sourceTree = "<group>"; };
+		FD074847157E7A74002C021A /* ofUTF32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofUTF32.cpp; sourceTree = "<group>"; };
+		FD074848157E7A74002C021A /* ofUTF32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofUTF32.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,14 +215,16 @@
 		FD7BF928156ECF5B0016022F /* src */ = {
 			isa = PBXGroup;
 			children = (
-				FD7BF929156ECF5B0016022F /* ofUnicode.cpp */,
-				FD7BF92A156ECF5B0016022F /* ofUnicode.h */,
-				FD7BF92B156ECF5B0016022F /* ofUTF8.cpp */,
-				FD7BF92C156ECF5B0016022F /* ofUTF8.h */,
-				FDB0227F157944AA008A406F /* ofUTF32.cpp */,
-				FDB02280157944AA008A406F /* ofUTF32.h */,
-				FDB02282157944B5008A406F /* ofUTF16.cpp */,
-				FDB02283157944B5008A406F /* ofUTF16.h */,
+				FD07483F157E7A74002C021A /* ofTextUtilities.cpp */,
+				FD074840157E7A74002C021A /* ofTextUtilities.h */,
+				FD074841157E7A74002C021A /* ofUnicode.cpp */,
+				FD074842157E7A74002C021A /* ofUnicode.h */,
+				FD074843157E7A74002C021A /* ofUTF8.cpp */,
+				FD074844157E7A74002C021A /* ofUTF8.h */,
+				FD074845157E7A74002C021A /* ofUTF16.cpp */,
+				FD074846157E7A74002C021A /* ofUTF16.h */,
+				FD074847157E7A74002C021A /* ofUTF32.cpp */,
+				FD074848157E7A74002C021A /* ofUTF32.h */,
 			);
 			name = src;
 			path = ../src;
@@ -311,10 +316,11 @@
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* testApp.cpp in Sources */,
-				FD7BF92D156ECF5B0016022F /* ofUnicode.cpp in Sources */,
-				FD7BF92E156ECF5B0016022F /* ofUTF8.cpp in Sources */,
-				FDB02281157944AA008A406F /* ofUTF32.cpp in Sources */,
-				FDB02284157944B5008A406F /* ofUTF16.cpp in Sources */,
+				FD074849157E7A74002C021A /* ofTextUtilities.cpp in Sources */,
+				FD07484A157E7A74002C021A /* ofUnicode.cpp in Sources */,
+				FD07484B157E7A74002C021A /* ofUTF8.cpp in Sources */,
+				FD07484C157E7A74002C021A /* ofUTF16.cpp in Sources */,
+				FD07484D157E7A74002C021A /* ofUTF32.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

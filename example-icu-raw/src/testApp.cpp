@@ -156,19 +156,15 @@ void testApp::setup(){
     
     out = u_finit(stdout, NULL, NULL);
 
-//    breakSample();
-//    caseConversion();
-//    
-//    charIter();
-//    strIter();
-//    
-    charsetDetect();
-//    
-//    ucodeData();
-//
-//    
-//    unicodeDemo();
+    void breakSample();
+    void caseConversion();
     
+    void charIter();
+    void strIter();
+    void charsetDetect();
+    
+    void ucodeData();
+    void unicodeDemo();
     
     
     
@@ -394,101 +390,6 @@ void testApp::strIter() {
     u_fprintf(out, "\n");
     delete test2;
 
-}
-
-void testApp::charsetDetect() {
-    
-//    static char buffer[BUFFER_SIZE];
-//
-//    string files[] = {ofToDataPath("test_UTF8.txt"), 
-//        ofToDataPath("test_UTF16_NO_BOM.txt"),
-//        ofToDataPath("test_UTF16.txt") };
-//    int arg;
-//    
-//    for(arg = 0; arg < 3; arg += 1) {
-//        FILE *file;
-//        const char *filename = files[arg].c_str();
-//        int32_t inputLength, match, matchCount = 0;
-//        UCharsetDetector* csd;
-//        const UCharsetMatch **csm;
-//        UErrorCode status = U_ZERO_ERROR;
-//        
-//        if (arg > 1) {
-//            printf("\n");
-//        }
-//        
-//        file = fopen(filename, "rb");
-//        
-//        if (file == NULL) {
-//            printf("Cannot open file \"%s\"\n\n", filename);
-//            continue;
-//        }
-//        
-//        printf("%s:\n", filename);
-//        
-//        inputLength = (int32_t) fread(buffer, 1, BUFFER_SIZE, file);
-//        
-//        fclose(file);
-//        
-//        csd = ucsdet_open(&status);
-//        ucsdet_setText(csd, buffer, inputLength, &status);
-//        
-//        csm = ucsdet_detectAll(csd, &matchCount, &status);
-//        
-//        for(match = 0; match < matchCount; match += 1) {
-//            const char *name = ucsdet_getName(csm[match], &status);
-//            const char *lang = ucsdet_getLanguage(csm[match], &status);
-//            int32_t confidence = ucsdet_getConfidence(csm[match], &status);
-//            
-//            if (lang == NULL || strlen(lang) == 0) {
-//                lang = "**";
-//            }
-//            
-//            printf("%s (%s) %d\n", name, lang, confidence);
-//        }
-//        
-//        ucsdet_close(csd);
-//    }
-    
-    
-    vector<string> charsets = ofTextUtilities::listAvailableCharsets();
-    for(int i = 0; i < charsets.size(); i++) {
-        cout << charsets[i] << endl;
-    }
-    
-    ofBuffer b0 = ofBufferFromFile("test_UTF8.txt");
-    ofBuffer b1 = ofBufferFromFile("test_UTF16_NO_BOM.txt");
-    ofBuffer b2 = ofBufferFromFile("test_UTF16.txt");
-    ofBuffer b3 = ofBufferFromFile("test_UTF8_BIG5.txt");
-    ofBuffer b4 = ofBufferFromFile("test_UTF8_W_BOM.txt");
-    
-    bool success;
-    string lang;
-    string name;
-    int confidence;
-    
-    success = ofTextUtilities::detectCharset(b0.getText(), name, lang, confidence);
-    cout << "success=" << success << " name=" << name << " lang=" << lang << " conf=" << confidence << endl;
-    success = ofTextUtilities::detectCharset(b1.getText(), name, lang, confidence);
-    cout << "success=" << success << " name=" << name << " lang=" << lang << " conf=" << confidence << endl;
-    success = ofTextUtilities::detectCharset(b2.getText(), name, lang, confidence);
-    cout << "success=" << success << " name=" << name << " lang=" << lang << " conf=" << confidence << endl;
-    success = ofTextUtilities::detectCharset(b3.getText(), name, lang, confidence);
-    cout << "success=" << success << " name=" << name << " lang=" << lang << " conf=" << confidence << endl;
-
-    string big5 = b3.getText();
-    success = ofTextUtilities::convertCharsetToUTF8(big5,name);
-
-    cout << b3.getText() << endl;
-    cout << big5 << endl;
-    
-    
-    success = ofTextUtilities::detectCharset(b4.getText(), name, lang, confidence);
-    cout << "success=" << success << " name=" << name << " lang=" << lang << " conf=" << confidence << endl;
-
-    
-    
-    
 }
 
 void testApp::ucodeData() {

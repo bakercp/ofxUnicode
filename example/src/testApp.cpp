@@ -33,7 +33,7 @@ void testApp::setup(){
     conversionTests();
     distanceTests();
     iterationTests();
-    fileReadWriteTests();
+    charsetDetection();
 
 
 }
@@ -257,47 +257,42 @@ void testApp::iterationTests() {
 
 }
 
-void testApp::fileReadWriteTests() {
+void testApp::charsetDetection() {
 
-//    // read files into strings
-//    ofFile test0("test_UTF8.txt");
-//    ofBuffer buff0 = test0.readToBuffer();
-//    cout << buff0.size() << endl;
-//    string t0 = ofTextConverter::convert(buff0,OF_TEXT_ENCODING_UTF8,OF_TEXT_ENCODING_UTF8); // only utf8 encoded
-//    ofFile test1("test_UTF16.txt");
-//    ofBuffer buff1 = test1.readToBuffer();
-//    cout << buff1.size() << endl;
-//    string t1 = ofTextConverter::convert(buff1,OF_TEXT_ENCODING_UTF16,OF_TEXT_ENCODING_UTF8); // only utf8 encoded
-//    
-    
-    
-    
-    
-    //assert(ofUTF8::isValid(t0) == true); 
-    //assert(ofUTF8::isValid(t1) == false); // UTF16
-    
-    //cout << ofUTF8::distance(t0) << endl;
-    //cout << ofUTF8::distance(t1) << endl;
-    
-   // string t1_utf8 = ofTextConverter::convert(t1, OF_TEXT_ENCODING_UTF16, OF_TEXT_ENCODING_UTF8);
-  
-//   ofUTF16Char utf16 =  ofTextConverter::toUTF16(<#const ofUTF8String &input#>)
-  
-  //  ofTextConverter::toUTF8(<#const ofUTF16String &input#>);
-    
-//    for(int i = 0; i < t1_utf8;
-//    ofToHex(<#const T &value#>)
-//    cout << " --- " << endl;
-//    cout << t0.length() << "|" << ofUTF8::distance(t0) <<  endl;
-//    cout << t1.size() << "|" << endl;
-//    //cout << t1_utf8.length() << "|" << endl;
-//    
-//    cout << t0 << endl;
-//    cout << t1 << endl;
-    
-    
-    
-    
-    
+    vector<string> charsets = ofTextUtilities::listAvailableCharsets();
+    for(int i = 0; i < charsets.size(); i++) {
+        cout << charsets[i] << endl;
+        }
+        
+        ofBuffer b0 = ofBufferFromFile("test_UTF8.txt");
+        ofBuffer b1 = ofBufferFromFile("test_UTF16_NO_BOM.txt");
+        ofBuffer b2 = ofBufferFromFile("test_UTF16.txt");
+        ofBuffer b3 = ofBufferFromFile("test_UTF8_BIG5.txt");
+        ofBuffer b4 = ofBufferFromFile("test_UTF8_W_BOM.txt");
+        
+        bool success;
+        string lang;
+        string name;
+        int confidence;
+        
+        success = ofTextUtilities::detectCharset(b0.getText(), name, lang, confidence);
+        cout << "success=" << success << " name=" << name << " lang=" << lang << " conf=" << confidence << endl;
+        success = ofTextUtilities::detectCharset(b1.getText(), name, lang, confidence);
+        cout << "success=" << success << " name=" << name << " lang=" << lang << " conf=" << confidence << endl;
+        success = ofTextUtilities::detectCharset(b2.getText(), name, lang, confidence);
+        cout << "success=" << success << " name=" << name << " lang=" << lang << " conf=" << confidence << endl;
+        success = ofTextUtilities::detectCharset(b3.getText(), name, lang, confidence);
+        cout << "success=" << success << " name=" << name << " lang=" << lang << " conf=" << confidence << endl;
+        
+        string big5 = b3.getText();
+        success = ofTextUtilities::convertCharsetToUTF8(big5,name);
+        
+        cout << b3.getText() << endl;
+        cout << big5 << endl;
+        
+        
+        success = ofTextUtilities::detectCharset(b4.getText(), name, lang, confidence);
+        cout << "success=" << success << " name=" << name << " lang=" << lang << " conf=" << confidence << endl;
     
 }
+

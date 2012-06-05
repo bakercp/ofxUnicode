@@ -26,7 +26,6 @@ public:
     
     void charIter();
     void strIter();
-    void charsetDetect();
     
     void ucodeData();
     void unicodeDemo();

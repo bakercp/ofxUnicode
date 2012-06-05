@@ -6,6 +6,7 @@
 #include "ofUTF8.h"
 #include "ofUTF16.h"
 #include "ofUTF32.h"
+#include "ofTextUtilities.h"
 
 
 class testApp : public ofBaseApp{
@@ -18,7 +19,7 @@ public:
     void conversionTests();
     void distanceTests();
     void iterationTests();
-    void fileReadWriteTests();
+    void charsetDetection();
     
     
     
