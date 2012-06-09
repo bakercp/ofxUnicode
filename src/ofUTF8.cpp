@@ -46,7 +46,7 @@ bool ofUTF8::startsWithBOM(ofUTF8Ptr iter, ofUTF8Ptr end) {
 }
 
 //------------------------------------------------------------------
-ofUTF8String repair(ofUTF8String txt, ofUniChar replacement) {
+ofUTF8String ofUTF8::repair(ofUTF8String txt, ofUniChar replacement) {
     ofUTF8String temp;
     try {
         if(replacement == -1) {
@@ -206,7 +206,7 @@ ofUTF8Ptr ofUTF8::advance(const ofUTF8String& input, ofUTF8Ptr iter, const int n
 
 ////////////////////////////////////////////////////////////////////
 //------------------------------------------------------------------
-ofUniChar ofUTF8::get(ofUTF8Ptr iter) { 
+ofUniChar ofUTF8::get(ofUTF8Ptr iter) {
     return utf8::unchecked::next(iter); // same as peek
 }
 //------------------------------------------------------------------
