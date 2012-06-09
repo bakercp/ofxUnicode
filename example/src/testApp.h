@@ -1,5 +1,8 @@
 #pragma once
 
+#include "stdio.h"
+#include "assert.h"
+
 #include "ofMain.h"
 
 #include "ofUTF8.h"
@@ -18,7 +21,7 @@ public:
     void distanceTests();
     void iterationTests();
     void fileReadWriteTests();
-    
-    
-    
+
+
+
 };
