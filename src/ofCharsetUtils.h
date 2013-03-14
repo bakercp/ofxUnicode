@@ -34,15 +34,14 @@
 #include "unicode/ucsdet.h" // charset detection
 #include "unicode/ucnv.h"   // character set conversion
 
-class ofTextUtilities {
+class ofCharsetUtils {
 public:
-    ofTextUtilities();
-    virtual ~ofTextUtilities();
+    ofCharsetUtils();
+    virtual ~ofCharsetUtils();
     
     static vector<string> listAvailableCharsets();
     static bool detectCharset(const string& buffer, string& name, string& lang, int& confidence);
     static bool convertCharset(string& buffer, const string& originCharset, const string& destCharset); 
     static bool convertCharsetToUTF8(string& buffer, const string& originCharset); 
-    
     
 };

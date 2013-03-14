@@ -71,25 +71,33 @@ ofUTF8String ofUTF8::append(ofUTF8String txt, ofUniString unicode) {
 
 //------------------------------------------------------------------
 ofUTF8String& ofUTF8::appendInPlace(ofUTF8String& txt, ofUniChar unicode) {
-    char buffer[U8_MAX_LENGTH];
-    
+//    char buffer[U8_MAX_LENGTH];
+    // TODO
+    return txt;
 }
 
 //------------------------------------------------------------------
 ofUTF8String ofUTF8::appendUnsafe(ofUTF8String txt, ofUniChar unicode) {
-    char buffer[U8_MAX_LENGTH];
+//    char buffer[U8_MAX_LENGTH];
     
+    // TODO
+    return txt;
 }
 
 //------------------------------------------------------------------
 ofUTF8String ofUTF8::appendUnsafe(ofUTF8String txt, ofUniString unicode) {
-    char buffer[U8_MAX_LENGTH];
+//    char buffer[U8_MAX_LENGTH];
     
+    // TODO
+    return txt;
 }
 
 //------------------------------------------------------------------
 ofUTF8String& ofUTF8::appendInPlaceUnsafe(ofUTF8String& txt, ofUniChar unicode) {
-    char buffer[U8_MAX_LENGTH];    
+//    char buffer[U8_MAX_LENGTH];
+    
+    // TODO
+    return txt;
 }
 
 //------------------------------------------------------------------

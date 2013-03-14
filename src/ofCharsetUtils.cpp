@@ -23,12 +23,12 @@
  ==============================================================================*/
 
 
-#include "ofTextUtilities.h"
+#include "ofCharsetUtils.h"
 
 //------------------------------------------------------------------
-vector<string> ofTextUtilities::listAvailableCharsets() {
+vector<string> ofCharsetUtils::listAvailableCharsets() {
     vector<string> charsets;
-    UErrorCode status = U_ZERO_ERROR;
+//    UErrorCode status = U_ZERO_ERROR;
     for(int i = 0; i < ucnv_countAvailable(); i++) {
         charsets.push_back(ucnv_getAvailableName(i));
     }
@@ -36,7 +36,7 @@ vector<string> ofTextUtilities::listAvailableCharsets() {
 }
 
 //------------------------------------------------------------------
-bool ofTextUtilities::detectCharset(const string& buffer, string& name, string& lang, int& confidence) {
+bool ofCharsetUtils::detectCharset(const string& buffer, string& name, string& lang, int& confidence) {
     UCharsetDetector* csd;
     UErrorCode status = U_ZERO_ERROR;
     csd = ucsdet_open(&status);
@@ -51,7 +51,7 @@ bool ofTextUtilities::detectCharset(const string& buffer, string& name, string& 
 }
 
 //------------------------------------------------------------------
-bool ofTextUtilities::convertCharset(string& buffer, const string& originCharset, const string& destCharset) {
+bool ofCharsetUtils::convertCharset(string& buffer, const string& originCharset, const string& destCharset) {
     UErrorCode status = U_ZERO_ERROR;
     
     int destCap = buffer.length() * 2;
@@ -71,7 +71,7 @@ bool ofTextUtilities::convertCharset(string& buffer, const string& originCharset
 }
 
 //------------------------------------------------------------------
-bool ofTextUtilities::convertCharsetToUTF8(string& buffer, const string& originCharset) {
+bool ofCharsetUtils::convertCharsetToUTF8(string& buffer, const string& originCharset) {
     return convertCharset(buffer,originCharset,"UTF-8");
 }
 

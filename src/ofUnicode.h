@@ -39,6 +39,7 @@
 #include "Poco/Ascii.h"
 #include "Poco/Unicode.h"
 #include "Poco/UTF8Encoding.h"
+#include "Poco/TextIterator.h"
 
 
 // types
@@ -52,11 +53,11 @@ typedef const unsigned char* ofUTF8Ptr;     // a pointer type used when traversi
                                         // the "end" of the string would be
                                         // ofUTF8Ptr e = input.c_str() + input.length();
                                         // this is wierd.
-typedef int               ofUTF8Idx;
+typedef int                 ofUTF8Idx;
 
-typedef UChar            ofUTF16Char;   // a UTF16 type - stay clear of wstring. it's 4 bytes on *NIX, and 2 on Win
-typedef UChar32          ofUTF32Char;   // a UTF32 type        
-typedef ofUTF32Char      ofUniChar;     // a unicode character type for clarity
+typedef UChar               ofUTF16Char;   // a UTF16 type - stay clear of wstring. it's 4 bytes on *NIX, and 2 on Win
+typedef UChar32             ofUTF32Char;   // a UTF32 type
+typedef ofUTF32Char         ofUniChar;     // a unicode character type for clarity
 
 typedef const ofUTF16Char * ofUTF16Ptr;   // a pointer to wstring, like above 
 typedef const ofUTF32Char * ofUTF32Ptr;  // a pointer to unicode character
@@ -70,40 +71,40 @@ typedef ofUTF32String             ofUniString; // this is a "unicode" string
                                         // unicode code point.  
                                         // It is NOT UTF8 encoded.
 
-class ofUnicode {
-public:
-    
-    static bool       isValid(const ofUniChar& unicode);     // is this a valid unicode character?
-    static bool       isPrintable(const ofUniChar& unicode); // is this a "printable" character?
-                                                             // True if the unicode category is not CONTROL
-                                                             // This does not guarantee that the character
-                                                             // has a visible "glyph".
-    
-    static bool       isCntrl(const ofUniChar& unichar);    // is this a "control" unicode character?
-                                                            // this is broadly defined to include unicode
-                                                            // CONTROL category, and other invisible glyphs
-                                                            // this is Not the opposite of isPrintable.
-    static bool       isTitle(const ofUniChar& unichar);    // is this a unicode "Titlecase" codepoint?
-    static bool       isSpace(const ofUniChar& unichar);
-    static bool       isDigit(const ofUniChar& unichar);    
-    static bool       isPunct(const ofUniChar& unichar);
-    static bool 	  isAlpha(const ofUniChar& unichar);
-    static bool 	  isAlphaNumeric(const ofUniChar& unichar); // isAlpha || isDigit
-    static bool       isLower(const ofUniChar& unichar);
-    static bool       isUpper(const ofUniChar& unichar);
-
-    // conversions
-    static ofUniChar  toLower(const ofUniChar& unichar);
-    static ofUniChar  toUpper(const ofUniChar& unichar);
-    static ofUniChar& toLowerInPlace(ofUniChar& unichar);
-    static ofUniChar& toUpperInPlace(ofUniChar& unichar);
-
-    // unicode string based conversions
-    static ofUniString  toLower(ofUniString& unichar);
-    static ofUniString  toUpper(ofUniString& unichar);
-    static ofUniString& toLowerInPlace(ofUniString& unichar);
-    static ofUniString& toUpperInPlace(ofUniString& unichar);
-
-private:
-    
-};
+//class ofUnicode {
+//public:
+//    
+//    static bool       isValid(const ofUniChar& unicode);     // is this a valid unicode character?
+//    static bool       isPrintable(const ofUniChar& unicode); // is this a "printable" character?
+//                                                             // True if the unicode category is not CONTROL
+//                                                             // This does not guarantee that the character
+//                                                             // has a visible "glyph".
+//    
+//    static bool       isCntrl(const ofUniChar& unichar);    // is this a "control" unicode character?
+//                                                            // this is broadly defined to include unicode
+//                                                            // CONTROL category, and other invisible glyphs
+//                                                            // this is Not the opposite of isPrintable.
+//    static bool       isTitle(const ofUniChar& unichar);    // is this a unicode "Titlecase" codepoint?
+//    static bool       isSpace(const ofUniChar& unichar);
+//    static bool       isDigit(const ofUniChar& unichar);    
+//    static bool       isPunct(const ofUniChar& unichar);
+//    static bool 	  isAlpha(const ofUniChar& unichar);
+//    static bool 	  isAlphaNumeric(const ofUniChar& unichar); // isAlpha || isDigit
+//    static bool       isLower(const ofUniChar& unichar);
+//    static bool       isUpper(const ofUniChar& unichar);
+//
+//    // conversions
+//    static ofUniChar  toLower(const ofUniChar& unichar);
+//    static ofUniChar  toUpper(const ofUniChar& unichar);
+//    static ofUniChar& toLowerInPlace(ofUniChar& unichar);
+//    static ofUniChar& toUpperInPlace(ofUniChar& unichar);
+//
+//    // unicode string based conversions
+//    static ofUniString  toLower(ofUniString& unichar);
+//    static ofUniString  toUpper(ofUniString& unichar);
+//    static ofUniString& toLowerInPlace(ofUniString& unichar);
+//    static ofUniString& toUpperInPlace(ofUniString& unichar);
+//
+//private:
+//    
+//};
