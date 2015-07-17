@@ -57,9 +57,9 @@ public:
     static ofUTF8Ptr endPtr(const ofUTF8String& input);
     
     // custom bi-directional iterator
-    static ofUTF8Iterator iterator(const ofUTF8String& input);
-    static ofUTF8Iterator begin(const ofUTF8String& input);
-    static ofUTF8Iterator end(const ofUTF8String& input);
+    static ofxUTF8Iterator iterator(const ofUTF8String& input);
+    static ofxUTF8Iterator begin(const ofUTF8String& input);
+    static ofxUTF8Iterator end(const ofUTF8String& input);
     
     // Checked Iterators - No need to check input 
     ////////////////////////////////////////////////////////////////////
