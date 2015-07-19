@@ -57,7 +57,7 @@ typedef ofUTF32String             ofUniString; // this is a "unicode" string
                                         // It is NOT UTF8 encoded.
 
 
-typedef utf8::iterator<ofUTF8Ptr> ofUTF8Iterator;  
+typedef utf8::iterator<ofUTF8Ptr> ofxUTF8Iterator;  
 
 // a bidirectional iterator for 
 // to allow stl-iterator-like iteration

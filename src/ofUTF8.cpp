@@ -117,18 +117,18 @@ ofUTF8Ptr ofUTF8::endPtr(const ofUTF8String& input) {
     return input.c_str() + input.length();
 }
 //------------------------------------------------------------------
-ofUTF8Iterator ofUTF8::iterator(const ofUTF8String& input) {
-    return ofUTF8Iterator(beginPtr(input),beginPtr(input),endPtr(input));
+ofxUTF8Iterator ofUTF8::iterator(const ofUTF8String& input) {
+    return ofxUTF8Iterator(beginPtr(input),beginPtr(input),endPtr(input));
 }
 
 //------------------------------------------------------------------
-ofUTF8Iterator ofUTF8::begin(const ofUTF8String& input) {
+ofxUTF8Iterator ofUTF8::begin(const ofUTF8String& input) {
     return iterator(input);
 }
 
 //------------------------------------------------------------------
-ofUTF8Iterator ofUTF8::end(const ofUTF8String& input) {
-    return ofUTF8Iterator(endPtr(input),beginPtr(input),endPtr(input));
+ofxUTF8Iterator ofUTF8::end(const ofUTF8String& input) {
+    return ofxUTF8Iterator(endPtr(input),beginPtr(input),endPtr(input));
 }
 
 
