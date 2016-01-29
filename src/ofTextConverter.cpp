@@ -80,13 +80,13 @@
 //
 // In this library, we attempt to differentiate between these different
 // schemes by explicitly creating aliases for different string types.
-// For instance, an ofUTF8String is simply an alias for std:string.  The
+// For instance, an std::string is simply an alias for std:string.  The
 // reason for this alias is simply to be clear what kind of encoding is 
 // being used, since a string could have its bytes in any number of ways.
 //
-// An ofUTF8String is an alias for the std:wstring.
+// An std::string is an alias for the std:wstring.
 //
-// An ofUTF32String is an alias for a basic_string<ofUniChar>, which is a
+// An ofUTF32String is an alias for a basic_string<char32_t>, which is a
 // string string that is backed by an unsigned int.  Unlike UTF16, which
 // has its own dedicated string type (std::wstring), there is no
 // such 32bit Unicode String.  There will be in with c++0x.
@@ -140,11 +140,15 @@
 
 // to UTF8
 //------------------------------------------------------------------
-ofUTF8String ofTextConverter::toUTF8(const ofUTF16String& input) {
-    ofUTF8String utf8result;
-    try {
+std::string ofTextConverter::toUTF8(const std::u16string& input) {
+    std::string utf8result;
+
+    try
+    {
         utf8::utf16to8(input.begin(),input.end(), back_inserter(utf8result));
-    } catch(const utf8::exception& utfcpp_ex) {
+    }
+    catch (const utf8::exception& utfcpp_ex)
+    {
         ofLog(OF_LOG_ERROR, "ofTextConverter::toUTF8 : " + ofToString(utfcpp_ex.what()));
     }
     
@@ -152,9 +156,10 @@ ofUTF8String ofTextConverter::toUTF8(const ofUTF16String& input) {
 }
 
 //------------------------------------------------------------------
-ofUTF8String ofTextConverter::toUTF8(const ofUniChar& input) {
+std::string ofTextConverter::toUTF8(char32_t input)
+{
     
-//    ofUTF8String utf8result;
+//    std::string utf8result;
 //    try {
 //        utf8::utf32to8(&input,&input, back_inserter(utf8result));
 //    } catch(const utf8::exception& utfcpp_ex) {
@@ -165,34 +170,45 @@ ofUTF8String ofTextConverter::toUTF8(const ofUniChar& input) {
 
     
     
-    ofUTF8String txt;
-    try {
+    std::string txt;
+
+    try
+    {
         utf8::append(input, back_inserter(txt));
-    } catch(const utf8::exception& utfcpp_ex) {
+    }
+    catch(const utf8::exception& utfcpp_ex)
+    {
         string err = utfcpp_ex.what();
-        ofLog(OF_LOG_ERROR, "ofUTF8::append : " + err);
+        ofLog(OF_LOG_ERROR, "ofTextConverter::toUTF8 : " + ofToString(utfcpp_ex.what()));
     }
     return txt;
 }
-//------------------------------------------------------------------
-ofUTF8String ofTextConverter::toUTF8(const ofUniString& input) {
-    ofUTF8String utf8result;    
-    try {
+
+
+std::string ofTextConverter::toUTF8(const std::u32string& input)
+{
+    std::string utf8result;    
+
+    try
+    {
         utf8::utf32to8(input.begin(),input.end(), back_inserter(utf8result));
-    } catch(const utf8::exception& utfcpp_ex) {
-        ofLog(OF_LOG_ERROR, "ofTextConverter::toUniChar::toUniString : " + ofToString(utfcpp_ex.what()));
     }
+    catch (const utf8::exception& utfcpp_ex)
+    {
+        ofLog(OF_LOG_ERROR, "ofTextConverter::toUTF8 : " + ofToString(utfcpp_ex.what()));
+    }
+
     return utf8result;
     
-//    ofUTF8String utf8string;
+//    std::string utf8string;
 //    for (int i = 0; i < (int)input.size(); i++) utf8string += toUTF8(input[i]);
 //    return utf8string;
 }
 
 //// to UTF16
 ////------------------------------------------------------------------
-//ofUTF16String ofTextConverter::toUTF16(const ofUTF8String& input) {
-//    ofUTF16String utf16result;    
+//std::u16string ofTextConverter::toUTF16(const std::string& input) {
+//    std::u16string utf16result;    
 //    try {
 //        utf8::utf32to8(&input,&input, back_inserter(utf16result));
 //    } catch(const utf8::exception& utfcpp_ex) {
@@ -202,39 +218,55 @@ ofUTF8String ofTextConverter::toUTF8(const ofUniString& input) {
 //}
 //
 ////------------------------------------------------------------------
-//ofUTF16String ofTextConverter::toUTF16(const ofUniChar& input) {
-//    ofUTF16String out;    
+//std::u16string ofTextConverter::toUTF16(const char32_t& input) {
+//    std::u16string out;    
 //    //Poco::UnicodeConverter::toUTF16(toUTF8(input), out); // well ... in the absence of a real UTF16 class.
 //    return out;
 //}
 ////------------------------------------------------------------------
-//ofUTF16String ofTextConverter::toUTF16(const ofUniString& input) {
-//    ofUTF16String out;    
+//std::u16string ofTextConverter::toUTF16(const std::u32string& input) {
+//    std::u16string out;    
 //    //Poco::UnicodeConverter::toUTF16(toUTF8(input), out); // well ... in the absence of a real UTF16 class.
 //    return out;
 //}
 
 // to UTF32 / Unicode
-//------------------------------------------------------------------
-ofUniString ofTextConverter::toUTF32(const ofUTF8String& input) {
-    ofUniString utf32result;
-    try {
-        utf8::utf8to32(ofUTF8::beginPtr(input),ofUTF8::endPtr(input), back_inserter(utf32result));
-    } catch(const utf8::exception& utfcpp_ex) {
+
+
+std::u32string ofTextConverter::toUTF32(const std::string& input)
+{
+    std::u32string utf32result;
+
+    try
+    {
+        utf8::utf8to32(ofUTF8::beginPtr(input),
+                       ofUTF8::endPtr(input),
+                       back_inserter(utf32result));
+    }
+    catch(const utf8::exception& utfcpp_ex)
+    {
         ofLog(OF_LOG_ERROR, "ofTextConverter::toUniChar::toUniString : " + ofToString(utfcpp_ex.what()));
     }
     
     return utf32result;
 }
-//------------------------------------------------------------------
-ofUniString ofTextConverter::toUTF32(const ofUTF16String& input) {
+
+
+std::u32string ofTextConverter::toUTF32(const std::u16string& input)
+{
     return toUTF32(toUTF8(input));
 }
 
-//------------------------------------------------------------------
-ofUniString ofTextConverter::toUnicode(const ofUTF8String& input) {return toUTF32(input);}
-//------------------------------------------------------------------
-ofUniString ofTextConverter::toUnicode(const ofUTF16String& input) {return toUTF32(input);}
+
+std::u32string ofTextConverter::toUnicode(const std::string& input)
+{
+    return toUTF32(input);
+}
+
+std::u32string ofTextConverter::toUnicode(const std::u16string& input)
+{
+    return toUTF32(input);
+}
 
 //
 ////------------------------------------------------------------------

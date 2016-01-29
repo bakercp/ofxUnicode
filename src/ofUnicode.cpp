@@ -1,21 +1,23 @@
 #include "ofUnicode.h"
 
 
-//------------------------------------------------------------------
-bool ofUnicode::isValid(const ofUniChar& unichar) {
+bool ofUnicode::isValid(char32_t unichar)
+{
     return !((unichar > 0x0010ffffu) || (unichar >= 0xd800u && unichar <= 0xdfffu));
 }
 
-//------------------------------------------------------------------
-bool ofUnicode::isPrintable(const ofUniChar& unichar) {
+
+bool ofUnicode::isPrintable(char32_t unichar)
+{
     Poco::Unicode::CharacterProperties props;
 	Poco::Unicode::properties(unichar, props);
     
     return props.type != Poco::Unicode::UCP_CONTROL;
 }
 
-//------------------------------------------------------------------
-bool ofUnicode::isCntrl(const ofUniChar& unichar) {
+
+bool ofUnicode::isCntrl(char32_t unichar)
+{
     // True if unichar is:
     //  - ISO 8-bit control character (U+0000..U+001f and U+007f..U+009f)
     //  - UCP_CONTROL
@@ -29,103 +31,119 @@ bool ofUnicode::isCntrl(const ofUniChar& unichar) {
     Poco::Unicode::CharacterProperties props;
 	Poco::Unicode::properties(unichar, props);
     
-    return props.type == Poco::Unicode::UCP_CONTROL              ||
-           props.type == Poco::Unicode::UCP_FORMAT               ||
-           props.type == Poco::Unicode::UCP_LINE_SEPARATOR       ||
-           props.type == Poco::Unicode::UCP_PARAGRAPH_SEPARATOR;
+    return props.type == Poco::Unicode::UCP_CONTROL
+        || props.type == Poco::Unicode::UCP_FORMAT
+        || props.type == Poco::Unicode::UCP_LINE_SEPARATOR
+        || props.type == Poco::Unicode::UCP_PARAGRAPH_SEPARATOR;
     
 }
 
-//------------------------------------------------------------------
-bool ofUnicode::isTitle(const ofUniChar& unichar) {
+
+bool ofUnicode::isTitle(char32_t unichar)
+{
     Poco::Unicode::CharacterProperties props;
 	Poco::Unicode::properties(unichar, props);
     
     return props.type == Poco::Unicode::UCP_TITLE_CASE_LETTER;
 }
 
-//------------------------------------------------------------------
-bool ofUnicode::isSpace(const ofUniChar& unichar) {
+
+bool ofUnicode::isSpace(char32_t unichar)
+{
     return Poco::Unicode::isSpace(unichar);
 }
 
-//------------------------------------------------------------------
-bool ofUnicode::isDigit(const ofUniChar& unichar) {
+
+bool ofUnicode::isDigit(char32_t unichar)
+{
     return Poco::Unicode::isDigit(unichar);
 }
 
-//------------------------------------------------------------------
-bool ofUnicode::isPunct(const ofUniChar& unichar) {
+
+bool ofUnicode::isPunct(char32_t unichar)
+{
     return Poco::Unicode::isPunct(unichar);
 }
 
-//------------------------------------------------------------------
-bool ofUnicode::isAlpha(const ofUniChar& unichar) {
+
+bool ofUnicode::isAlpha(char32_t unichar)
+{
     return Poco::Unicode::isAlpha(unichar);
 }
 
-//------------------------------------------------------------------
-bool ofUnicode::isAlphaNumeric(const ofUniChar& unichar) {
+
+bool ofUnicode::isAlphaNumeric(char32_t unichar)
+{
     return isAlpha(unichar) || isDigit(unichar);
 }
 
-//------------------------------------------------------------------
-bool ofUnicode::isLower(const ofUniChar& unichar) {
+
+bool ofUnicode::isLower(char32_t unichar)
+{
     return Poco::Unicode::isLower(unichar);
 }
 
-//------------------------------------------------------------------
-bool ofUnicode::isUpper(const ofUniChar& unichar) {
+
+bool ofUnicode::isUpper(char32_t unichar)
+{
     return Poco::Unicode::isUpper(unichar);
 }
 
-//------------------------------------------------------------------
-ofUniChar ofUnicode::toLower(const ofUniChar& unichar) {
+
+char32_t ofUnicode::toLower(char32_t unichar)
+{
     return Poco::Unicode::toLower(unichar);
 }
 
-//------------------------------------------------------------------
-ofUniChar ofUnicode::toUpper(const ofUniChar& unichar) {
+
+char32_t ofUnicode::toUpper(char32_t unichar)
+{
     return Poco::Unicode::toUpper(unichar);
 }
 
-//------------------------------------------------------------------
-ofUniChar& ofUnicode::toLowerInPlace(ofUniChar& unichar) { 
+
+char32_t& ofUnicode::toLowerInPlace(char32_t& unichar)
+{
     unichar = toLower(unichar); 
     return unichar;
 }
-//------------------------------------------------------------------
-ofUniChar& ofUnicode::toUpperInPlace(ofUniChar& unichar) { 
+
+
+char32_t& ofUnicode::toUpperInPlace(char32_t& unichar)
+{
     unichar = toUpper(unichar); 
     return unichar;
 }
 
-//------------------------------------------------------------------
-ofUniString ofUnicode::toLower(ofUniString& unichar) {
-    ofUniString out;
-    ofUniString::iterator it = unichar.begin();
+
+std::u32string ofUnicode::toLower(std::u32string& unichar)
+{
+    std::u32string out;
+    std::u32string::iterator it = unichar.begin();
     while(it != unichar.end()) {out.push_back(toLower(*(it++)));}
     return out;
 }
 
-//------------------------------------------------------------------
-ofUniString ofUnicode::toUpper(ofUniString& unichar) {
-    ofUniString out;
-    ofUniString::iterator it = unichar.begin();
+
+std::u32string ofUnicode::toUpper(std::u32string& unichar)
+{
+    std::u32string out;
+    std::u32string::iterator it = unichar.begin();
     while(it != unichar.end()) {out.push_back(toUpper(*(it++)));}
     return out;
 }
 
-//------------------------------------------------------------------
-ofUniString& ofUnicode::toLowerInPlace(ofUniString& unichar) {
-    ofUniString::iterator it = unichar.begin();
+
+std::u32string& ofUnicode::toLowerInPlace(std::u32string& unichar) {
+    std::u32string::iterator it = unichar.begin();
     while(it != unichar.end()) {toUpperInPlace(*(it++));}
     return unichar;
 }
 
-//------------------------------------------------------------------
-ofUniString& ofUnicode::toUpperInPlace(ofUniString& unichar) {
-    ofUniString::iterator it = unichar.begin();
+
+std::u32string& ofUnicode::toUpperInPlace(std::u32string& unichar)
+{
+    std::u32string::iterator it = unichar.begin();
     while(it != unichar.end()) {toLowerInPlace(*(it++));}
     return unichar;
 }

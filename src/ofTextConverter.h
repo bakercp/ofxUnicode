@@ -35,24 +35,24 @@ public:
 //    static string        convert(const string& input, ofTextEncoding inputEncoding, ofTextEncoding outputEncoding);
 
     // to UTF8
-    static ofUTF8String  toUTF8(const ofUTF16String& input);  // utf16-utf8
+    static std::string  toUTF8(const std::u16string& input);  // utf16-utf8
     
-    static ofUTF8String  toUTF8(const ofUniChar& input);      // utf32-utf8
-    static ofUTF8String  toUTF8(const ofUniString& input);    // utf32-utf8
+    static std::string  toUTF8(char32_t input);      // utf32-utf8
+    static std::string  toUTF8(const std::u32string& input);    // utf32-utf8
     
 //    // to UTF16
-//    static ofUTF16String toUTF16(const ofUTF8String& input); // utf8->utf16
+//    static std::u16string toUTF16(const std::string& input); // utf8->utf16
 //    
-//    static ofUTF16String toUTF16(const ofUniChar& input);    // utf32->utf16
-//    static ofUTF16String toUTF16(const ofUniString& input);  // utf32->utf16
+//    static std::u16string toUTF16(const char32_t& input);    // utf32->utf16
+//    static std::u16string toUTF16(const std::u32string& input);  // utf32->utf16
 
     // to UTF32 / Unicode
-    static ofUniString   toUTF32(const ofUTF8String& input);   // utf8->utf32
-    static ofUniString   toUTF32(const ofUTF16String& input);  // utf16->utf32
+    static std::u32string   toUTF32(const std::string& input);   // utf8->utf32
+    static std::u32string   toUTF32(const std::u16string& input);  // utf16->utf32
 
     // to UTF32 / Unicode
-    static ofUniString   toUnicode(const ofUTF8String& input);   // utf8->utf32
-    static ofUniString   toUnicode(const ofUTF16String& input);  // utf16->utf32
+    static std::u32string   toUnicode(const std::string& input);   // utf8->utf32
+    static std::u32string   toUnicode(const std::u16string& input);  // utf16->utf32
 
     
     
