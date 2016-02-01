@@ -65,6 +65,7 @@ void ofApp::setup()
         dumpWordBreaks(ru, "ru");
         dumpWordBreaks(zh, "zh");
     }
+
 }
 
 
