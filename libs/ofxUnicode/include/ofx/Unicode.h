@@ -31,26 +31,7 @@
 #include "linebreak.h"
 #include "linebreakdef.h"
 #include "wordbreak.h"
-
-//#include "ofConstants.h"
-//#include "ofLog.h"
-//#include "ofUtils.h"
-//
-//#include "utf8.h"
-
-//#include "Poco/String.h"
-//#include "Poco/UTF8String.h"
-//#include "Poco/Ascii.h"
-//#include "Poco/Unicode.h"
-//#include "Poco/UTF8Encoding.h"
-//#include "Poco/TextIterator.h"
-//#include "Poco/TextConverter.h"
-//
-//#include "Poco/UTF16Encoding.h"
-//#include "Poco/ASCIIEncoding.h"
-//#include "Poco/Latin1Encoding.h"
-//#include "Poco/Latin9Encoding.h"
-//#include "Poco/Windows1252Encoding.h"
+#include "ofConstants.h"
 
 
 namespace ofx {
@@ -167,8 +148,10 @@ public:
 class UTF32
 {
 public:
-    
-    static bool isValid(char32_t utf32);     // is this a valid unicode character?
+    /// \param utf32 A unicode character.
+    /// \returns true iff is a valid unicode character.
+    static bool isValid(char32_t utf32);
+
     static bool isPrintable(char32_t utf32); // is this a "printable" character?
                                                              // True if the unicode category is not CONTROL
                                                              // This does not guarantee that the character
@@ -178,7 +161,7 @@ public:
     // this is broadly defined to include unicode
     // CONTROL category, and other invisible glyphs
     // this is Not the opposite of isPrintable.
-    static bool isCntrl(char32_t utf32);
+    static bool isControl(char32_t utf32);
 
     // is this a unicode "Titlecase" codepoint?
     static bool isTitle(char32_t utf32);
@@ -205,35 +188,21 @@ public:
 };
 
 
-//ASCIIEncoding,
-//Latin1Encoding,
-//Latin2Encoding,
-//Latin9Encoding,
-//UTF32Encoding,
-//UTF16Encoding,
-//UTF8Encoding,
-//Windows1251Encoding,
-//Windows1252Encoding,
-//Windows1250Encoding
-
-/*
- enum ofTextEncoding {
- OF_TEXT_ENCODING_UTF8 = 0        , // variable width encoding (http://en.wikipedia.org/wiki/UTF-8) backward compatible  w/ ASCII
- OF_TEXT_ENCODING_UTF16           , // 16-bit multi-byte (http://en.wikipedia.org/wiki/UTF-16)
- OF_TEXT_ENCODING_ASCII           , // 7-bit ASCII text encoding (http://en.wikipedia.org/wiki/ASCII)
- OF_TEXT_ENCODING_LATIN_1         , // 8-bit single-byte - (http://en.wikipedia.org/wiki/ISO/IEC_8859-1)
- OF_TEXT_ENCODING_LATIN_9         , // 8-bit single-byte - (http://en.wikipedia.org/wiki/ISO/IEC_8859-15), western chars + €
- OF_TEXT_ENCODING_WINDOWS_1252      // Superset of Latin 1 (ISO 8859-1) http://en.wikipedia.org/wiki/Windows-1252
- };
- */
-
 class TextConverter
 {
 public:
-    // convert between string encodings
-    //    static string convert(const ofBuffer& buffer, ofTextEncoding inputEncoding, ofTextEncoding outputEncoding);
-    //    static string convert(const void* source, int length,  ofTextEncoding inputEncoding, ofTextEncoding outputEncoding);
-    //    static string convert(const string& input, ofTextEncoding inputEncoding, ofTextEncoding outputEncoding);
+    /// \brief Convert between character sets.
+    /// \param input The input string corresponding to inputEncoding.
+    /// \param output A string in which to write the output encoded with outputEncoding.
+    /// \param inputEncoding The input encoding character set, e.g. ENCODING_ISO_8859_15.
+    /// \param outputEncoding The output encoding character set, e.g. ENCODING_ISO_8859_15.
+    /// \returns -1 if error.
+    ///           0 if no error.
+    ///          >0 For number of invalid byte sequences in source.
+    static int convert(const std::string& input,
+                       std::string& output,
+                       const std::string& inputEncoding,
+                       const std::string& outputEncoding);
 
     // to UTF8
     static std::string toUTF8(const std::u16string& input);
@@ -248,6 +217,58 @@ public:
     // to UTF32
     static std::u32string toUTF32(const std::string& input);
     static std::u32string toUTF32(const std::u16string& input);
+
+    /// \brief 7-bit ASCII text encoding.
+    /// \sa http://en.wikipedia.org/wiki/ASCII
+    static const std::string ENCODING_ASCII;
+
+    /// \brief Variable width encoding backward compatible w/ ASCII.
+    /// \sa http://en.wikipedia.org/wiki/UTF-8
+    static const std::string ENCODING_UTF8;
+
+    /// \brief 16-bit multi-byte.
+    /// \sa http://en.wikipedia.org/wiki/UTF-16
+    static const std::string ENCODING_UTF16;
+
+    /// \brief 32-bit multi-byte.
+    /// \sa http://en.wikipedia.org/wiki/UTF-32
+    static const std::string ENCODING_UTF32;
+
+    /// \brief 8-bit single-byte.
+    /// \sa  http://en.wikipedia.org/wiki/ISO/IEC_8859-1
+    static const std::string ENCODING_ISO_8859_1;
+
+    /// \brief 8-bit single-byte.
+    /// \sa  http://en.wikipedia.org/wiki/ISO/IEC_8859-1
+    static const std::string ENCODING_LATIN_1;
+
+    /// \brief 8-bit single-byte.
+    /// \sa https://en.wikipedia.org/wiki/ISO/IEC_8859-2
+    static const std::string ENCODING_ISO_8859_2;
+
+    /// \brief 8-bit single-byte.
+    /// \sa https://en.wikipedia.org/wiki/ISO/IEC_8859-2
+    static const std::string ENCODING_LATIN_2;
+
+    /// \brief 8-bit single-byte. Western chars + €.
+    /// \sa http://en.wikipedia.org/wiki/ISO/IEC_8859-15
+    static const std::string ENCODING_ISO_8859_15;
+
+    /// \brief 8-bit single-byte. Western chars + €.
+    /// \sa http://en.wikipedia.org/wiki/ISO/IEC_8859-15
+    static const std::string ENCODING_LATIN_9;
+
+    /// \brief Windows Central and Eastern European.
+    /// \sa http://en.wikipedia.org/wiki/Windows-1250
+    static const std::string ENCODING_WINDOWS_1250;
+
+    /// \brief Windows Cyrillic.
+    /// \sa http://en.wikipedia.org/wiki/Windows-1251
+    static const std::string ENCODING_WINDOWS_1251;
+
+    /// \brief Superset of Latin 1 (ISO 8859-1)
+    /// \sa http://en.wikipedia.org/wiki/Windows-1252
+    static const std::string ENCODING_WINDOWS_1252;
 
 };
 
