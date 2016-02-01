@@ -4,20 +4,24 @@
 #include "ofApp.h"
 
 
-int nTestStrings = 8;
-std::string testStrings[] = {
-    "0123456789",       // length = 10, valid
-    "ABCDEFGHIJ",       // length = 10, valid
+std::size_t nTestStrings = 8;
+
+std::string testStrings[] =
+{
+    "0123456789",               // length = 10, valid
+    "ABCDEFGHIJ",               // length = 10, valid
     "\xe6\x97\xa5\xd1\x88\xfa", // length = 6, not valid
     "والثعلب البني السريع.", // arabic, length = 21
     "бързо кафяво лисица.", // bulgarian
-    "דער שנעל ברוין פוקס.", // yiddish
+    "דער שנעל ברוין פוקס." , // yiddish
     "สุนัขจิ้งจอกสีน้ำตาลอย่างรวดเร็ว", // thai
     "퀵 브라운 폭스 (빠른 갈색 여우).", // korean
 };
 
-int nEncoderStrings = 9;
-std::string encoderStrings[] = {
+std::size_t nEncoderStrings = 9;
+
+std::string encoderStrings[] =
+{
     "költészet",
     "poetry",
     "thơ",
@@ -38,37 +42,56 @@ void ofApp::setup()
     conversionTests();
     distanceTests();
     iterationTests();
-    fileReadWriteTests();
-
-
+//    fileReadWriteTests();
 }
+
 
 void ofApp::conversionTests()
 {
-    assert(ofTextConverter::toUTF8(0x30A1) == "\u30A1"); // just checking ...
+    assert(ofx::TextConverter::toUTF8(0x30A1) == "\u30A1"); // just checking ...
     
     // do some case conversions
-    std::string utf8_1_toLower = ofUTF8::toLower(testStrings[1]);
+    std::string utf8_1_toLower = ofx::UTF8::toLower(testStrings[1]);
     std::cout << "From: " << testStrings[1] << std::endl;
     std::cout << "  To: " << utf8_1_toLower << std::endl;
     
-    std::string utf8_6_toUpper = ofUTF8::toUpper(encoderStrings[0]);
+    std::string utf8_6_toUpper = ofx::UTF8::toUpper(encoderStrings[0]);
     std::cout << "From: " << encoderStrings[0] << std::endl;
     std::cout << "  To: " << utf8_6_toUpper << std::endl;
     
-    std::string utf8_8_toUpper = ofUTF8::toUpper(encoderStrings[1]);
+    std::string utf8_8_toUpper = ofx::UTF8::toUpper(encoderStrings[1]);
     std::cout << "From: " << encoderStrings[1] << std::endl;
     std::cout << "  To: " << utf8_8_toUpper << std::endl;
 
+    std::cout << "------------- of native -----------" << std::endl;
+    {
+    // do some case conversions
+    std::string utf8_1_toLower = ofToLower(testStrings[1]);
+    std::cout << "From: " << testStrings[1] << std::endl;
+    std::cout << "  To: " << utf8_1_toLower << std::endl;
+
+    std::string utf8_6_toUpper = ofToUpper(encoderStrings[0]);
+    std::cout << "From: " << encoderStrings[0] << std::endl;
+    std::cout << "  To: " << utf8_6_toUpper << " (incorrect w/o correct locale)" << std::endl;
+
+    std::string utf8_6_toUpper_hu = ofToUpper(encoderStrings[0], "hu_HU");
+    std::cout << "From: " << encoderStrings[0] << std::endl;
+    std::cout << "  To: " << utf8_6_toUpper_hu << " (correct w/ hu_HU locale)" << std::endl;
+
+    std::string utf8_8_toUpper = ofToUpper(encoderStrings[1]);
+    std::cout << "From: " << encoderStrings[1] << std::endl;
+    std::cout << "  To: " << utf8_8_toUpper << std::endl;
+    }
+
 }
+
 
 
 void ofApp::validationTests()
 {
-    assert(ofUTF8::isValid(testStrings[0]) == true); // check a few for valid UTF8
-    assert(ofUTF8::isValid(testStrings[1]) == true); // check a few for valid UTF8
-    assert(ofUTF8::isValid(testStrings[2]) == false); // check a few for valid UTF8
-
+    assert(ofx::UTF8::isValid(testStrings[0]) == true); // check a few for valid UTF8
+    assert(ofx::UTF8::isValid(testStrings[1]) == true); // check a few for valid UTF8
+    assert(ofx::UTF8::isValid(testStrings[2]) == false); // check a few for valid UTF8
 }
 
 void ofApp::concatTests()
@@ -77,99 +100,38 @@ void ofApp::concatTests()
     std::string utf8_01a = testStrings[0] + testStrings[1];  // add two std::strings (simply an alias for std::string)
     
     // convert strings to UTF32 and combine in the UTF32 domain
-    std::u32string uStr_0  = ofTextConverter::toUTF32(testStrings[0]); // UTF8 -> UTF32
-    std::u32string uStr_1  = ofTextConverter::toUTF32(testStrings[1]); // UTF8 -> UTF32
+    std::u32string uStr_0  = ofx::TextConverter::toUTF32(testStrings[0]); // UTF8 -> UTF32
+    std::u32string uStr_1  = ofx::TextConverter::toUTF32(testStrings[1]); // UTF8 -> UTF32
     std::u32string uStr_01 = uStr_0 + uStr_1;                  // add in UTF32 domain
     
-    std::string utf8_01b = ofTextConverter::toUTF8(uStr_01); // UTF32 -> UTF8
+    std::string utf8_01b = ofx::TextConverter::toUTF8(uStr_01); // UTF32 -> UTF8
     
-    assert(uStr_0.length()  == ofUTF8::distance(testStrings[0])); // are lengths in UTF32 the same as distance in UTF8?  
-    assert(uStr_1.length()  == ofUTF8::distance(testStrings[1])); // are lengths in UTF32 the same as distance in UTF8?
-    assert(uStr_01.length() == ofUTF8::distance(utf8_01b)); // are the sums the same?
+    assert(uStr_0.length()  == ofx::UTF8::distance(testStrings[0])); // are lengths in UTF32 the same as distance in UTF8?  
+    assert(uStr_1.length()  == ofx::UTF8::distance(testStrings[1])); // are lengths in UTF32 the same as distance in UTF8?
+    assert(uStr_01.length() == ofx::UTF8::distance(utf8_01b)); // are the sums the same?
 }
 
 
 void ofApp::distanceTests()
 {
-    assert(ofUTF8::distance(testStrings[0]) == 10);
-    assert(ofUTF8::distance(testStrings[1]) == 10);
-    assert(ofUTF8::distance(testStrings[3]) == 21);
+    assert(ofx::UTF8::distance(testStrings[0]) == 10);
+    assert(ofx::UTF8::distance(testStrings[1]) == 10);
+    assert(ofx::UTF8::distance(testStrings[3]) == 21);
 }
 
 
 void ofApp::iterationTests()
 {
-    // iteration using the checked iterators
-    {
-        const char* iter = ofUTF8::beginPtr(testStrings[1]);
-        const char* start = ofUTF8::beginPtr(testStrings[1]);
-        const char* stop = ofUTF8::endPtr(testStrings[1]);
-        
-        string utf8_1_out;
-        while(iter < stop) {
-            char32_t c = ofUTF8::getNext(iter,stop); // get the next unichar and iterate
-            utf8_1_out += ofTextConverter::toUTF8(c);
-        }
-        
-        assert(testStrings[1] == utf8_1_out); // check!
-        
-    }
-    
-    // iteration using the unchecked iterators
-    {
-        // before using unchecked iterators, makes sure the whole thing is valid
-        assert(ofUTF8::isValid(testStrings[1]) == true); // check a few for valid UTF8
-        const char* iter = ofUTF8::beginPtr(testStrings[1]);
-        const char* stop = ofUTF8::endPtr(testStrings[1]);
-        
-        string utf8_1_out;
-        while(iter < stop) {
-            char32_t c = ofUTF8::getNext(iter); // get the next unichar and iterate
-            utf8_1_out += ofTextConverter::toUTF8(c);
-        }
-        
-        assert(testStrings[1] == utf8_1_out); // check!
-        
-    }
-    
-    // iteration using the unchecked iterators
-    {
-        std::string goal = "8675309"; // just something to shoot for
-        std::string dest = "";
-        // before using unchecked iterators, makes sure the whole thing is valid
-        assert(ofUTF8::isValid(testStrings[0]) == true); // check a few for valid UTF8
-        const char* iter = ofUTF8::beginPtr(testStrings[0]);
-        
-        iter = ofUTF8::advance(iter,8); // advance to 8
-        dest += ofTextConverter::toUTF8(ofUTF8::get(iter));
-        iter = ofUTF8::prior(iter);  // back one
-        iter = ofUTF8::prior(iter); // back one
-        dest += ofTextConverter::toUTF8(ofUTF8::get(iter));
-        iter = ofUTF8::next(iter); // foward one
-        dest += ofTextConverter::toUTF8(ofUTF8::get(iter));
-        iter = ofUTF8::prior(iter); // back one
-        iter = ofUTF8::prior(iter);  // back one
-        dest += ofTextConverter::toUTF8(ofUTF8::get(iter));
-        iter = ofUTF8::prior(iter); // back one
-        iter = ofUTF8::prior(iter); // back one
-        dest += ofTextConverter::toUTF8(ofUTF8::get(iter));
-        iter = ofUTF8::prior(iter); // back one
-        iter = ofUTF8::prior(iter); // back one
-        iter = ofUTF8::prior(iter); // back one
-        dest += ofTextConverter::toUTF8(ofUTF8::get(iter));
-        iter = ofUTF8::advance(iter,9); // advance to 8
-        dest += ofTextConverter::toUTF8(ofUTF8::get(iter));
-        
-        assert(goal == dest); // check!
-    }
-    
     // iteration using the the iterclass iterators
     {
         std::string goal = "8675309"; // just something to shoot for
         std::string dest = "";
+
+
+        ofUTF8Iterator iterator(testStrings[0]);
+
+        auto it = iterator.begin();
         
-        auto it = ofUTF8::iterator(testStrings[0]);
-        
         it++;
         it++;
         it++;
@@ -178,55 +140,52 @@ void ofApp::iterationTests()
         it++;
         it++;
         it++;
-        dest += ofTextConverter::toUTF8(*it);
+        dest += ofx::TextConverter::toUTF8(*it);
         it--;
         it--;
-        dest += ofTextConverter::toUTF8(*it);
+        dest += ofx::TextConverter::toUTF8(*it);
         it++;
-        dest += ofTextConverter::toUTF8(*it);
+        dest += ofx::TextConverter::toUTF8(*it);
         it--;
         it--;
-        dest += ofTextConverter::toUTF8(*it);
+        dest += ofx::TextConverter::toUTF8(*it);
         it--;
         it--;
-        dest += ofTextConverter::toUTF8(*it);
-        it = ofUTF8::begin(testStrings[0]); // cheat back to 0
-        dest += ofTextConverter::toUTF8(*it);
-        it = ofUTF8::end(testStrings[0]); // cheat to 9
+        dest += ofx::TextConverter::toUTF8(*it);
+        it = iterator.begin();
+        dest += ofx::TextConverter::toUTF8(*it);
+        it = iterator.end();
         it--;
-        dest += ofTextConverter::toUTF8(*it);
-        cout << dest << endl;
-        cout << goal << endl;
+        dest += ofx::TextConverter::toUTF8(*it);
+        std::cout << dest << std::endl;
+        std::cout << goal << std::endl;
         assert(goal == dest); // check!
     }
-    
-    
+
     // one more way
     {
         std::string goal = "8675309"; // just something to shoot for
         std::string dest;
         
-        std::u32string uni = ofTextConverter::toUTF32(testStrings[0]);
+        std::u32string uni = ofx::TextConverter::toUTF32(testStrings[0]);
         
-        dest += ofTextConverter::toUTF8(uni[8]); // the index where 8 lives
-        dest += ofTextConverter::toUTF8(uni[6]); // etc
-        dest += ofTextConverter::toUTF8(uni[7]);
-        dest += ofTextConverter::toUTF8(uni[5]);
-        dest += ofTextConverter::toUTF8(uni[3]);
-        dest += ofTextConverter::toUTF8(uni[0]);
-        dest += ofTextConverter::toUTF8(uni[9]);
+        dest += ofx::TextConverter::toUTF8(uni[8]); // the index where 8 lives
+        dest += ofx::TextConverter::toUTF8(uni[6]); // etc
+        dest += ofx::TextConverter::toUTF8(uni[7]);
+        dest += ofx::TextConverter::toUTF8(uni[5]);
+        dest += ofx::TextConverter::toUTF8(uni[3]);
+        dest += ofx::TextConverter::toUTF8(uni[0]);
+        dest += ofx::TextConverter::toUTF8(uni[9]);
         
         assert(goal == dest); // check!
     }
-    
-    
-    
+
      // one more way
      {
      std::string goal = "8675309"; // just something to shoot for
      std::string dest;
      
-     std::u32string uni = ofTextConverter::toUTF32(testStrings[0]);
+     std::u32string uni = ofx::TextConverter::toUTF32(testStrings[0]);
      std::u32string uniDest;
      
      uniDest.push_back(uni[8]);
@@ -237,17 +196,17 @@ void ofApp::iterationTests()
      uniDest.push_back(uni[0]);
      uniDest.push_back(uni[9]);
      
-     dest = ofTextConverter::toUTF8(uniDest);
+     dest = ofx::TextConverter::toUTF8(uniDest);
      
      assert(goal == dest); // check!
      }
-     
+
      // one more way
      {
-         string goal = "8675309"; // just something to shoot for
-         string dest;
+         std::string goal = "8675309"; // just something to shoot for
+         std::string dest;
          
-         std::u32string uni = ofTextConverter::toUTF32(testStrings[0]);
+         std::u32string uni = ofx::TextConverter::toUTF32(testStrings[0]);
          std::u32string uniDest;
          
          uniDest += uni[8];
@@ -258,16 +217,16 @@ void ofApp::iterationTests()
          uniDest += uni[0];
          uniDest += uni[9];
          
-         dest = ofTextConverter::toUTF8(uniDest);
+         dest = ofx::TextConverter::toUTF8(uniDest);
          assert(goal == dest); // check!
      }
      
     // one more way
     {
-        string goal = "8675309"; // just something to shoot for
-        string dest;
+        std::string goal = "8675309"; // just something to shoot for
+        std::string dest;
         
-        std::u32string uni = ofTextConverter::toUTF32(testStrings[0]);
+        std::u32string uni = ofx::TextConverter::toUTF32(testStrings[0]);
         std::u32string uniDest;
         
         uniDest += uni[8];
@@ -278,7 +237,7 @@ void ofApp::iterationTests()
         uniDest += uni[0];
         uniDest += uni[9];
         
-        dest = ofTextConverter::toUTF8(uniDest);
+        dest = ofx::TextConverter::toUTF8(uniDest);
         assert(goal == dest); // check!
     }
 
@@ -291,30 +250,30 @@ void ofApp::fileReadWriteTests() {
 //    ofFile test0("test_UTF8.txt");
 //    ofBuffer buff0 = test0.readToBuffer();
 //    cout << buff0.size() << endl;
-//    string t0 = ofTextConverter::convert(buff0,OF_TEXT_ENCODING_UTF8,OF_TEXT_ENCODING_UTF8); // only utf8 encoded
+//    string t0 = ofx::TextConverter::convert(buff0,OF_TEXT_ENCODING_UTF8,OF_TEXT_ENCODING_UTF8); // only utf8 encoded
 //    ofFile test1("test_UTF16.txt");
 //    ofBuffer buff1 = test1.readToBuffer();
 //    cout << buff1.size() << endl;
-//    string t1 = ofTextConverter::convert(buff1,OF_TEXT_ENCODING_UTF16,OF_TEXT_ENCODING_UTF8); // only utf8 encoded
+//    string t1 = ofx::TextConverter::convert(buff1,OF_TEXT_ENCODING_UTF16,OF_TEXT_ENCODING_UTF8); // only utf8 encoded
 //    
     
     
-    //assert(ofUTF8::isValid(t0) == true); 
-    //assert(ofUTF8::isValid(t1) == false); // UTF16
+    //assert(ofx::UTF8::isValid(t0) == true); 
+    //assert(ofx::UTF8::isValid(t1) == false); // UTF16
     
-    //cout << ofUTF8::distance(t0) << endl;
-    //cout << ofUTF8::distance(t1) << endl;
+    //cout << ofx::UTF8::distance(t0) << endl;
+    //cout << ofx::UTF8::distance(t1) << endl;
     
-   // string t1_utf8 = ofTextConverter::convert(t1, OF_TEXT_ENCODING_UTF16, OF_TEXT_ENCODING_UTF8);
+   // string t1_utf8 = ofx::TextConverter::convert(t1, OF_TEXT_ENCODING_UTF16, OF_TEXT_ENCODING_UTF8);
   
-//   ofUTF16Char utf16 =  ofTextConverter::toUTF16(<#const std::string &input#>)
+//   ofUTF16Char utf16 =  ofx::TextConverter::toUTF16(<#const std::string &input#>)
   
-  //  ofTextConverter::toUTF8(<#const std::u16string &input#>);
+  //  ofx::TextConverter::toUTF8(<#const std::u16string &input#>);
     
 //    for(int i = 0; i < t1_utf8;
 //    ofToHex(<#const T &value#>)
 //    cout << " --- " << endl;
-//    cout << t0.length() << "|" << ofUTF8::distance(t0) <<  endl;
+//    cout << t0.length() << "|" << ofx::UTF8::distance(t0) <<  endl;
 //    cout << t1.size() << "|" << endl;
 //    //cout << t1_utf8.length() << "|" << endl;
 //    
