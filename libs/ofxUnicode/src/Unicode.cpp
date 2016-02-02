@@ -26,11 +26,11 @@
 #include "ofx/Unicode.h"
 #include "ofUtils.h"
 #include "ofLog.h"
+
 #include "Poco/TextConverter.h"
 #include "Poco/TextEncoding.h"
 #include "Poco/Unicode.h"
 #include "Poco/UTF8String.h"
-
 
 namespace ofx {
 
@@ -293,84 +293,116 @@ bool UTF32::isValid(char32_t unichar)
 
 bool UTF32::isPrintable(char32_t unichar)
 {
-    Poco::Unicode::CharacterProperties props;
-	Poco::Unicode::properties(unichar, props);
-    
-    return props.type != Poco::Unicode::UCP_CONTROL;
+    // aka is graphic.
+    int category = ucdn_get_general_category(unichar);
+
+    return category != UCDN_GENERAL_CATEGORY_CC
+        && category != UCDN_GENERAL_CATEGORY_CF
+        && category != UCDN_GENERAL_CATEGORY_CN
+        && category != UCDN_GENERAL_CATEGORY_CO
+        && category != UCDN_GENERAL_CATEGORY_CS
+        && category != UCDN_GENERAL_CATEGORY_ZL
+        && category != UCDN_GENERAL_CATEGORY_ZP;
 }
 
 
 bool UTF32::isControl(char32_t unichar)
 {
     // True if unichar is:
-    //  - ISO 8-bit control character (U+0000..U+001f and U+007f..U+009f)
-    //  - UCP_CONTROL
-    //  - UCP_FORMAT (Cf)
-    //  - UCP_LINE_SEPARATOR
-    //  - UCP_PARAGRAPH_SEPARATOR
-    // This definition shared with ICU's isCntrl function 
-    // http://icu-project.org/apiref/icu4c/uchar_8h.html#a1295bd387a68fe6df79fedce367c18dd
-    
+    //    ISO 8-bit control character (U+0000..U+001f and U+007f..U+009f)
+    //    U_CONTROL_CHAR (Cc)
+    //    U_FORMAT_CHAR (Cf)
+    //    U_LINE_SEPARATOR (Zl)
+    //    U_PARAGRAPH_SEPARATOR (Zp)
+    // This definition shared with ICU's isCntrl function
+    // https://ssl.icu-project.org/apiref/icu4c/uchar_8h.html
 
-    Poco::Unicode::CharacterProperties props;
-	Poco::Unicode::properties(unichar, props);
-    
-    return props.type == Poco::Unicode::UCP_CONTROL
-        || props.type == Poco::Unicode::UCP_FORMAT
-        || props.type == Poco::Unicode::UCP_LINE_SEPARATOR
-        || props.type == Poco::Unicode::UCP_PARAGRAPH_SEPARATOR;
-    
+    if ((unichar <= 0x001F) || (unichar >= 0x007F && unichar <= 0x009F))
+    {
+        return true;
+    }
+    else
+    {
+        int category = ucdn_get_general_category(unichar);
+
+        return category == UCDN_GENERAL_CATEGORY_CC
+            || category == UCDN_GENERAL_CATEGORY_CF
+            || category == UCDN_GENERAL_CATEGORY_ZL
+            || category == UCDN_GENERAL_CATEGORY_ZP;
+    }
 }
 
 
 bool UTF32::isTitle(char32_t unichar)
 {
-    Poco::Unicode::CharacterProperties props;
-	Poco::Unicode::properties(unichar, props);
-    
-    return props.type == Poco::Unicode::UCP_TITLE_CASE_LETTER;
+    return ucdn_get_general_category(unichar) == UCDN_GENERAL_CATEGORY_LT;
 }
 
 
 bool UTF32::isSpace(char32_t unichar)
 {
-    return Poco::Unicode::isSpace(unichar);
+    int category = ucdn_get_general_category(unichar);
+
+    return category == UCDN_GENERAL_CATEGORY_ZS
+        || category == UCDN_GENERAL_CATEGORY_ZL
+        || category == UCDN_GENERAL_CATEGORY_ZP;
 }
 
 
 bool UTF32::isDigit(char32_t unichar)
 {
-    return Poco::Unicode::isDigit(unichar);
+    return ucdn_get_general_category(unichar) == UCDN_GENERAL_CATEGORY_ND;
 }
 
 
 bool UTF32::isPunct(char32_t unichar)
 {
-    return Poco::Unicode::isPunct(unichar);
+    int category = ucdn_get_general_category(unichar);
+
+    return category == UCDN_GENERAL_CATEGORY_PC
+        || category == UCDN_GENERAL_CATEGORY_PD
+        || category == UCDN_GENERAL_CATEGORY_PE
+        || category == UCDN_GENERAL_CATEGORY_PF
+        || category == UCDN_GENERAL_CATEGORY_PI
+        || category == UCDN_GENERAL_CATEGORY_PO
+        || category == UCDN_GENERAL_CATEGORY_PS;
 }
 
 
 bool UTF32::isAlpha(char32_t unichar)
 {
-    return Poco::Unicode::isAlpha(unichar);
+    int category = ucdn_get_general_category(unichar);
+
+    return category == UCDN_GENERAL_CATEGORY_LL
+        || category == UCDN_GENERAL_CATEGORY_LM
+        || category == UCDN_GENERAL_CATEGORY_LO
+        || category == UCDN_GENERAL_CATEGORY_LT
+        || category == UCDN_GENERAL_CATEGORY_LU;
 }
 
 
 bool UTF32::isAlphaNumeric(char32_t unichar)
 {
-    return isAlpha(unichar) || isDigit(unichar);
+    int category = ucdn_get_general_category(unichar);
+
+    return category == UCDN_GENERAL_CATEGORY_ND // digit
+        || category == UCDN_GENERAL_CATEGORY_LL
+        || category == UCDN_GENERAL_CATEGORY_LM
+        || category == UCDN_GENERAL_CATEGORY_LO
+        || category == UCDN_GENERAL_CATEGORY_LT
+        || category == UCDN_GENERAL_CATEGORY_LU;
 }
 
 
 bool UTF32::isLower(char32_t unichar)
 {
-    return Poco::Unicode::isLower(unichar);
+    return ucdn_get_general_category(unichar) == UCDN_GENERAL_CATEGORY_LL;
 }
 
 
 bool UTF32::isUpper(char32_t unichar)
 {
-    return Poco::Unicode::isUpper(unichar);
+    return ucdn_get_general_category(unichar) == UCDN_GENERAL_CATEGORY_LU;
 }
 
 
