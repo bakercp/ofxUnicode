@@ -11,7 +11,7 @@
 
 FORMULA_TYPES=( "osx" )
 
-VER=3_0
+VER=4_0
 
 GIT_URL=https://github.com/adah1972/libunibreak.git
 GIT_TAG=libunibreak_$VER
@@ -57,7 +57,12 @@ function build() {
 function copy() {
 	if [ "$TYPE" == "osx" ] ; then
 		mkdir -p $1/include/
-		cp -R $BUILD_ROOT_DIR/include/ $1/include/
+		cp -v $BUILD_ROOT_DIR/include/graphemebreak.h $1/include/
+		cp -v $BUILD_ROOT_DIR/include/linebreak.h $1/include/
+		cp -v $BUILD_ROOT_DIR/include/linebreakdef.h $1/include/
+		cp -v $BUILD_ROOT_DIR/include/unibreakbase.h $1/include/
+		cp -v $BUILD_ROOT_DIR/include/unibreakdef.h $1/include/
+		cp -v $BUILD_ROOT_DIR/include/wordbreak.h $1/include/
 
 		mkdir -p $1/lib/$TYPE/
 		cp -R $BUILD_ROOT_DIR/lib/libunibreak.a $1/lib/$TYPE/

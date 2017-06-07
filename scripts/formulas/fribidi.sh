@@ -1,8 +1,8 @@
 #! /bin/bash
 #
-# Full Library Name
-# short description of what the lib does
-# http://librarywebsite.com
+# fribidi
+# bidirectional text layout
+# http://fribidi.org
 #
 # notes on build system, reference links, etc
 
