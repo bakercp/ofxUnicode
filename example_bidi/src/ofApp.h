@@ -4,6 +4,7 @@
 // SPDX-License-Identifier:	MIT
 //
 
+
 #pragma once
 
 
@@ -14,13 +15,9 @@
 class ofApp: public ofBaseApp
 {
 public:
-    void setup() override;
+    void setup();
 
-    void validationTests();
-    void concatTests();
-    void conversionTests();
-    void distanceTests();
-    void iterationTests();
-    void fileReadWriteTests();
+    void dumpLineBreaks(const std::string& text, const std::string& language);
+    void dumpWordBreaks(const std::string& text, const std::string& language);
 
 };
