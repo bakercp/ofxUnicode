@@ -8,11 +8,11 @@
 #include "ofx/Unicode.h"
 #include "ofUtils.h"
 #include "ofLog.h"
-
 #include "Poco/TextConverter.h"
 #include "Poco/TextEncoding.h"
 #include "Poco/Unicode.h"
 #include "Poco/UTF8String.h"
+
 
 namespace ofx {
 
@@ -532,7 +532,7 @@ std::size_t UTF8::distance(const std::string& txt)
     }
     catch (const utf8::exception& utfcpp_ex)
     {
-        ofLog(OF_LOG_ERROR, "ofUTF8::distance : " + ofToString(utfcpp_ex.what()));
+        ofLogError("ofUTF8::distance") << utfcpp_ex.what();
         return 0;
     }
 }
@@ -917,7 +917,7 @@ std::string TextConverter::toUTF8(const std::u16string& input)
     }
     catch (const utf8::exception& utfcpp_ex)
     {
-        ofLog(OF_LOG_ERROR, "TextConverter::toUTF8 : " + ofToString(utfcpp_ex.what()));
+        ofLogError("TextConverter::toUTF8") << utfcpp_ex.what();
     }
 
     return utf8result;
@@ -934,7 +934,7 @@ std::string TextConverter::toUTF8(char32_t input)
     }
     catch (const utf8::exception& utfcpp_ex)
     {
-        ofLog(OF_LOG_ERROR, "TextConverter::toUTF8 : " + ofToString(utfcpp_ex.what()));
+        ofLogError("TextConverter::toUTF8") << utfcpp_ex.what();
     }
     return txt;
 }
@@ -950,7 +950,7 @@ std::string TextConverter::toUTF8(const std::u32string& input)
     }
     catch (const utf8::exception& utfcpp_ex)
     {
-        ofLog(OF_LOG_ERROR, "TextConverter::toUTF8 : " + ofToString(utfcpp_ex.what()));
+        ofLogError("TextConverter::toUTF8") << utfcpp_ex.what();
     }
 
     return utf8result;
@@ -970,7 +970,7 @@ std::u16string TextConverter::toUTF16(const std::string& input)
     }
     catch (const utf8::exception& utfcpp_ex)
     {
-        ofLog(OF_LOG_ERROR, "TextConverter::toUTF16 : " + ofToString(utfcpp_ex.what()));
+        ofLogError("TextConverter::toUTF16") << utfcpp_ex.what();
     }
 
     return utf16result;
@@ -1001,7 +1001,7 @@ std::u32string TextConverter::toUTF32(const std::string& input)
     }
     catch (const utf8::exception& utfcpp_ex)
     {
-        ofLog(OF_LOG_ERROR, "TextConverter::toUTF32 : " + ofToString(utfcpp_ex.what()));
+        ofLogError("TextConverter::toUTF32") << utfcpp_ex.what();
     }
 
     return utf32result;
