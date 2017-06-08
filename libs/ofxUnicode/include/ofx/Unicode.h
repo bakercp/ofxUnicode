@@ -1037,12 +1037,18 @@ public:
     // this is Not the opposite of isPrintable.
     static bool isControl(char32_t utf32);
 
-    // is this a Unicode "Titlecase" code point?
+    /// \brief is this a Unicode "Titlecase" code point?
     static bool isTitle(char32_t utf32);
     static bool isSpace(char32_t utf32);
     static bool isDigit(char32_t utf32);
     static bool isPunct(char32_t utf32);
     static bool isAlpha(char32_t utf32);
+
+    /// \brief Is this character alphanumeric?
+    ///
+    /// isAlphaNumeric() is equivalent to isAlpha() || isDigit()
+    ///
+    /// \returns true if alphanumeric.
     static bool isAlphaNumeric(char32_t utf32); // isAlpha || isDigit
     static bool isLower(char32_t utf32);
     static bool isUpper(char32_t utf32);
