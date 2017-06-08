@@ -7,11 +7,20 @@ An openFrameworks addon that wraps various Unicode algorithms.
 
 ## Features
 
+- Unicode Line Breaking.
+- Unicode BiDi Formatting.
 - Unicode Case Folding (`toUpper(...)`, `toLower(...)`, etc).
 - Unicode Normalization.
 - Unicode codepoint queries (`isTitle(...)`, `isUpper(...)`).
 - UTF8 <-> UTF16 <-> UTF32 conversion.
 - Case-insensitive Unicode string comparisons.
+
+This addon employs the following 3rd party libraries:
+
+- [fribidi](https://fribidi.org/)
+- [ucdn](https://github.com/grigorig/ucdn)
+- [unibreak](https://github.com/adah1972/libunibreak)
+- [utf8proc](https://github.com/JuliaLang/utf8proc)
 
 ## Getting Started
 
