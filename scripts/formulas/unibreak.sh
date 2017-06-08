@@ -30,8 +30,6 @@ function prepare() {
 
 	# generate the configure script if it's not there
 	if [ ! -f configure ] ; then
-		# This is the contents of the ./bootstrap, but uses glibtoolize
-		# ./bootstrap will attempt to use libtoolize or glibtoolize on osx.
 		./bootstrap
 	fi
 }

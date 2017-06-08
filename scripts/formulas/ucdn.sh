@@ -15,6 +15,13 @@ function download() {
 	git clone https://github.com/grigorig/ucdn.git
 }
 
+
+# prepare the build environment, executed inside the lib src dir
+function prepare() {
+	:
+}
+
+
 # executed inside the lib src dir
 function build() {
 	echo "Nothing to build."
@@ -23,9 +30,9 @@ function build() {
 # executed inside the lib src dir, first arg $1 is the dest libs dir root
 function copy() {
 	mkdir -p $1/src
-	cp -v ucdn.c $1/src/ucdn.c
-	cp -v ucdn.h $1/src/ucdn.h
-	cp -v ucdn_db.h $1/src/ucdn_db.h
+	cp -v ucdn.c $1/src/
+	cp -v ucdn.h $1/src/
+	cp -v ucdn_db.h $1/src/
 
 	# copy license file
 	rm -rf $1/license # remove any older files if exists
