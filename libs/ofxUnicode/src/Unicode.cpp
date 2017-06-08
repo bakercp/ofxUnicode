@@ -509,6 +509,27 @@ std::string UTF8::normalize(const std::string& utf8,
 }
 
 
+std::string UTF8::casefold(const std::string& utf8)
+{
+    utf8proc_uint8_t* retval = nullptr;
+    
+    utf8proc_ssize_t result = utf8proc_map(reinterpret_cast<const utf8proc_uint8_t*>(utf8.data()),
+                                           0,
+                                           &retval,
+                                           static_cast<utf8proc_option_t>(UTF8PROC_NULLTERM | UTF8PROC_STABLE | UTF8PROC_CASEFOLD));
+
+    if (result > 0)
+    {
+        std::string out(reinterpret_cast<char*>(retval), result);
+        free(retval);
+        return out;
+    }
+
+    ofLogError("UTF8::casefold") << "Unable to casefold: " << utf8;
+    return utf8;
+}
+
+
 bool UTF8::isValid(const std::string& txt)
 {
     try
@@ -577,31 +598,63 @@ std::size_t UTF8::distance(const std::string& txt)
 int UTF8::icompare(const std::string& utf8String0,
                    const std::string& utf8String1)
 {
-    return Poco::UTF8::icompare(utf8String0, utf8String1);
+    // Get correct pointers.
+    const utf8proc_uint8_t* s0 = reinterpret_cast<const utf8proc_uint8_t*>(utf8String0.data());
+    const utf8proc_uint8_t* s1 = reinterpret_cast<const utf8proc_uint8_t*>(utf8String1.data());
+
+    // Normalize and casefold.
+    utf8proc_option_t flags = static_cast<utf8proc_option_t>(UTF8PROC_NULLTERM | UTF8PROC_STABLE | UTF8PROC_CASEFOLD | UTF8PROC_COMPOSE);
+    utf8proc_uint8_t* _s0 = nullptr;
+    utf8proc_uint8_t* _s1 = nullptr;
+
+    utf8proc_map(s0, 0, &_s0, flags);
+    utf8proc_map(s1, 0, &_s1, flags);
+
+    int result = 0;
+    bool success = false;
+
+    if (_s0 && _s1)
+    {
+        result = std::strcmp(reinterpret_cast<const char*>(_s0),
+                             reinterpret_cast<const char*>(_s1));
+        success = true;
+    }
+
+    free(_s0);
+    free(_s1);
+
+    if (!success)
+    {
+        ofLogError("UTF8::icompare") << "Unable to compare: " << utf8String0 << " and " << utf8String1;
+    }
+
+    return result;
 }
 
 
 std::string UTF8::toUpper(const std::string& str)
 {
-    return Poco::UTF8::toUpper(str);
+    return TextConverter::toUTF8(UTF32::toUpper(TextConverter::toUTF32(str)));
 }
 
 
 std::string& UTF8::toUpperInPlace(std::string& str)
 {
-    return Poco::UTF8::toUpperInPlace(str);
+    str = toUpper(str);
+    return str;
 }
 
 
 std::string UTF8::toLower(const std::string& str)
 {
-    return Poco::UTF8::toLower(str);
+    return TextConverter::toUTF8(UTF32::toLower(TextConverter::toUTF32(str)));
 }
 
 
 std::string& UTF8::toLowerInPlace(std::string& str)
 {
-    return Poco::UTF8::toLowerInPlace(str);
+    str = toLower(str);
+    return str;
 }
 
 
@@ -728,13 +781,13 @@ bool UTF32::isUpper(char32_t unichar)
 
 char32_t UTF32::toLower(char32_t unichar)
 {
-    return Poco::Unicode::toLower(unichar);
+    return utf8proc_tolower(unichar);
 }
 
 
 char32_t UTF32::toUpper(char32_t unichar)
 {
-    return Poco::Unicode::toUpper(unichar);
+    return utf8proc_toupper(unichar);
 }
 
 
@@ -752,19 +805,19 @@ char32_t& UTF32::toUpperInPlace(char32_t& unichar)
 }
 
 
-std::u32string UTF32::toLower(std::u32string& unichar)
+std::u32string UTF32::toLower(const std::u32string& unichar)
 {
     std::u32string out;
-    std::u32string::iterator it = unichar.begin();
+    auto it = unichar.cbegin();
     while (it != unichar.end()) {out.push_back(toLower(*(it++)));}
     return out;
 }
 
 
-std::u32string UTF32::toUpper(std::u32string& unichar)
+std::u32string UTF32::toUpper(const std::u32string& unichar)
 {
     std::u32string out;
-    std::u32string::iterator it = unichar.begin();
+    auto it = unichar.cbegin();
     while (it != unichar.end()) {out.push_back(toUpper(*(it++)));}
     return out;
 }
@@ -772,7 +825,7 @@ std::u32string UTF32::toUpper(std::u32string& unichar)
 
 std::u32string& UTF32::toLowerInPlace(std::u32string& unichar)
 {
-    std::u32string::iterator it = unichar.begin();
+    auto it = unichar.begin();
     while (it != unichar.end()) {toUpperInPlace(*(it++));}
     return unichar;
 }
@@ -780,7 +833,7 @@ std::u32string& UTF32::toLowerInPlace(std::u32string& unichar)
 
 std::u32string& UTF32::toUpperInPlace(std::u32string& unichar)
 {
-    std::u32string::iterator it = unichar.begin();
+    auto it = unichar.begin();
     while (it != unichar.end()) {toLowerInPlace(*(it++));}
     return unichar;
 }

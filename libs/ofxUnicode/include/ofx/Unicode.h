@@ -985,6 +985,12 @@ public:
     /// \returns the normalized strring.
     static std::string normalize(const std::string& utf8,
                                  Unicode::NormalizationForm form = Unicode::NormalizationForm::NFC);
+
+
+
+    /// \brief
+    static std::string casefold(const std::string& utf8);
+
     /// \brief Check to see if a UTF8 string has valid UTF8 encoding.
 
     /// \returns true if the UTF8 encoding is valid.
@@ -1048,8 +1054,8 @@ public:
     static char32_t& toUpperInPlace(char32_t& unichar);
 
     // Unicode string based conversions
-    static std::u32string toLower(std::u32string& unichar);
-    static std::u32string toUpper(std::u32string& unichar);
+    static std::u32string toLower(const std::u32string& unichar);
+    static std::u32string toUpper(const std::u32string& unichar);
     static std::u32string& toLowerInPlace(std::u32string& unichar);
     static std::u32string& toUpperInPlace(std::u32string& unichar);
 
