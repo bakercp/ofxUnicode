@@ -12,7 +12,7 @@ An openFrameworks addon that wraps various Unicode algorithms.
 - Unicode Case Folding (`toUpper(...)`, `toLower(...)`, etc).
 - Unicode Normalization.
 - Unicode codepoint queries (`isTitle(...)`, `isUpper(...)`).
-- UTF8 <-> UTF16 <-> UTF32 conversion.
+- UTF8 ⬌ UTF16 ⬌ UTF32 conversion.
 - Case-insensitive Unicode string comparisons (with case folding and normalization).
 
 This addon employs the following 3rd party libraries:
