@@ -20,7 +20,7 @@ This addon employs the following 3rd party libraries:
 - [fribidi](https://fribidi.org/) ([LGPL-2.0](https://opensource.org/licenses/LGPL-2.0))
 - [ucdn](https://github.com/grigorig/ucdn) ([ISC](https://opensource.org/licenses/ISC))
 - [unibreak](https://github.com/adah1972/libunibreak) ([Zlib](https://opensource.org/licenses/Zlib))
-- [utf8proc](https://github.com/JuliaLang/utf8proc) ([MIT]([Zlib](https://opensource.org/licenses/MIT))
+- [utf8proc](https://github.com/JuliaLang/utf8proc) ([MIT](https://opensource.org/licenses/MIT))
 
 ## Getting Started
 
