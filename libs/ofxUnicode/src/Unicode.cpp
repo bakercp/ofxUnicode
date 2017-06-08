@@ -8,11 +8,12 @@
 #include "ofx/Unicode.h"
 #include "ofUtils.h"
 #include "ofLog.h"
+#if defined(USE_POCO_FOR_CHAR_SET_CONVERSION)
 #include "Poco/TextConverter.h"
 #include "Poco/TextEncoding.h"
 #include "Poco/Unicode.h"
 #include "Poco/UTF8String.h"
-
+#endif
 
 namespace ofx {
 
@@ -855,6 +856,8 @@ std::u32string& UTF32::toUpperInPlace(std::u32string& unichar)
 // Anyway, good luck!
 
 
+#if defined(USE_POCO_FOR_CHAR_SET_CONVERSION)
+
 const std::string TextConverter::ENCODING_ASCII = "ASCII";
 const std::string TextConverter::ENCODING_UTF8 = "UTF-8";
 const std::string TextConverter::ENCODING_UTF16 = "UTF-16";
@@ -868,6 +871,7 @@ const std::string TextConverter::ENCODING_LATIN_9 = ENCODING_ISO_8859_15;
 const std::string TextConverter::ENCODING_WINDOWS_1250 = "windows-1250";
 const std::string TextConverter::ENCODING_WINDOWS_1251 = "windows-1251";
 const std::string TextConverter::ENCODING_WINDOWS_1252 = "windows-1252";
+
 
 
 int TextConverter::convert(const std::string& input,
@@ -903,6 +907,8 @@ int TextConverter::convert(const std::string& input,
         return converter.convert(input, output);
     }
 }
+
+#endif
 
 
 // to UTF8

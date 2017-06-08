@@ -1018,19 +1018,6 @@ public:
 class TextConverter
 {
 public:
-    /// \brief Convert between character sets.
-    /// \param input The input string corresponding to inputEncoding.
-    /// \param output A string in which to write the output encoded with outputEncoding.
-    /// \param inputEncoding The input encoding character set, e.g. ENCODING_ISO_8859_15.
-    /// \param outputEncoding The output encoding character set, e.g. ENCODING_ISO_8859_15.
-    /// \returns -1 if error.
-    ///           0 if no error.
-    ///          >0 For number of invalid byte sequences in source.
-    static int convert(const std::string& input,
-                       std::string& output,
-                       const std::string& inputEncoding,
-                       const std::string& outputEncoding);
-
     // to UTF8
     static std::string toUTF8(const std::u16string& input);
     static std::string toUTF8(char32_t input);
@@ -1044,6 +1031,20 @@ public:
     // to UTF32
     static std::u32string toUTF32(const std::string& input);
     static std::u32string toUTF32(const std::u16string& input);
+
+#if defined(USE_POCO_FOR_CHAR_SET_CONVERSION)
+    /// \brief Convert between character sets.
+    /// \param input The input string corresponding to inputEncoding.
+    /// \param output A string in which to write the output encoded with outputEncoding.
+    /// \param inputEncoding The input encoding character set, e.g. ENCODING_ISO_8859_15.
+    /// \param outputEncoding The output encoding character set, e.g. ENCODING_ISO_8859_15.
+    /// \returns -1 if error.
+    ///           0 if no error.
+    ///          >0 For number of invalid byte sequences in source.
+    static int convert(const std::string& input,
+                       std::string& output,
+                       const std::string& inputEncoding,
+                       const std::string& outputEncoding);
 
     /// \brief 7-bit ASCII text encoding.
     /// \sa http://en.wikipedia.org/wiki/ASCII
@@ -1096,6 +1097,7 @@ public:
     /// \brief Superset of Latin 1 (ISO 8859-1)
     /// \sa http://en.wikipedia.org/wiki/Windows-1252
     static const std::string ENCODING_WINDOWS_1252;
+#endif
 
 };
 

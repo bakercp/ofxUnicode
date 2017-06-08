@@ -4,5 +4,3 @@ meta:
 	ADDON_AUTHOR = bakercp
 	ADDON_TAGS = "unicode" "text"
 	ADDON_URL = http://github.com/bakercp/ofxUnicode
-common:
-	ADDON_DEPENDENCIES = ofxPoco
