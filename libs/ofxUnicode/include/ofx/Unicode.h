@@ -32,6 +32,40 @@ namespace ofx {
 class Unicode
 {
 public:
+    /// \brief Unicode Normalization Forms
+    ///
+    /// From http://unicode.org/faq/normalization.html
+    ///     The choice of which to use depends on the particular program or
+    ///     system. NFC is the best form for general text, since it is more
+    ///     compatible with strings converted from legacy encodings. NFKC is the
+    ///     preferred form for identifiers, especially where there are security
+    ///     concerns (see UTR #36). NFD and NFKD are most useful for internal
+    ///     processing.
+    ///
+    /// \sa http://www.unicode.org/reports/tr15/
+    enum class NormalizationForm
+    {
+        /// \brief Normalization Form C (NFC)
+        ///
+        /// Canonical Decomposition, followed by Canonical Composition.
+        NFC,
+
+        /// \brief Normalization Form D (NFD)
+        ///
+        /// Canonical Decomposition.
+        NFD,
+
+        /// \brief Normalization Form KC (NFKC)
+        ///
+        /// Compatibility Decomposition, followed by Canonical Composition.
+        NFKC,
+
+        /// \brief Normalization Form KD (NFKD)
+        ///
+        /// Compatibility Decomposition.
+        NFKD
+    };
+
     /// \brief An character set covering ASCII and most Western code points.
     static const std::u32string STANDARD_CHARSET;
 
@@ -859,6 +893,7 @@ public:
     /// \brief The SUPPLEMENTARY_PRIVATE_USE_AREA_B Unicode Block.
     static const Block SUPPLEMENTARY_PRIVATE_USE_AREA_B;
 
+
 };
 
 
@@ -944,6 +979,12 @@ protected:
 class UTF8
 {
 public:
+    /// \brief Normalize string.
+    /// \param utf8 The string to normalize.
+    /// \param form The normalization form to apply.
+    /// \returns the normalized strring.
+    static std::string normalize(const std::string& utf8,
+                                 Unicode::NormalizationForm form = Unicode::NormalizationForm::NFC);
     /// \brief Check to see if a UTF8 string has valid UTF8 encoding.
 
     /// \returns true if the UTF8 encoding is valid.

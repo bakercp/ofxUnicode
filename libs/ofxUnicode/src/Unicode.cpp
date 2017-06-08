@@ -8,6 +8,8 @@
 #include "ofx/Unicode.h"
 #include "ofUtils.h"
 #include "ofLog.h"
+#include "utf8proc.h"
+
 #if defined(USE_POCO_FOR_CHAR_SET_CONVERSION)
 #include "Poco/TextConverter.h"
 #include "Poco/TextEncoding.h"
@@ -471,6 +473,39 @@ std::vector<Wordbreaker::BreakType> Wordbreaker::findBreaks(const std::u32string
                          reinterpret_cast<char*>(breaks.data()));
     
     return breaks;
+}
+
+
+std::string UTF8::normalize(const std::string& utf8,
+                            Unicode::NormalizationForm form)
+{
+    utf8proc_uint8_t* retval = nullptr;
+
+    switch (form)
+    {
+        case Unicode::NormalizationForm::NFC:
+            retval = utf8proc_NFC(reinterpret_cast<const utf8proc_uint8_t*>(utf8.data()));
+            break;
+        case Unicode::NormalizationForm::NFD:
+            retval = utf8proc_NFD(reinterpret_cast<const utf8proc_uint8_t*>(utf8.data()));
+            break;
+        case Unicode::NormalizationForm::NFKC:
+            retval = utf8proc_NFKC(reinterpret_cast<const utf8proc_uint8_t*>(utf8.data()));
+            break;
+        case Unicode::NormalizationForm::NFKD:
+            retval = utf8proc_NFKD(reinterpret_cast<const utf8proc_uint8_t*>(utf8.data()));
+            break;
+    }
+
+    if (retval)
+    {
+        std::string out(reinterpret_cast<char*>(retval));
+        free(retval);
+        return out;
+    }
+
+    ofLogError("UTF8::normalize") << "Unable to normalize: " << utf8;
+    return utf8;
 }
 
 
