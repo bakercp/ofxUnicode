@@ -25,12 +25,13 @@ std::string testStrings[] =
     "퀵 브라운 폭스 (빠른 갈색 여우).", // korean
 };
 
-std::size_t nEncoderStrings = 9;
+std::size_t nEncoderStrings = 10;
 
 std::string encoderStrings[] =
 {
     "költészet",
     "poetry",
+    "FÜßBALL",
     "thơ",
     "詩",
     "ポエトリー",
@@ -44,6 +45,66 @@ std::string encoderStrings[] =
 
 void ofApp::setup()
 {
+
+    std::cout << ofx::UTF8::icompare("FÜßBALL", "FÜssBaLL") << std::endl;
+
+
+    // do some case conversions
+    std::string utf8_1_toLower = ofx::UTF8::casefold(testStrings[1]);
+    std::cout << "From: " << testStrings[1] << std::endl;
+    std::cout << "  To: " << utf8_1_toLower << std::endl;
+
+    std::string utf8_6_toUpper = ofx::UTF8::casefold(encoderStrings[0]);
+    std::cout << "From: " << encoderStrings[0] << std::endl;
+    std::cout << "  To: " << utf8_6_toUpper << std::endl;
+
+    std::string utf8_8_toUpper = ofx::UTF8::casefold(encoderStrings[1]);
+    std::cout << "From: " << encoderStrings[1] << std::endl;
+    std::cout << "  To: " << utf8_8_toUpper << std::endl;
+
+    std::string utf8_3_toUpper = ofx::UTF8::casefold(encoderStrings[2]);
+    std::cout << "From: " << encoderStrings[2] << std::endl;
+    std::cout << "  To: " << utf8_3_toUpper << std::endl;
+
+    {
+
+        auto raw = encoderStrings[0];
+
+        auto norm = ofx::UTF8::normalize(raw);
+
+        auto norm_nfc = ofx::UTF8::normalize(raw, ofx::Unicode::NormalizationForm::NFC);
+        auto norm_nfd = ofx::UTF8::normalize(raw, ofx::Unicode::NormalizationForm::NFD);
+        auto norm_nfkc = ofx::UTF8::normalize(raw, ofx::Unicode::NormalizationForm::NFKC);
+        auto norm_nfkd = ofx::UTF8::normalize(raw, ofx::Unicode::NormalizationForm::NFKD);
+
+
+        auto cf = ofx::UTF8::casefold(raw);
+
+        auto cf_norm = ofx::UTF8::normalize(cf);
+        auto norm_cf = ofx::UTF8::casefold(norm);
+
+        std::cout << "-----" << std::endl;
+
+        std::cout << raw << endl;
+        std::cout << norm << endl;
+        std::cout << "-" << std::endl;
+
+        std::cout << norm_nfc << endl;
+        std::cout << norm_nfd << endl;
+        std::cout << norm_nfkc << endl;
+        std::cout << norm_nfkd << endl;
+        std::cout << "-" << std::endl;
+
+
+        std::cout << cf << endl;
+        std::cout << cf_norm << endl;
+        std::cout << norm_cf << endl;
+
+        std::cout << "-----" << std::endl;
+    }
+
+
+
     validationTests();
     concatTests();
     conversionTests();
