@@ -9,7 +9,7 @@
 # array of build types supported by this formula
 # you can delete this to implicitly support *all* types
 
-FORMULA_TYPES=( "osx" )
+FORMULA_TYPES=( "osx", "msys2" )
 
 VER=4_0
 
@@ -27,11 +27,15 @@ function download() {
 # prepare the build environment, executed inside the lib src dir
 function prepare() {
 	# initialize the repository
+	if [ "$TYPE" == "osx" ] ; then
+		# generate the configure script if it's not there
+		if [ ! -f configure ] ; then
+			./autogen.sh
+		fi
+	elif [ "$TYPE" == "msys2" ] ; then
+		cp -p src/Makefile.gcc src/Makefile
+  fi
 
-	# generate the configure script if it's not there
-	if [ ! -f configure ] ; then
-		./bootstrap
-	fi
 }
 
 
@@ -47,6 +51,9 @@ function build() {
 
 		make -j${PARALLEL_MAKE}
 		make install
+	elif [ "$TYPE" == "msys2" ]; then
+		cd src/
+		make release -j${PARALLEL_MAKE}
 	fi
 
 }
@@ -54,17 +61,23 @@ function build() {
 # executed inside the lib src dir, first arg $1 is the dest libs dir root
 function copy() {
 	if [ "$TYPE" == "osx" ] ; then
-		mkdir -p $1/include/
-		cp -v $BUILD_ROOT_DIR/include/graphemebreak.h $1/include/
-		cp -v $BUILD_ROOT_DIR/include/linebreak.h $1/include/
-		cp -v $BUILD_ROOT_DIR/include/linebreakdef.h $1/include/
-		cp -v $BUILD_ROOT_DIR/include/unibreakbase.h $1/include/
-		cp -v $BUILD_ROOT_DIR/include/unibreakdef.h $1/include/
-		cp -v $BUILD_ROOT_DIR/include/wordbreak.h $1/include/
-
-		mkdir -p $1/lib/$TYPE/
-		cp -R $BUILD_ROOT_DIR/lib/libunibreak.a $1/lib/$TYPE/
+		INSTALLED_INCLUDE_DIR=$BUILD_ROOT_DIR/include
+		INSTALLED_LIB_DIR=$BUILD_ROOT_DIR/include
+	elif [ "$TYPE" == "msys2" ] ; then
+		INSTALLED_INCLUDE_DIR=src
+		INSTALLED_LIB_DIR=src/ReleaseDir
 	fi
+
+	mkdir -p $1/include/
+	cp -v $INSTALLED_INCLUDE_DIR/graphemebreak.h $1/include/
+	cp -v $INSTALLED_INCLUDE_DIR/linebreak.h $1/include/
+	cp -v $INSTALLED_INCLUDE_DIR/linebreakdef.h $1/include/
+	cp -v $INSTALLED_INCLUDE_DIR/unibreakbase.h $1/include/
+	cp -v $INSTALLED_INCLUDE_DIR/unibreakdef.h $1/include/
+	cp -v $INSTALLED_INCLUDE_DIR/wordbreak.h $1/include/
+
+	mkdir -p $1/lib/$TYPE/
+	cp -R $INSTALLED_LIB_DIR/libunibreak.a $1/lib/$TYPE/
 
 	# copy license file
 	rm -rf $1/license # remove any older files if exists
@@ -75,5 +88,10 @@ function copy() {
 
 # executed inside the lib src dir
 function clean() {
-	make clean
+	if [ "$TYPE" == "osx" ] ; then
+		make clean
+	elif [ "$TYPE" == "msys2" ]; then
+		cd src/
+		make clean
+	fi
 }
