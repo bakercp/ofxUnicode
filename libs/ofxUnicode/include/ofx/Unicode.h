@@ -16,7 +16,7 @@
 #include "linebreakdef.h"
 #include "wordbreak.h"
 #include "ofConstants.h"
-#include "fribidi/fribidi-bidi.h"
+//#include "fribidi/fribidi-bidi.h"
 #include "ucdn.h"
 
 
