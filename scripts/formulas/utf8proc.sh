@@ -8,7 +8,9 @@
 
 # array of build types supported by this formula
 # you can delete this to implicitly support *all* types
-FORMULA_TYPES=( "osx" )
+FORMULA_TYPES=( "osx", "msys2" )
+
+# Currently for VS, we use cmake and manually build from the command line.
 
 # download the source code and unpack it into LIB_NAME
 function download() {

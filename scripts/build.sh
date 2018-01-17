@@ -19,13 +19,21 @@ OF_APOTHECARY_PATH=$OF_SCRIPTS_PATH/apothecary
 # Addon information.
 if [ -z ${ADDON_NAME+x} ]; then
   ADDON_NAME="$(basename $( cd "$( dirname "${BASH_SOURCE[0]}" )/../" && pwd ))"
+  echo "Setting ADDON_NAME to: ${ADDON_NAME}"
+else
+  echo "ADDON_NAME is already set to: ${ADDON_NAME}"
 fi
 
 ADDON_PATH=$OF_ADDONS_PATH/$ADDON_NAME
 ADDON_SCRIPTS_PATH=$ADDON_PATH/scripts
 
 # Get the OS type.
-TARGET=`${ADDON_SCRIPTS_PATH}/shared/ostype.sh`
+if [ -z ${TARGET+x} ] ; then
+  TARGET=`${ADDON_SCRIPTS_PATH}/shared/ostype.sh`
+  echo "Setting TARGET to: ${TARGET}"
+else
+  echo "TARGET is already set to: ${TARGET}"
+fi
 
 echo "openFrameworks Config"
 echo "====================="
@@ -65,6 +73,6 @@ $ADDON_SCRIPTS_PATH/apothecary/install.sh
 
 # Build using apothcary
 echo "Building ${ADDON_NAME} libraries for ${TARGET} ..."
-$OF_APOTHECARY_PATH/apothecary/apothecary -v -j10 -d $ADDON_PATH/libs update $ADDON_NAME
+$OF_APOTHECARY_PATH/apothecary/apothecary -t $TARGET -v -j10 -d $ADDON_PATH/libs update $ADDON_NAME
 
 echo "Build of ${ADDON_NAME} complete for ${TARGET}."
