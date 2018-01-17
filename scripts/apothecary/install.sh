@@ -52,7 +52,8 @@ else
   pushd $OF_APOTHECARY_PATH/ > /dev/null
   if git rev-parse --is-inside-work-tree ; then
       echo "Apothecary is under git control, updating."
-      git pull origin master
+      git pull https://github.com/danzeeeman/apothecary android-r15
+      #git pull origin master
   else
       echo "Apothecary is not under git control, so it may not be up-to-date."
   fi
