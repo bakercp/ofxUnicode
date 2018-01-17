@@ -55,7 +55,8 @@ echo ""
 # Check to see if apothecary is already installed.
 if ! [ -f $OF_APOTHECARY_PATH/apothecary/apothecary ] ; then
   echo "Apothecary not installed, installing latest version."
-  git clone https://github.com/openframeworks/apothecary.git $OF_APOTHECARY_PATH/
+  # git clone https://github.com/openframeworks/apothecary.git $OF_APOTHECARY_PATH/
+  git clone -b android-r15 https://github.com/danzeeeman/apothecary ${OF_APOTHECARY_PATH}/
 else
   pushd $OF_APOTHECARY_PATH/ > /dev/null
   if git rev-parse --is-inside-work-tree ; then
