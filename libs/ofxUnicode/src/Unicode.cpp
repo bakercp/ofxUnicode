@@ -902,7 +902,7 @@ std::string TextConverter::toUTF8(const std::u16string& input)
 
     try
     {
-        utf8::utf16to8(input.begin(),input.end(), std::back_inserter(utf8result));
+        utf8::utf16to8(input.begin(), input.end(), std::back_inserter(utf8result));
     }
     catch (const utf8::exception& utfcpp_ex)
     {
