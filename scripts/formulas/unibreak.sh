@@ -9,7 +9,7 @@
 # array of build types supported by this formula
 # you can delete this to implicitly support *all* types
 
-FORMULA_TYPES=( "osx", "msys2", "vs" )
+FORMULA_TYPES=( "osx" "msys2" "vs" )
 
 VER=4_0
 
@@ -72,7 +72,7 @@ function copy() {
 		INSTALLED_LIB=src/ReleaseDir/libunibreak.a
 	elif [ "$TYPE" == "vs" ] ; then
 		INSTALLED_INCLUDE_DIR=src
-		INSTALLED_LIB=src/Release/unibreak.lib
+		INSTALLED_LIB_DIR=src/Release/unibreak.lib
 	fi
 
 	mkdir -p $1/include/
@@ -84,7 +84,7 @@ function copy() {
 	cp -v $INSTALLED_INCLUDE_DIR/wordbreak.h $1/include/
 
 	mkdir -p $1/lib/$TYPE/
-	cp -v $INSTALLED_LIB $1/lib/$TYPE/
+	cp -v $INSTALLED_LIB_DIR $1/lib/$TYPE/
 
 	# copy license file
 	rm -rf $1/license # remove any older files if exists
