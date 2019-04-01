@@ -1,8 +1,8 @@
 #! /bin/bash
 #
-# fribidi
-# bidirectional text layout
-# http://fribidi.org
+# ucdn
+# Unicode Database and Normalization
+# https://github.com/grigorig/ucdn
 #
 # notes on build system, reference links, etc
 
