@@ -999,6 +999,7 @@ public:
 };
 
 
+/// \brief A class for breaking lines according to the Unicode standard.
 class Linebreaker
 {
 public:
@@ -1034,11 +1035,13 @@ public:
                                              const std::string& language);
 
 protected:
+    /// \brief The language used for line breaking.
     std::string _language;
     
 };
 
 
+/// \brief A class for breaking lines according to the Unicode standard.
 class Wordbreaker
 {
 public:
@@ -1088,9 +1091,13 @@ public:
     static std::string normalize(const std::string& utf8,
                                  Unicode::NormalizationForm form = Unicode::NormalizationForm::NFC);
 
-
-
-    /// \brief
+    /// \brief Perform case folding.
+    ///
+    /// Performs unicode case folding, to be able to do a case-insensitive
+    /// string comparison.
+    ///
+    /// \param utf8 a utf8-encoded string.
+    /// \returns a case-folded utf8-encoded string.
     static std::string casefold(const std::string& utf8);
 
     /// \brief Check to see if a UTF8 string has valid UTF8 encoding.
@@ -1109,7 +1116,18 @@ public:
     // calculate the number of UTF8 chars (string.length() returns the number of bytes)
     static std::size_t distance(const std::string& txt);
 
-    // case insensitive comparison of UTF8 strings
+    /// \brief Perform a case-insensitive string comparison on UTF-8 encoded strings.
+    ///
+    /// Strings are normalized and case-folded according to the Unicode standard
+    /// and the strings are then compared.
+    ///
+    /// \param utf8String0 The first UTF8-encoded string to compare.
+    /// \param utf8String1 The second UTF8-encoded string to compare.
+    /// \returs 1) a negative value if utf8String0 appears before the character
+    ///         sequence specified by utf8String1, in lexicographical order,
+    ///         2) (0) zero if both character sequences compare equivalent,
+    ///         3) A positive value if utf8String0 appears after the character
+    ///         sequence specified by utf8String1, in lexicographical order.
     static int icompare(const std::string& utf8String0, const std::string& utf8String1);
 
     // Unicode-based case conversion
@@ -1124,8 +1142,9 @@ public:
 class UTF32
 {
 public:
-    /// \param utf32 A Unicode character.
-    /// \returns true iff is a valid Unicode code point.
+    /// \brief Determine if a char32_t is a valid Unicode code point.
+    /// \param utf32 A char32_t value to test.
+    /// \returns true if the given value is a valid Unicode code point.
     static bool isValid(char32_t utf32);
 
     static bool isPrintable(char32_t utf32); // is this a "printable" character?
@@ -1170,6 +1189,9 @@ public:
 };
 
 
+/// \brief A class for converting between character sets.
+///
+/// This class is not thread-safe.
 class TextConverter
 {
 public:
