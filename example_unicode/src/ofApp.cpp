@@ -25,13 +25,12 @@ std::string testStrings[] =
     "퀵 브라운 폭스 (빠른 갈색 여우).", // korean
 };
 
-std::size_t nEncoderStrings = 10;
+std::size_t nEncoderStrings = 9;
 
 std::string encoderStrings[] =
 {
     "költészet",
     "poetry",
-    "FÜßBALL",
     "thơ",
     "詩",
     "ポエトリー",
@@ -45,66 +44,6 @@ std::string encoderStrings[] =
 
 void ofApp::setup()
 {
-
-    std::cout << ofx::UTF8::icompare("FÜßBALL", "FÜssBaLL") << std::endl;
-
-
-    // do some case conversions
-    std::string utf8_1_toLower = ofx::UTF8::casefold(testStrings[1]);
-    std::cout << "From: " << testStrings[1] << std::endl;
-    std::cout << "  To: " << utf8_1_toLower << std::endl;
-
-    std::string utf8_6_toUpper = ofx::UTF8::casefold(encoderStrings[0]);
-    std::cout << "From: " << encoderStrings[0] << std::endl;
-    std::cout << "  To: " << utf8_6_toUpper << std::endl;
-
-    std::string utf8_8_toUpper = ofx::UTF8::casefold(encoderStrings[1]);
-    std::cout << "From: " << encoderStrings[1] << std::endl;
-    std::cout << "  To: " << utf8_8_toUpper << std::endl;
-
-    std::string utf8_3_toUpper = ofx::UTF8::casefold(encoderStrings[2]);
-    std::cout << "From: " << encoderStrings[2] << std::endl;
-    std::cout << "  To: " << utf8_3_toUpper << std::endl;
-
-    {
-
-        auto raw = encoderStrings[0];
-
-        auto norm = ofx::UTF8::normalize(raw);
-
-        auto norm_nfc = ofx::UTF8::normalize(raw, ofx::Unicode::NormalizationForm::NFC);
-        auto norm_nfd = ofx::UTF8::normalize(raw, ofx::Unicode::NormalizationForm::NFD);
-        auto norm_nfkc = ofx::UTF8::normalize(raw, ofx::Unicode::NormalizationForm::NFKC);
-        auto norm_nfkd = ofx::UTF8::normalize(raw, ofx::Unicode::NormalizationForm::NFKD);
-
-
-        auto cf = ofx::UTF8::casefold(raw);
-
-        auto cf_norm = ofx::UTF8::normalize(cf);
-        auto norm_cf = ofx::UTF8::casefold(norm);
-
-        std::cout << "-----" << std::endl;
-
-        std::cout << raw << endl;
-        std::cout << norm << endl;
-        std::cout << "-" << std::endl;
-
-        std::cout << norm_nfc << endl;
-        std::cout << norm_nfd << endl;
-        std::cout << norm_nfkc << endl;
-        std::cout << norm_nfkd << endl;
-        std::cout << "-" << std::endl;
-
-
-        std::cout << cf << endl;
-        std::cout << cf_norm << endl;
-        std::cout << norm_cf << endl;
-
-        std::cout << "-----" << std::endl;
-    }
-
-
-
     validationTests();
     concatTests();
     conversionTests();
@@ -116,7 +55,7 @@ void ofApp::setup()
 
 void ofApp::conversionTests()
 {
-    assert(ofx::TextConverter::toUTF8(0x30A1) == "\u30A1"); // just checking ...
+    assert(ofx::UTF32::toUTF8(0x30A1) == "\u30A1"); // just checking ...
     
     // do some case conversions
     std::string utf8_1_toLower = ofx::UTF8::toLower(testStrings[1]);
@@ -168,11 +107,11 @@ void ofApp::concatTests()
     std::string utf8_01a = testStrings[0] + testStrings[1];  // add two std::strings (simply an alias for std::string)
     
     // convert strings to UTF32 and combine in the UTF32 domain
-    std::u32string uStr_0  = ofx::TextConverter::toUTF32(testStrings[0]); // UTF8 -> UTF32
-    std::u32string uStr_1  = ofx::TextConverter::toUTF32(testStrings[1]); // UTF8 -> UTF32
+    std::u32string uStr_0  = ofx::UTF8::toUTF32(testStrings[0]); // UTF8 -> UTF32
+    std::u32string uStr_1  = ofx::UTF8::toUTF32(testStrings[1]); // UTF8 -> UTF32
     std::u32string uStr_01 = uStr_0 + uStr_1;                  // add in UTF32 domain
     
-    std::string utf8_01b = ofx::TextConverter::toUTF8(uStr_01); // UTF32 -> UTF8
+    std::string utf8_01b = ofx::UTF32::toUTF8(uStr_01); // UTF32 -> UTF8
     
     assert(uStr_0.length()  == ofx::UTF8::distance(testStrings[0])); // are lengths in UTF32 the same as distance in UTF8?  
     assert(uStr_1.length()  == ofx::UTF8::distance(testStrings[1])); // are lengths in UTF32 the same as distance in UTF8?
@@ -208,23 +147,23 @@ void ofApp::iterationTests()
         it++;
         it++;
         it++;
-        dest += ofx::TextConverter::toUTF8(*it);
+        dest += ofx::UTF32::toUTF8(*it);
         it--;
         it--;
-        dest += ofx::TextConverter::toUTF8(*it);
+        dest += ofx::UTF32::toUTF8(*it);
         it++;
-        dest += ofx::TextConverter::toUTF8(*it);
+        dest += ofx::UTF32::toUTF8(*it);
         it--;
         it--;
-        dest += ofx::TextConverter::toUTF8(*it);
+        dest += ofx::UTF32::toUTF8(*it);
         it--;
         it--;
-        dest += ofx::TextConverter::toUTF8(*it);
+        dest += ofx::UTF32::toUTF8(*it);
         it = iterator.begin();
-        dest += ofx::TextConverter::toUTF8(*it);
+        dest += ofx::UTF32::toUTF8(*it);
         it = iterator.end();
         it--;
-        dest += ofx::TextConverter::toUTF8(*it);
+        dest += ofx::UTF32::toUTF8(*it);
         std::cout << dest << std::endl;
         std::cout << goal << std::endl;
         assert(goal == dest); // check!
@@ -235,15 +174,15 @@ void ofApp::iterationTests()
         std::string goal = "8675309"; // just something to shoot for
         std::string dest;
         
-        std::u32string uni = ofx::TextConverter::toUTF32(testStrings[0]);
+        std::u32string uni = ofx::UTF8::toUTF32(testStrings[0]);
         
-        dest += ofx::TextConverter::toUTF8(uni[8]); // the index where 8 lives
-        dest += ofx::TextConverter::toUTF8(uni[6]); // etc
-        dest += ofx::TextConverter::toUTF8(uni[7]);
-        dest += ofx::TextConverter::toUTF8(uni[5]);
-        dest += ofx::TextConverter::toUTF8(uni[3]);
-        dest += ofx::TextConverter::toUTF8(uni[0]);
-        dest += ofx::TextConverter::toUTF8(uni[9]);
+        dest += ofx::UTF32::toUTF8(uni[8]); // the index where 8 lives
+        dest += ofx::UTF32::toUTF8(uni[6]); // etc
+        dest += ofx::UTF32::toUTF8(uni[7]);
+        dest += ofx::UTF32::toUTF8(uni[5]);
+        dest += ofx::UTF32::toUTF8(uni[3]);
+        dest += ofx::UTF32::toUTF8(uni[0]);
+        dest += ofx::UTF32::toUTF8(uni[9]);
         
         assert(goal == dest); // check!
     }
@@ -253,7 +192,7 @@ void ofApp::iterationTests()
      std::string goal = "8675309"; // just something to shoot for
      std::string dest;
      
-     std::u32string uni = ofx::TextConverter::toUTF32(testStrings[0]);
+     std::u32string uni = ofx::UTF8::toUTF32(testStrings[0]);
      std::u32string uniDest;
      
      uniDest.push_back(uni[8]);
@@ -264,7 +203,7 @@ void ofApp::iterationTests()
      uniDest.push_back(uni[0]);
      uniDest.push_back(uni[9]);
      
-     dest = ofx::TextConverter::toUTF8(uniDest);
+     dest = ofx::UTF32::toUTF8(uniDest);
      
      assert(goal == dest); // check!
      }
@@ -274,7 +213,7 @@ void ofApp::iterationTests()
          std::string goal = "8675309"; // just something to shoot for
          std::string dest;
          
-         std::u32string uni = ofx::TextConverter::toUTF32(testStrings[0]);
+         std::u32string uni = ofx::UTF8::toUTF32(testStrings[0]);
          std::u32string uniDest;
          
          uniDest += uni[8];
@@ -285,7 +224,7 @@ void ofApp::iterationTests()
          uniDest += uni[0];
          uniDest += uni[9];
          
-         dest = ofx::TextConverter::toUTF8(uniDest);
+         dest = ofx::UTF32::toUTF8(uniDest);
          assert(goal == dest); // check!
      }
      
@@ -294,7 +233,7 @@ void ofApp::iterationTests()
         std::string goal = "8675309"; // just something to shoot for
         std::string dest;
         
-        std::u32string uni = ofx::TextConverter::toUTF32(testStrings[0]);
+        std::u32string uni = ofx::UTF8::toUTF32(testStrings[0]);
         std::u32string uniDest;
         
         uniDest += uni[8];
@@ -305,7 +244,7 @@ void ofApp::iterationTests()
         uniDest += uni[0];
         uniDest += uni[9];
         
-        dest = ofx::TextConverter::toUTF8(uniDest);
+        dest = ofx::UTF32::toUTF8(uniDest);
         assert(goal == dest); // check!
     }
 
