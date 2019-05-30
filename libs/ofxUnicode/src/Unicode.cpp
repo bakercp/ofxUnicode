@@ -681,7 +681,7 @@ int UTF8::icompare(const std::string& utf8String0,
 
 std::string UTF8::toUpper(const std::string& str)
 {
-    return TextConverter::toUTF8(UTF32::toUpper(TextConverter::toUTF32(str)));
+    return UTF32::toUTF8(UTF32::toUpper(toUTF32(str)));
 }
 
 
@@ -694,7 +694,7 @@ std::string& UTF8::toUpperInPlace(std::string& str)
 
 std::string UTF8::toLower(const std::string& str)
 {
-    return TextConverter::toUTF8(UTF32::toLower(TextConverter::toUTF32(str)));
+    return UTF32::toUTF8(UTF32::toLower(toUTF32(str)));
 }
 
 
@@ -702,6 +702,70 @@ std::string& UTF8::toLowerInPlace(std::string& str)
 {
     str = toLower(str);
     return str;
+}
+
+
+std::u16string UTF8::toUTF16(const std::string& input)
+{
+    std::u16string utf16result;
+
+    try
+    {
+        utf8::utf8to16(input.begin(),
+                       input.end(),
+                       std::back_inserter(utf16result));
+
+    }
+    catch (const utf8::exception& utfcpp_ex)
+    {
+        ofLogError("TextConverter::toUTF16") << utfcpp_ex.what();
+    }
+
+    return utf16result;
+}
+
+
+
+std::u32string UTF8::toUTF32(const std::string& input)
+{
+    std::u32string utf32result;
+
+    try
+    {
+        utf8::utf8to32(input.begin(),
+                       input.end(),
+                       std::back_inserter(utf32result));
+    }
+    catch (const utf8::exception& utfcpp_ex)
+    {
+        ofLogError("TextConverter::toUTF32") << utfcpp_ex.what();
+    }
+
+    return utf32result;
+}
+
+
+std::string UTF16::toUTF8(const std::u16string& input)
+{
+    std::string utf8result;
+
+    try
+    {
+        utf8::utf16to8(input.begin(), input.end(), std::back_inserter(utf8result));
+    }
+    catch (const utf8::exception& utfcpp_ex)
+    {
+        ofLogError("TextConverter::toUTF8") << utfcpp_ex.what();
+    }
+
+    return utf8result;
+}
+
+
+    
+std::u32string UTF16::toUTF32(const std::u16string& input)
+{
+    return UTF8::toUTF32(toUTF8(input));
 }
 
 
@@ -886,80 +950,7 @@ std::u32string& UTF32::toUpperInPlace(std::u32string& unichar)
 }
 
 
-
-const std::string TextConverter::ENCODING_ASCII = "ASCII";
-const std::string TextConverter::ENCODING_UTF8 = "UTF-8";
-const std::string TextConverter::ENCODING_UTF16 = "UTF-16";
-const std::string TextConverter::ENCODING_UTF32 = "UTF-32";
-const std::string TextConverter::ENCODING_ISO_8859_1 = "ISO-8859-1";
-const std::string TextConverter::ENCODING_LATIN_1 = ENCODING_ISO_8859_1;
-const std::string TextConverter::ENCODING_ISO_8859_2 = "ISO-8859-2";
-const std::string TextConverter::ENCODING_LATIN_2 = ENCODING_ISO_8859_2;
-const std::string TextConverter::ENCODING_ISO_8859_15 = "ISO-8859-15";
-const std::string TextConverter::ENCODING_LATIN_9 = ENCODING_ISO_8859_15;
-const std::string TextConverter::ENCODING_WINDOWS_1250 = "windows-1250";
-const std::string TextConverter::ENCODING_WINDOWS_1251 = "windows-1251";
-const std::string TextConverter::ENCODING_WINDOWS_1252 = "windows-1252";
-
-
-
-int TextConverter::convert(const std::string& input,
-                           std::string& output,
-                           const std::string& inputEncoding,
-                           const std::string& outputEncoding)
-{
-    if (inputEncoding == outputEncoding)
-    {
-        output = input;
-        return 0;
-    }
-    else
-    {
-        Poco::TextEncoding::Ptr ie = Poco::TextEncoding::find(inputEncoding);
-
-        if (!ie)
-        {
-            ofLogError("TextConverter::convert") << "Input encoding: " << inputEncoding << " not found.";
-            return -1;
-        }
-
-        Poco::TextEncoding::Ptr oe = Poco::TextEncoding::find(inputEncoding);
-
-        if (!oe)
-        {
-            ofLogError("TextConverter::convert") << "Output encoding: " << outputEncoding << " not found.";
-            return -1;
-        }
-
-
-        Poco::TextConverter converter(*ie, *oe);
-        return converter.convert(input, output);
-    }
-}
-
-#endif
-
-
-// to UTF8
-//------------------------------------------------------------------
-std::string TextConverter::toUTF8(const std::u16string& input)
-{
-    std::string utf8result;
-
-    try
-    {
-        utf8::utf16to8(input.begin(), input.end(), std::back_inserter(utf8result));
-    }
-    catch (const utf8::exception& utfcpp_ex)
-    {
-        ofLogError("TextConverter::toUTF8") << utfcpp_ex.what();
-    }
-
-    return utf8result;
-}
-
-
-std::string TextConverter::toUTF8(char32_t input)
+std::string UTF32::toUTF8(char32_t input)
 {
     std::string txt;
 
@@ -975,7 +966,7 @@ std::string TextConverter::toUTF8(char32_t input)
 }
 
 
-std::string TextConverter::toUTF8(const std::u32string& input)
+std::string UTF32::toUTF8(const std::u32string& input)
 {
     std::string utf8result;
 
@@ -992,60 +983,256 @@ std::string TextConverter::toUTF8(const std::u32string& input)
 }
 
 
-std::u16string TextConverter::toUTF16(const std::string& input)
+std::u16string UTF32::toUTF16(char32_t input)
 {
-    std::u16string utf16result;
-
-    try
-    {
-        utf8::utf8to16(input.begin(),
-                       input.end(),
-                       std::back_inserter(utf16result));
-
-    }
-    catch (const utf8::exception& utfcpp_ex)
-    {
-        ofLogError("TextConverter::toUTF16") << utfcpp_ex.what();
-    }
-
-    return utf16result;
+    return UTF8::toUTF16(toUTF8(input));
 }
 
 
-std::u16string TextConverter::toUTF16(char32_t input)
+std::u16string UTF32::toUTF16(const std::u32string& input)
 {
-    return toUTF16(toUTF8(input));
+    return UTF8::toUTF16(toUTF8(input));
 }
 
 
-std::u16string TextConverter::toUTF16(const std::u32string& input)
+#include <iconv.h>
+
+
+const iconv_t INVALID_CD = (iconv_t) - 1;
+const std::size_t INVALID_CONVERSION = (std::size_t) - 1;
+
+
+const std::string TextConverter::ENCODING_ASCII = "ASCII";
+const std::string TextConverter::ENCODING_UTF8 = "UTF-8";
+const std::string TextConverter::ENCODING_UTF16 = "UTF-16";
+const std::string TextConverter::ENCODING_UTF32 = "UTF-32";
+const std::string TextConverter::ENCODING_ISO_8859_1 = "ISO-8859-1";
+const std::string TextConverter::ENCODING_LATIN_1 = ENCODING_ISO_8859_1;
+const std::string TextConverter::ENCODING_ISO_8859_2 = "ISO-8859-2";
+const std::string TextConverter::ENCODING_LATIN_2 = ENCODING_ISO_8859_2;
+const std::string TextConverter::ENCODING_ISO_8859_15 = "ISO-8859-15";
+const std::string TextConverter::ENCODING_LATIN_9 = ENCODING_ISO_8859_15;
+const std::string TextConverter::ENCODING_WINDOWS_1250 = "windows-1250";
+const std::string TextConverter::ENCODING_WINDOWS_1251 = "windows-1251";
+const std::string TextConverter::ENCODING_WINDOWS_1252 = "windows-1252";
+
+
+TextConverter::TextConverter()
 {
-    return toUTF16(toUTF8(input));
 }
 
 
-std::u32string TextConverter::toUTF32(const std::string& input)
+TextConverter::TextConverter(const std::string& inputEncoding,
+                             const std::string& outputEncoding)
 {
-    std::u32string utf32result;
+    Settings settings;
+    settings.inputEncoding = inputEncoding;
+    settings.outputEncoding = outputEncoding;
+    setup(settings);
+}
 
-    try
+
+TextConverter::TextConverter(const Settings& settings)
+{
+    setup(settings);
+}
+
+
+TextConverter::~TextConverter()
+{
+}
+
+
+bool TextConverter::setup(const std::string& outputEncoding)
+{
+    Settings settings;
+    settings.inputEncoding = "UTF-8";
+    settings.outputEncoding = outputEncoding;
+    return setup(settings);
+}
+
+
+bool TextConverter::setup(const Settings& settings)
+{
+    _cd.reset();
+
+    // Input and output encoding are backwards in the iconv api.
+    // This allocates a conversion descriptor.
+
+    std::string outputEncoding = settings.outputEncoding;
+
+    if (settings.transliterate)
+        outputEncoding += "//TRANSLIT";
+
+    iconv_t cd = iconv_open(outputEncoding.data(),
+                            settings.inputEncoding.data());
+
+    if (cd == INVALID_CD)
     {
-        utf8::utf8to32(input.begin(),
-                       input.end(),
-                       std::back_inserter(utf32result));
+        if (errno == EINVAL)
+            ofLogError("TextConverter::convert") << settings.inputEncoding << " to " << settings.outputEncoding << " is not supported.";
+        else
+            ofLogError("TextConverter::convert") << "Unknown error.";
     }
-    catch (const utf8::exception& utfcpp_ex)
+    else
     {
-        ofLogError("TextConverter::toUTF32") << utfcpp_ex.what();
+        // Wrap in std::shared_ptr.
+        _cd = std::shared_ptr<void>(cd, iconv_close);
     }
 
-    return utf32result;
+    return isLoaded();
 }
 
 
-std::u32string TextConverter::toUTF32(const std::u16string& input)
+bool TextConverter::isLoaded() const
 {
-    return toUTF32(toUTF8(input));
+    return _cd != nullptr;
+}
+
+
+void TextConverter::reset()
+{
+    if (isLoaded())
+        iconv(_cd.get(), nullptr, nullptr, nullptr, nullptr);
+}
+
+
+std::vector<std::string> TextConverter::encodings()
+{
+    std::vector<std::string> results;
+
+    auto list_callback = [](unsigned int namescount,
+                            const char * const * names,
+                            void* data) -> int
+    {
+        auto encodingList = reinterpret_cast<std::vector<std::string>*>(data);
+
+        if (encodingList)
+            for (unsigned int i = 0; i < namescount; ++i)
+                if (names[i] && strlen(names[i]) > 0)
+                    encodingList->push_back(std::string(names[i]));
+
+        return 0;
+    };
+
+    iconvlist(list_callback, &results);
+
+    return results;
+}
+
+
+int TextConverter::convert(const std::string& input, std::string& output) const
+{
+    int numEncodingErrors = 0;
+
+    if (!isLoaded())
+    {
+        ofLogError("TextConverter::convert") << "Converter is not loaded. Call setup().";
+        return -1;
+    }
+
+    // C++11+ guarantees that std::string is stored in contiguous memory.
+    char* pInput = const_cast<char*>(input.data());
+    std::size_t sInput = input.size();
+
+    // Here we only resize the output if the caller hasn't already done so.
+    if (output.size() < sInput * 2)
+        output.resize(sInput * 2);
+
+    char* pOutput = const_cast<char*>(output.data());
+    size_t sOutput = output.size();
+
+    while (0 < sInput)
+    {
+        size_t res = iconv(_cd.get(), // Conversion descriptor.
+                           &pInput,   // Pointer to input pointer.
+                           &sInput,   // Pointer to input size.
+                           &pOutput,  // Pointer to output pointer.
+                           &sOutput   // Pointer to output size.
+                           );
+        if (res == INVALID_CONVERSION)
+        {
+            if (errno == E2BIG)
+            {
+                // errno == E2BIG means the output buffer ran out of space.
+
+                // Make a note of where we were in the output buffer.
+                std::size_t outputPosition = output.size();
+
+                // Resize output memory. This resize would ideally be calculated
+                // based on the maximum theoretical size of the output encoding
+                // given the input encoding. For now we'll just use 2x.
+                output.resize(output.size() + sInput * 2);
+
+                // Get new pointers in case the resize operation moved memory.
+                // Offset pointer to place it at the end.
+                pOutput = const_cast<char*>(output.data()) + outputPosition;
+
+                // Set a new remaining size based on the updated output
+                // position and the resized output buffer..
+                sOutput = output.size() - outputPosition;
+            }
+            else if (_settings.skipErrors)
+            {
+                // Skip the character that caused the error.
+                ++pInput;
+                --sInput;
+                *pOutput = _settings.defaultCharacter;
+                ++pOutput;
+                --sOutput;
+                ++numEncodingErrors;
+           }
+            else
+            {
+                switch (errno)
+                {
+                    case EILSEQ:
+                    case EINVAL:
+                        ofLogError("TextConverter::convert") << std::strerror(errno);
+                        break;
+                    default:
+                        ofLogError("TextConverter::convert") << "Unknown conversion error: " << std::strerror(errno);
+                }
+
+                return -1;
+            }
+        }
+    }
+
+    // Remove any excess size if required.
+    output.resize(pOutput - const_cast<char*>(output.data()));
+
+    return numEncodingErrors;
+}
+
+
+std::string TextConverter::convert(const std::string& input) const
+{
+    std::string output;
+    convert(input, output);
+    return output;
+}
+
+
+int TextConverter::convert(const std::string& input,
+                           std::string& output,
+                           const std::string& inputEncoding,
+                           const std::string& outputEncoding)
+{
+    if (inputEncoding == outputEncoding)
+    {
+        output = input;
+        return 0;
+    }
+    else
+    {
+        TextConverter converter;
+        TextConverter::Settings settings;
+        settings.inputEncoding = inputEncoding;
+        settings.outputEncoding = outputEncoding;
+        converter.setup(settings);
+        return converter.convert(input, output);
+    }
 }
 
 

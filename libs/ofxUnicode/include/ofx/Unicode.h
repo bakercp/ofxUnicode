@@ -1055,7 +1055,6 @@ public:
         INSIDE_CHAR = WORDBREAK_INSIDEACHAR
     };
 
-
     Wordbreaker(const std::string& language = "en");
 
     ~Wordbreaker();
@@ -1106,15 +1105,15 @@ public:
     static bool isValid(const std::string& utf8);
 
     // check to see if a string starts with a UTF8 BOM (byte order mark)
-    static bool startsWithBOM(const std::string& txt);
+    static bool startsWithBOM(const std::string& utf8);
 
     // attempt to repair a broken UTF8 string
-    static std::string repair(const std::string& txt, char32_t replacement = -1);
+    static std::string repair(const std::string& utf8, char32_t replacement = -1);
 
     static std::string& repairInPlace(std::string& txt, char32_t replacement = -1);
 
     // calculate the number of UTF8 chars (string.length() returns the number of bytes)
-    static std::size_t distance(const std::string& txt);
+    static std::size_t distance(const std::string& utf8);
 
     /// \brief Perform a case-insensitive string comparison on UTF-8 encoded strings.
     ///
@@ -1131,11 +1130,21 @@ public:
     static int icompare(const std::string& utf8String0, const std::string& utf8String1);
 
     // Unicode-based case conversion
-    static std::string toUpper(const std::string& str);
-    static std::string& toUpperInPlace(std::string& str);
-    static std::string toLower(const std::string& str);
-    static std::string& toLowerInPlace(std::string& str);
-    
+    static std::string toUpper(const std::string& utf8);
+    static std::string& toUpperInPlace(std::string& utf8);
+    static std::string toLower(const std::string& utf8);
+    static std::string& toLowerInPlace(std::string& utf8);
+
+    static std::u16string toUTF16(const std::string& utf8);
+    static std::u32string toUTF32(const std::string& utf8);
+};
+
+
+class UTF16
+{
+public:
+    static std::string toUTF8(const std::u16string& utf16);
+    static std::u32string toUTF32(const std::u16string& utf16);
 };
 
 
@@ -1175,16 +1184,21 @@ public:
     static bool isUpper(char32_t utf32);
 
     // conversions
-    static char32_t toLower(char32_t unichar);
-    static char32_t toUpper(char32_t unichar);
-    static char32_t& toLowerInPlace(char32_t& unichar);
-    static char32_t& toUpperInPlace(char32_t& unichar);
+    static char32_t toLower(char32_t utf32);
+    static char32_t toUpper(char32_t utf32);
+    static char32_t& toLowerInPlace(char32_t& utf32);
+    static char32_t& toUpperInPlace(char32_t& utf32);
 
     // Unicode string based conversions
-    static std::u32string toLower(const std::u32string& unichar);
-    static std::u32string toUpper(const std::u32string& unichar);
-    static std::u32string& toLowerInPlace(std::u32string& unichar);
-    static std::u32string& toUpperInPlace(std::u32string& unichar);
+    static std::u32string toLower(const std::u32string& utf32);
+    static std::u32string toUpper(const std::u32string& utf32);
+    static std::u32string& toLowerInPlace(std::u32string& utf32);
+    static std::u32string& toUpperInPlace(std::u32string& utf32);
+
+    static std::string toUTF8(char32_t utf32);
+    static std::string toUTF8(const std::u32string& utf32);
+    static std::u16string toUTF16(char32_t utf32);
+    static std::u16string toUTF16(const std::u32string& utf32);
 
 };
 
@@ -1195,21 +1209,84 @@ public:
 class TextConverter
 {
 public:
-    // to UTF8
-    static std::string toUTF8(const std::u16string& input);
-    static std::string toUTF8(char32_t input);
-    static std::string toUTF8(const std::u32string& input);
+    struct Settings;
 
-    // to UTF16
-    static std::u16string toUTF16(const std::string& input);
-    static std::u16string toUTF16(char32_t input);
-    static std::u16string toUTF16(const std::u32string& input);
+    /// \brief Create an unloaded TextConverter.
+    TextConverter();
 
-    // to UTF32
-    static std::u32string toUTF32(const std::string& input);
-    static std::u32string toUTF32(const std::u16string& input);
+    /// \brief Create a TextConverter with the given Settings.
+    TextConverter(const Settings& settings);
 
-#if defined(USE_POCO_FOR_CHAR_SET_CONVERSION)
+    /// \brief Create a TextConverter with the given input and output encoding.
+    /// \param inputEncoding The input encoding character encoding.
+    /// \param outputEncoding The output encoding character encoding.
+    TextConverter(const std::string& inputEncoding,
+                  const std::string& outputEncoding);
+
+    /// \brief Create a TextConverter with a UTF-8 input encoding.
+    /// \param outputEncoding The desired output encoding.
+    TextConverter(const std::string& outputEncoding);
+
+    /// \brief Destroy the text converter.
+    ~TextConverter();
+
+    /// \brief Set up a TextConverter with a UTF-8 input encoding.
+    /// \param outputEncoding The desired output encoding.
+    /// \returns true if the TextConverter is loaded with valid Settings.
+    bool setup(const std::string& outputEncoding);
+
+    /// \brief Set up a TextConverter with a UTF-8 input encoding.
+    /// \param outputEncoding The desired output encoding.
+    /// \returns true if the TextConverter is loaded with valid Settings.
+    bool setup(const Settings& settings);
+
+    /// \brief True if the TextConverter is loaded with valid Settings.
+    bool isLoaded() const;
+
+    /// \brief Reset the converter state.
+    void reset();
+
+    /// \brief Convert encoded input text to the encoded output text.
+    /// \param input The input string corresponding to inputEncoding.
+    /// \param output A string in which to write the output encoded with outputEncoding.
+    /// \returns -1 if error.
+    ///           0 if no error.
+    ///          >0 For number of invalid byte sequences in source.
+    int convert(const std::string& input, std::string& output) const;
+
+    /// \brief Convert encoded input text to the encoded output text.
+    /// \param input The input string corresponding to inputEncoding.
+    /// \returns the encoded input or an empty string on error.
+    std::string convert(const std::string& input) const;
+
+    /// \brief Settings to configure the TextConverter.
+    struct Settings
+    {
+        /// \brief The input encoding.
+        std::string inputEncoding;
+
+        /// \brief The output encoding.
+        std::string outputEncoding;
+
+        /// \brief True if errors should be skipped.
+        ///
+        /// If errors are skipped, \p defaultCharacter is used.
+        bool skipErrors = true;
+
+        /// \brief If errors are skipped, this character will be used.
+        char defaultCharacter = '?';
+
+        /// \brief Transliterate when an output encoding is not available.
+        ///
+        /// If true, characters unrepresented in output encoding it can be
+        /// approximated by characters that look similar.
+        bool transliterate = false;
+    };
+
+
+    /// \returns a list of available encodings.
+    static std::vector<std::string> encodings();
+
     /// \brief Convert between character sets.
     /// \param input The input string corresponding to inputEncoding.
     /// \param output A string in which to write the output encoded with outputEncoding.
@@ -1274,8 +1351,13 @@ public:
     /// \brief Superset of Latin 1 (ISO 8859-1)
     /// \sa http://en.wikipedia.org/wiki/Windows-1252
     static const std::string ENCODING_WINDOWS_1252;
-#endif
 
+private:
+    /// \brief The Settings for this converter.
+    Settings _settings;
+
+    /// \brief The conversion descriptor.
+    std::shared_ptr<void> _cd = nullptr;
 };
 
 
