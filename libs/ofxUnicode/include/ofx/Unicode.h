@@ -152,6 +152,9 @@ public:
     /// \brief The MANDAIC Unicode Block.
     static const Block MANDAIC;
 
+    /// \brief The SYRIAC_SUPPLEMENT Unicode Block.
+    static const Block SYRIAC_SUPPLEMENT;
+
     /// \brief The ARABIC_EXTENDED_A Unicode Block.
     static const Block ARABIC_EXTENDED_A;
 
@@ -277,6 +280,12 @@ public:
 
     /// \brief The OL_CHIKI Unicode Block.
     static const Block OL_CHIKI;
+
+    /// \brief The CYRILLIC_EXTENDED_C Unicode Block.
+    static const Block CYRILLIC_EXTENDED_C;
+
+    /// \brief The GEORGIAN_EXTENDED Unicode Block.
+    static const Block GEORGIAN_EXTENDED;
 
     /// \brief The SUNDANESE_SUPPLEMENT Unicode Block.
     static const Block SUNDANESE_SUPPLEMENT;
@@ -626,6 +635,9 @@ public:
     /// \brief The OSMANYA Unicode Block.
     static const Block OSMANYA;
 
+    /// \brief The OSAGE Unicode Block.
+    static const Block OSAGE;
+
     /// \brief The ELBASAN Unicode Block.
     static const Block ELBASAN;
 
@@ -692,8 +704,20 @@ public:
     /// \brief The OLD_HUNGARIAN Unicode Block.
     static const Block OLD_HUNGARIAN;
 
+    /// \brief The HANIFI_ROHINGYA Unicode Block.
+    static const Block HANIFI_ROHINGYA;
+
     /// \brief The RUMI_NUMERAL_SYMBOLS Unicode Block.
     static const Block RUMI_NUMERAL_SYMBOLS;
+
+    /// \brief The OLD_SOGDIAN Unicode Block.
+    static const Block OLD_SOGDIAN;
+
+    /// \brief The SOGDIAN Unicode Block.
+    static const Block SOGDIAN;
+
+    /// \brief The ELYMAIC Unicode Block.
+    static const Block ELYMAIC;
 
     /// \brief The BRAHMI Unicode Block.
     static const Block BRAHMI;
@@ -728,6 +752,9 @@ public:
     /// \brief The GRANTHA Unicode Block.
     static const Block GRANTHA;
 
+    /// \brief The NEWA Unicode Block.
+    static const Block NEWA;
+
     /// \brief The TIRHUTA Unicode Block.
     static const Block TIRHUTA;
 
@@ -737,17 +764,50 @@ public:
     /// \brief The MODI Unicode Block.
     static const Block MODI;
 
+    /// \brief The MONGOLIAN_SUPPLEMENT Unicode Block.
+    static const Block MONGOLIAN_SUPPLEMENT;
+
     /// \brief The TAKRI Unicode Block.
     static const Block TAKRI;
 
     /// \brief The AHOM Unicode Block.
     static const Block AHOM;
 
+    /// \brief The DOGRA Unicode Block.
+    static const Block DOGRA;
+
     /// \brief The WARANG_CITI Unicode Block.
     static const Block WARANG_CITI;
 
+    /// \brief The NANDINAGARI Unicode Block.
+    static const Block NANDINAGARI;
+
+    /// \brief The ZANABAZAR_SQUARE Unicode Block.
+    static const Block ZANABAZAR_SQUARE;
+
+    /// \brief The SOYOMBO Unicode Block.
+    static const Block SOYOMBO;
+
     /// \brief The PAU_CIN_HAU Unicode Block.
     static const Block PAU_CIN_HAU;
+
+    /// \brief The BHAIKSUKI Unicode Block.
+    static const Block BHAIKSUKI;
+
+    /// \brief The MARCHEN Unicode Block.
+    static const Block MARCHEN;
+
+    /// \brief The MASARAM_GONDI Unicode Block.
+    static const Block MASARAM_GONDI;
+
+    /// \brief The GUNJALA_GONDI Unicode Block.
+    static const Block GUNJALA_GONDI;
+
+    /// \brief The MAKASAR Unicode Block.
+    static const Block MAKASAR;
+
+    /// \brief The TAMIL_SUPPLEMENT Unicode Block.
+    static const Block TAMIL_SUPPLEMENT;
 
     /// \brief The CUNEIFORM Unicode Block.
     static const Block CUNEIFORM;
@@ -760,6 +820,9 @@ public:
 
     /// \brief The EGYPTIAN_HIEROGLYPHS Unicode Block.
     static const Block EGYPTIAN_HIEROGLYPHS;
+
+    /// \brief The EGYPTIAN_HIEROGLYPH_FORMAT_CONTROLS Unicode Block.
+    static const Block EGYPTIAN_HIEROGLYPH_FORMAT_CONTROLS;
 
     /// \brief The ANATOLIAN_HIEROGLYPHS Unicode Block.
     static const Block ANATOLIAN_HIEROGLYPHS;
@@ -776,11 +839,32 @@ public:
     /// \brief The PAHAWH_HMONG Unicode Block.
     static const Block PAHAWH_HMONG;
 
+    /// \brief The MEDEFAIDRIN Unicode Block.
+    static const Block MEDEFAIDRIN;
+
     /// \brief The MIAO Unicode Block.
     static const Block MIAO;
 
+    /// \brief The IDEOGRAPHIC_SYMBOLS_AND_PUNCTUATION Unicode Block.
+    static const Block IDEOGRAPHIC_SYMBOLS_AND_PUNCTUATION;
+
+    /// \brief The TANGUT Unicode Block.
+    static const Block TANGUT;
+
+    /// \brief The TANGUT_COMPONENTS Unicode Block.
+    static const Block TANGUT_COMPONENTS;
+
     /// \brief The KANA_SUPPLEMENT Unicode Block.
     static const Block KANA_SUPPLEMENT;
+
+    /// \brief The KANA_EXTENDED_A Unicode Block.
+    static const Block KANA_EXTENDED_A;
+
+    /// \brief The SMALL_KANA_EXTENSION Unicode Block.
+    static const Block SMALL_KANA_EXTENSION;
+
+    /// \brief The NUSHU Unicode Block.
+    static const Block NUSHU;
 
     /// \brief The DUPLOYAN Unicode Block.
     static const Block DUPLOYAN;
@@ -797,87 +881,117 @@ public:
     /// \brief The ANCIENT_GREEK_MUSICAL_NOTATION Unicode Block.
     static const Block ANCIENT_GREEK_MUSICAL_NOTATION;
 
+    /// \brief The MAYAN_NUMERALS Unicode Block.
+    static const Block MAYAN_NUMERALS;
+
     /// \brief The TAI_XUAN_JING_SYMBOLS Unicode Block.
     static const Block TAI_XUAN_JING_SYMBOLS;
-    
+
     /// \brief The COUNTING_ROD_NUMERALS Unicode Block.
     static const Block COUNTING_ROD_NUMERALS;
-    
+
     /// \brief The MATHEMATICAL_ALPHANUMERIC_SYMBOLS Unicode Block.
     static const Block MATHEMATICAL_ALPHANUMERIC_SYMBOLS;
-    
+
     /// \brief The SUTTON_SIGNWRITING Unicode Block.
     static const Block SUTTON_SIGNWRITING;
-    
+
+    /// \brief The GLAGOLITIC_SUPPLEMENT Unicode Block.
+    static const Block GLAGOLITIC_SUPPLEMENT;
+
+    /// \brief The NYIAKENG_PUACHUE_HMONG Unicode Block.
+    static const Block NYIAKENG_PUACHUE_HMONG;
+
+    /// \brief The WANCHO Unicode Block.
+    static const Block WANCHO;
+
     /// \brief The MENDE_KIKAKUI Unicode Block.
     static const Block MENDE_KIKAKUI;
-    
+
+    /// \brief The ADLAM Unicode Block.
+    static const Block ADLAM;
+
+    /// \brief The INDIC_SIYAQ_NUMBERS Unicode Block.
+    static const Block INDIC_SIYAQ_NUMBERS;
+
+    /// \brief The OTTOMAN_SIYAQ_NUMBERS Unicode Block.
+    static const Block OTTOMAN_SIYAQ_NUMBERS;
+
     /// \brief The ARABIC_MATHEMATICAL_ALPHABETIC_SYMBOLS Unicode Block.
     static const Block ARABIC_MATHEMATICAL_ALPHABETIC_SYMBOLS;
-    
+
     /// \brief The MAHJONG_TILES Unicode Block.
     static const Block MAHJONG_TILES;
-    
+
     /// \brief The DOMINO_TILES Unicode Block.
     static const Block DOMINO_TILES;
-    
+
     /// \brief The PLAYING_CARDS Unicode Block.
     static const Block PLAYING_CARDS;
-    
+
     /// \brief The ENCLOSED_ALPHANUMERIC_SUPPLEMENT Unicode Block.
     static const Block ENCLOSED_ALPHANUMERIC_SUPPLEMENT;
-    
+
     /// \brief The ENCLOSED_IDEOGRAPHIC_SUPPLEMENT Unicode Block.
     static const Block ENCLOSED_IDEOGRAPHIC_SUPPLEMENT;
-    
+
     /// \brief The MISCELLANEOUS_SYMBOLS_AND_PICTOGRAPHS Unicode Block.
     static const Block MISCELLANEOUS_SYMBOLS_AND_PICTOGRAPHS;
-    
+
     /// \brief The EMOTICONS Unicode Block.
     static const Block EMOTICONS;
-    
+
     /// \brief The ORNAMENTAL_DINGBATS Unicode Block.
     static const Block ORNAMENTAL_DINGBATS;
-    
+
     /// \brief The TRANSPORT_AND_MAP_SYMBOLS Unicode Block.
     static const Block TRANSPORT_AND_MAP_SYMBOLS;
-    
+
     /// \brief The ALCHEMICAL_SYMBOLS Unicode Block.
     static const Block ALCHEMICAL_SYMBOLS;
-    
+
     /// \brief The GEOMETRIC_SHAPES_EXTENDED Unicode Block.
     static const Block GEOMETRIC_SHAPES_EXTENDED;
-    
+
     /// \brief The SUPPLEMENTAL_ARROWS_C Unicode Block.
     static const Block SUPPLEMENTAL_ARROWS_C;
-    
+
     /// \brief The SUPPLEMENTAL_SYMBOLS_AND_PICTOGRAPHS Unicode Block.
     static const Block SUPPLEMENTAL_SYMBOLS_AND_PICTOGRAPHS;
-    
+
+    /// \brief The CHESS_SYMBOLS Unicode Block.
+    static const Block CHESS_SYMBOLS;
+
+    /// \brief The SYMBOLS_AND_PICTOGRAPHS_EXTENDED_A Unicode Block.
+    static const Block SYMBOLS_AND_PICTOGRAPHS_EXTENDED_A;
+
     /// \brief The CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B Unicode Block.
     static const Block CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B;
-    
+
     /// \brief The CJK_UNIFIED_IDEOGRAPHS_EXTENSION_C Unicode Block.
     static const Block CJK_UNIFIED_IDEOGRAPHS_EXTENSION_C;
-    
+
     /// \brief The CJK_UNIFIED_IDEOGRAPHS_EXTENSION_D Unicode Block.
     static const Block CJK_UNIFIED_IDEOGRAPHS_EXTENSION_D;
-    
+
     /// \brief The CJK_UNIFIED_IDEOGRAPHS_EXTENSION_E Unicode Block.
     static const Block CJK_UNIFIED_IDEOGRAPHS_EXTENSION_E;
-    
+
+    /// \brief The CJK_UNIFIED_IDEOGRAPHS_EXTENSION_F Unicode Block.
+    static const Block CJK_UNIFIED_IDEOGRAPHS_EXTENSION_F;
+
     /// \brief The CJK_COMPATIBILITY_IDEOGRAPHS_SUPPLEMENT Unicode Block.
     static const Block CJK_COMPATIBILITY_IDEOGRAPHS_SUPPLEMENT;
-    
+
     /// \brief The TAGS Unicode Block.
     static const Block TAGS;
-    
+
     /// \brief The VARIATION_SELECTORS_SUPPLEMENT Unicode Block.
     static const Block VARIATION_SELECTORS_SUPPLEMENT;
-    
+
     /// \brief The SUPPLEMENTARY_PRIVATE_USE_AREA_A Unicode Block.
     static const Block SUPPLEMENTARY_PRIVATE_USE_AREA_A;
-    
+
     /// \brief The SUPPLEMENTARY_PRIVATE_USE_AREA_B Unicode Block.
     static const Block SUPPLEMENTARY_PRIVATE_USE_AREA_B;
 
