@@ -56,13 +56,13 @@ void ofApp::dumpLineBreaks(const std::string& text, const std::string& language)
     std::cout << "--- " << language << " ---" << std::endl;
 
     // Convert it to utf32 text for easier output.
-    auto text32 = ofx::TextConverter::toUTF32(text);
+    auto text32 = ofx::UTF8::toUTF32(text);
 
     auto breaks = ofx::Linebreaker::findBreaks(text32, language);
 
     for (std::size_t i = 0; i < breaks.size(); ++i)
     {
-        std::cout << ofx::TextConverter::toUTF8(text32[i]) << "\t->\t";
+        std::cout << ofx::UTF32::toUTF8(text32[i]) << "\t->\t";
 
         switch (breaks[i])
         {
@@ -90,13 +90,13 @@ void ofApp::dumpWordBreaks(const std::string& text, const std::string& language)
     std::cout << "--- " << language << " ---" << std::endl;
 
     // Convert it to utf32 text for easier output.
-    auto text32 = ofx::TextConverter::toUTF32(text);
+    auto text32 = ofx::UTF8::toUTF32(text);
 
     auto breaks = ofx::Wordbreaker::findBreaks(text32, language);
 
     for (std::size_t i = 0; i < breaks.size(); ++i)
     {
-        std::cout << ofx::TextConverter::toUTF8(text32[i]) << "\t->\t";
+        std::cout << ofx::UTF32::toUTF8(text32[i]) << "\t->\t";
 
         switch (breaks[i])
         {
