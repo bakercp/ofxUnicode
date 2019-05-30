@@ -9,7 +9,7 @@
 # array of build types supported by this formula
 # you can delete this to implicitly support *all* types
 
-FORMULA_TYPES=( "osx" "msys2" "vs" )
+#FORMULA_TYPES=( "osx" "msys2" "vs" )
 
 
 VER=72df0a11789f5e61f3a5985a7575773e68906fe0
