@@ -86,24 +86,12 @@ public:
 
         /// \brief Get the number of Unicode code points in the Block.
         /// \returns the number of Unicode code points in the Block.
-        std::size_t size() const
-        {
-            return end - begin + 1;
-        }
+        std::size_t size() const;
 
         /// \brief Get this Block as a UTF32 string.
         /// \returns the Block as a UTF32 string.
-        std::u32string charset() const
-        {
-            std::u32string s;
-
-            for (char32_t c = begin; c <= end; ++c)
-            {
-                s.push_back(c++);
-            }
-
-            return s;
-        }
+        std::u32string charset() const;
+        
     };
 
 

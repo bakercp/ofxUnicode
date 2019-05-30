@@ -320,6 +320,20 @@ const Unicode::Block TAGS {0xE0000, 0xE007F, "TAGS"};
 const Unicode::Block VARIATION_SELECTORS_SUPPLEMENT {0xE0100, 0xE01EF, "VARIATION_SELECTORS_SUPPLEMENT"};
 const Unicode::Block SUPPLEMENTARY_PRIVATE_USE_AREA_A {0xF0000, 0xFFFFF, "SUPPLEMENTARY_PRIVATE_USE_AREA_A"};
 const Unicode::Block SUPPLEMENTARY_PRIVATE_USE_AREA_B {0x100000, 0x10FFFF, "SUPPLEMENTARY_PRIVATE_USE_AREA_B"};
+std::size_t Unicode::Block::size() const
+{
+    return end - begin + 1;
+}
+
+
+std::u32string Unicode::Block::charset() const
+{
+    std::u32string s(size(), 0);
+    std::iota(s.begin(), s.end(), begin);
+    return s;
+}
+
+
 
 
 Linebreaker::Linebreaker(const std::string& language):
