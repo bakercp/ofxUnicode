@@ -23,7 +23,10 @@ SOFTWARE.
 ---
 
 # Included libraries
+- [harfbuzz](https://github.com/harfbuzz/harfbuzz) ([MIT](https://opensource.org/licenses/MIT))
 - [fribidi](https://fribidi.org/) ([LGPL-2.0](https://opensource.org/licenses/LGPL-2.0))
+- [libraqm](https://github.com/HOST-Oman/libraqm) ([MIT](https://opensource.org/licenses/MIT))
+- [libiconv](https://www.gnu.org/software/libiconv/)([LGPL](https://opensource.org/licenses/LGPL))
 - [ucdn](https://github.com/grigorig/ucdn) ([ISC](https://opensource.org/licenses/ISC))
 - [unibreak](https://github.com/adah1972/libunibreak) ([Zlib](https://opensource.org/licenses/Zlib))
 - [utf8proc](https://github.com/JuliaLang/utf8proc) ([MIT](https://opensource.org/licenses/MIT))
