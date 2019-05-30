@@ -2,20 +2,25 @@
 #
 # utf8proc
 # Unicode normalization, case-folding, and other operations for data in
-# https://github.com/JuliaLang/utf8proc
+# https://github.com/JuliaStrings/utf8proc
 #
 # notes on build system, reference links, etc
 
 # array of build types supported by this formula
 # you can delete this to implicitly support *all* types
-FORMULA_TYPES=( "osx" "msys2" )
+# FORMULA_TYPES=( "osx" "msys2" "linux" "linux64" "arm" )
 
 # Currently for VS, we use cmake and manually build from the command line.
 
+VER=2.4.0
+
 # download the source code and unpack it into LIB_NAME
 function download() {
-	echo "Download."
-	git clone https://github.com/JuliaLang/utf8proc.git
+	local filename=v${VER}
+	curl -LO https://github.com/JuliaStrings/utf8proc/archive/${filename}.tar.gz
+	tar -xf ${filename}.tar.gz
+	mv utf8proc-$VER utf8proc
+	rm ${filename}.tar.gz
 }
 
 # prepare the build environment, executed inside the lib src dir

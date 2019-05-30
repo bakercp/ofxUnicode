@@ -11,9 +11,15 @@
 
 FORMULA_TYPES=( "osx" "msys2" "vs" )
 
+
+VER=72df0a11789f5e61f3a5985a7575773e68906fe0
+
+
 # download the source code and unpack it into LIB_NAME
 function download() {
 	git clone https://github.com/grigorig/ucdn.git
+	cd ucdn/
+	git checkout ${VER} 
 }
 
 
