@@ -10,17 +10,18 @@
 # you can delete this to implicitly support *all* types
 FORMULA_TYPES=( "osx" )
 
-VER=0.19.7
+#VER=0.19.7
+VER=1.0.5
 
 # download the source code and unpack it into LIB_NAME
 function download() {
 	local fileName=fribidi-$VER
+#	curl -LO https://github.com/fribidi/fribidi/releases/download/$VER/$fileName.tar.bz2
+	curl -LO https://github.com/fribidi/fribidi/releases/download/v$VER/$fileName.tar.bz2
 
-	curl -LO https://github.com/fribidi/fribidi/releases/download/${VER}/${fileName}.tar.bz2
-
-	tar -xf ${fileName}.tar.bz2
-	mv ${fileName} fribidi
-	rm ${fileName}.tar.bz2
+	tar -xf $fileName.tar.bz2
+	mv $fileName fribidi
+	rm $fileName.tar.bz2
 }
 
 # executed inside the lib src dir

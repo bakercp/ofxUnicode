@@ -1,5 +1,4 @@
-ofxUnicode
-=======
+# ofxUnicode
 
 ## Description
 
@@ -7,20 +6,24 @@ An openFrameworks addon that wraps various Unicode algorithms.
 
 ## Features
 
-- Unicode Line / Word Breaking.
-- Unicode BiDi Formatting.
-- Unicode Case Folding (`toUpper(...)`, `toLower(...)`, etc).
-- Unicode Normalization.
-- Unicode codepoint queries (`isTitle(...)`, `isUpper(...)`).
-- UTF8 ⬌ UTF16 ⬌ UTF32 conversion.
-- Case-insensitive Unicode string comparisons (with case folding and normalization).
+-   Unicode Line / Word Breaking.
+-   Unicode BiDi Formatting.
+-   Unicode Case Folding (`toUpper(...)`, `toLower(...)`, etc).
+-   Unicode Normalization.
+-   Unicode codepoint queries (`isTitle(...)`, `isUpper(...)`).
+-   UTF8 ⬌ UTF16 ⬌ UTF32 conversion.
+-   Case-insensitive Unicode string comparisons (with case folding and normalization).
 
 This addon employs the following 3rd party libraries:
 
-- [fribidi](https://fribidi.org/) ([LGPL-2.0](https://opensource.org/licenses/LGPL-2.0))
-- [ucdn](https://github.com/grigorig/ucdn) ([ISC](https://opensource.org/licenses/ISC))
-- [unibreak](https://github.com/adah1972/libunibreak) ([Zlib](https://opensource.org/licenses/Zlib))
-- [utf8proc](https://github.com/JuliaLang/utf8proc) ([MIT](https://opensource.org/licenses/MIT))
+-   [harfbuzz](https://github.com/harfbuzz/harfbuzz) ([MIT](https://opensource.org/licenses/MIT))
+-   [fribidi](https://fribidi.org/) ([LGPL-2.0](https://opensource.org/licenses/LGPL-2.0))
+-   [libraqm](https://github.com/HOST-Oman/libraqm) ([MIT](https://opensource.org/licenses/MIT))
+-   [libiconv](https://www.gnu.org/software/libiconv/)([LGPL](https://opensource.org/licenses/LGPL))
+-   [ucdn](https://github.com/grigorig/ucdn) ([ISC](https://opensource.org/licenses/ISC))
+-   [unibreak](https://github.com/adah1972/libunibreak) ([Zlib](https://opensource.org/licenses/Zlib))
+-   [utf8proc](https://github.com/JuliaLang/utf8proc) ([MIT](https://opensource.org/licenses/MIT))
+
 
 ## Getting Started
 
@@ -50,7 +53,7 @@ Some past openFrameworks releases are supported via tagged versions, but only `s
 
 ### Requirements
 
-- ofxPoco (optional) To use define `USE_POCO_FOR_CHAR_SET_CONVERSION`
+-   None
 
 ## Versioning
 
@@ -58,14 +61,14 @@ This project uses [Semantic Versioning](http://semver.org/), although strict adh
 
 ## Licensing
 
-See `LICENSE.md`.
+See [LICENSE.md](LICENSE.md).
 
 ## Contributing
 
 Pull Requests are always welcome, so if you make any improvements please feel free to float them back upstream :)
 
-1. Fork this repository.
-2. Create your feature branch (`git checkout -b my-new-feature`).
-3. Commit your changes (`git commit -am 'Add some feature'`).
-4. Push to the branch (`git push origin my-new-feature`).
-5. Create new Pull Request.
+1.  Fork this repository.
+2.  Create your feature branch (`git checkout -b my-new-feature`).
+3.  Commit your changes (`git commit -am 'Add some feature'`).
+4.  Push to the branch (`git push origin my-new-feature`).
+5.  Create new Pull Request.

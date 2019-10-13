@@ -86,24 +86,12 @@ public:
 
         /// \brief Get the number of Unicode code points in the Block.
         /// \returns the number of Unicode code points in the Block.
-        std::size_t size() const
-        {
-            return end - begin + 1;
-        }
+        std::size_t size() const;
 
         /// \brief Get this Block as a UTF32 string.
         /// \returns the Block as a UTF32 string.
-        std::u32string charset() const
-        {
-            std::u32string s;
-
-            for (char32_t c = begin; c <= end; ++c)
-            {
-                s.push_back(c++);
-            }
-
-            return s;
-        }
+        std::u32string charset() const;
+        
     };
 
 
@@ -163,6 +151,9 @@ public:
 
     /// \brief The MANDAIC Unicode Block.
     static const Block MANDAIC;
+
+    /// \brief The SYRIAC_SUPPLEMENT Unicode Block.
+    static const Block SYRIAC_SUPPLEMENT;
 
     /// \brief The ARABIC_EXTENDED_A Unicode Block.
     static const Block ARABIC_EXTENDED_A;
@@ -289,6 +280,12 @@ public:
 
     /// \brief The OL_CHIKI Unicode Block.
     static const Block OL_CHIKI;
+
+    /// \brief The CYRILLIC_EXTENDED_C Unicode Block.
+    static const Block CYRILLIC_EXTENDED_C;
+
+    /// \brief The GEORGIAN_EXTENDED Unicode Block.
+    static const Block GEORGIAN_EXTENDED;
 
     /// \brief The SUNDANESE_SUPPLEMENT Unicode Block.
     static const Block SUNDANESE_SUPPLEMENT;
@@ -638,6 +635,9 @@ public:
     /// \brief The OSMANYA Unicode Block.
     static const Block OSMANYA;
 
+    /// \brief The OSAGE Unicode Block.
+    static const Block OSAGE;
+
     /// \brief The ELBASAN Unicode Block.
     static const Block ELBASAN;
 
@@ -704,8 +704,20 @@ public:
     /// \brief The OLD_HUNGARIAN Unicode Block.
     static const Block OLD_HUNGARIAN;
 
+    /// \brief The HANIFI_ROHINGYA Unicode Block.
+    static const Block HANIFI_ROHINGYA;
+
     /// \brief The RUMI_NUMERAL_SYMBOLS Unicode Block.
     static const Block RUMI_NUMERAL_SYMBOLS;
+
+    /// \brief The OLD_SOGDIAN Unicode Block.
+    static const Block OLD_SOGDIAN;
+
+    /// \brief The SOGDIAN Unicode Block.
+    static const Block SOGDIAN;
+
+    /// \brief The ELYMAIC Unicode Block.
+    static const Block ELYMAIC;
 
     /// \brief The BRAHMI Unicode Block.
     static const Block BRAHMI;
@@ -740,6 +752,9 @@ public:
     /// \brief The GRANTHA Unicode Block.
     static const Block GRANTHA;
 
+    /// \brief The NEWA Unicode Block.
+    static const Block NEWA;
+
     /// \brief The TIRHUTA Unicode Block.
     static const Block TIRHUTA;
 
@@ -749,17 +764,50 @@ public:
     /// \brief The MODI Unicode Block.
     static const Block MODI;
 
+    /// \brief The MONGOLIAN_SUPPLEMENT Unicode Block.
+    static const Block MONGOLIAN_SUPPLEMENT;
+
     /// \brief The TAKRI Unicode Block.
     static const Block TAKRI;
 
     /// \brief The AHOM Unicode Block.
     static const Block AHOM;
 
+    /// \brief The DOGRA Unicode Block.
+    static const Block DOGRA;
+
     /// \brief The WARANG_CITI Unicode Block.
     static const Block WARANG_CITI;
 
+    /// \brief The NANDINAGARI Unicode Block.
+    static const Block NANDINAGARI;
+
+    /// \brief The ZANABAZAR_SQUARE Unicode Block.
+    static const Block ZANABAZAR_SQUARE;
+
+    /// \brief The SOYOMBO Unicode Block.
+    static const Block SOYOMBO;
+
     /// \brief The PAU_CIN_HAU Unicode Block.
     static const Block PAU_CIN_HAU;
+
+    /// \brief The BHAIKSUKI Unicode Block.
+    static const Block BHAIKSUKI;
+
+    /// \brief The MARCHEN Unicode Block.
+    static const Block MARCHEN;
+
+    /// \brief The MASARAM_GONDI Unicode Block.
+    static const Block MASARAM_GONDI;
+
+    /// \brief The GUNJALA_GONDI Unicode Block.
+    static const Block GUNJALA_GONDI;
+
+    /// \brief The MAKASAR Unicode Block.
+    static const Block MAKASAR;
+
+    /// \brief The TAMIL_SUPPLEMENT Unicode Block.
+    static const Block TAMIL_SUPPLEMENT;
 
     /// \brief The CUNEIFORM Unicode Block.
     static const Block CUNEIFORM;
@@ -772,6 +820,9 @@ public:
 
     /// \brief The EGYPTIAN_HIEROGLYPHS Unicode Block.
     static const Block EGYPTIAN_HIEROGLYPHS;
+
+    /// \brief The EGYPTIAN_HIEROGLYPH_FORMAT_CONTROLS Unicode Block.
+    static const Block EGYPTIAN_HIEROGLYPH_FORMAT_CONTROLS;
 
     /// \brief The ANATOLIAN_HIEROGLYPHS Unicode Block.
     static const Block ANATOLIAN_HIEROGLYPHS;
@@ -788,11 +839,32 @@ public:
     /// \brief The PAHAWH_HMONG Unicode Block.
     static const Block PAHAWH_HMONG;
 
+    /// \brief The MEDEFAIDRIN Unicode Block.
+    static const Block MEDEFAIDRIN;
+
     /// \brief The MIAO Unicode Block.
     static const Block MIAO;
 
+    /// \brief The IDEOGRAPHIC_SYMBOLS_AND_PUNCTUATION Unicode Block.
+    static const Block IDEOGRAPHIC_SYMBOLS_AND_PUNCTUATION;
+
+    /// \brief The TANGUT Unicode Block.
+    static const Block TANGUT;
+
+    /// \brief The TANGUT_COMPONENTS Unicode Block.
+    static const Block TANGUT_COMPONENTS;
+
     /// \brief The KANA_SUPPLEMENT Unicode Block.
     static const Block KANA_SUPPLEMENT;
+
+    /// \brief The KANA_EXTENDED_A Unicode Block.
+    static const Block KANA_EXTENDED_A;
+
+    /// \brief The SMALL_KANA_EXTENSION Unicode Block.
+    static const Block SMALL_KANA_EXTENSION;
+
+    /// \brief The NUSHU Unicode Block.
+    static const Block NUSHU;
 
     /// \brief The DUPLOYAN Unicode Block.
     static const Block DUPLOYAN;
@@ -809,87 +881,117 @@ public:
     /// \brief The ANCIENT_GREEK_MUSICAL_NOTATION Unicode Block.
     static const Block ANCIENT_GREEK_MUSICAL_NOTATION;
 
+    /// \brief The MAYAN_NUMERALS Unicode Block.
+    static const Block MAYAN_NUMERALS;
+
     /// \brief The TAI_XUAN_JING_SYMBOLS Unicode Block.
     static const Block TAI_XUAN_JING_SYMBOLS;
-    
+
     /// \brief The COUNTING_ROD_NUMERALS Unicode Block.
     static const Block COUNTING_ROD_NUMERALS;
-    
+
     /// \brief The MATHEMATICAL_ALPHANUMERIC_SYMBOLS Unicode Block.
     static const Block MATHEMATICAL_ALPHANUMERIC_SYMBOLS;
-    
+
     /// \brief The SUTTON_SIGNWRITING Unicode Block.
     static const Block SUTTON_SIGNWRITING;
-    
+
+    /// \brief The GLAGOLITIC_SUPPLEMENT Unicode Block.
+    static const Block GLAGOLITIC_SUPPLEMENT;
+
+    /// \brief The NYIAKENG_PUACHUE_HMONG Unicode Block.
+    static const Block NYIAKENG_PUACHUE_HMONG;
+
+    /// \brief The WANCHO Unicode Block.
+    static const Block WANCHO;
+
     /// \brief The MENDE_KIKAKUI Unicode Block.
     static const Block MENDE_KIKAKUI;
-    
+
+    /// \brief The ADLAM Unicode Block.
+    static const Block ADLAM;
+
+    /// \brief The INDIC_SIYAQ_NUMBERS Unicode Block.
+    static const Block INDIC_SIYAQ_NUMBERS;
+
+    /// \brief The OTTOMAN_SIYAQ_NUMBERS Unicode Block.
+    static const Block OTTOMAN_SIYAQ_NUMBERS;
+
     /// \brief The ARABIC_MATHEMATICAL_ALPHABETIC_SYMBOLS Unicode Block.
     static const Block ARABIC_MATHEMATICAL_ALPHABETIC_SYMBOLS;
-    
+
     /// \brief The MAHJONG_TILES Unicode Block.
     static const Block MAHJONG_TILES;
-    
+
     /// \brief The DOMINO_TILES Unicode Block.
     static const Block DOMINO_TILES;
-    
+
     /// \brief The PLAYING_CARDS Unicode Block.
     static const Block PLAYING_CARDS;
-    
+
     /// \brief The ENCLOSED_ALPHANUMERIC_SUPPLEMENT Unicode Block.
     static const Block ENCLOSED_ALPHANUMERIC_SUPPLEMENT;
-    
+
     /// \brief The ENCLOSED_IDEOGRAPHIC_SUPPLEMENT Unicode Block.
     static const Block ENCLOSED_IDEOGRAPHIC_SUPPLEMENT;
-    
+
     /// \brief The MISCELLANEOUS_SYMBOLS_AND_PICTOGRAPHS Unicode Block.
     static const Block MISCELLANEOUS_SYMBOLS_AND_PICTOGRAPHS;
-    
+
     /// \brief The EMOTICONS Unicode Block.
     static const Block EMOTICONS;
-    
+
     /// \brief The ORNAMENTAL_DINGBATS Unicode Block.
     static const Block ORNAMENTAL_DINGBATS;
-    
+
     /// \brief The TRANSPORT_AND_MAP_SYMBOLS Unicode Block.
     static const Block TRANSPORT_AND_MAP_SYMBOLS;
-    
+
     /// \brief The ALCHEMICAL_SYMBOLS Unicode Block.
     static const Block ALCHEMICAL_SYMBOLS;
-    
+
     /// \brief The GEOMETRIC_SHAPES_EXTENDED Unicode Block.
     static const Block GEOMETRIC_SHAPES_EXTENDED;
-    
+
     /// \brief The SUPPLEMENTAL_ARROWS_C Unicode Block.
     static const Block SUPPLEMENTAL_ARROWS_C;
-    
+
     /// \brief The SUPPLEMENTAL_SYMBOLS_AND_PICTOGRAPHS Unicode Block.
     static const Block SUPPLEMENTAL_SYMBOLS_AND_PICTOGRAPHS;
-    
+
+    /// \brief The CHESS_SYMBOLS Unicode Block.
+    static const Block CHESS_SYMBOLS;
+
+    /// \brief The SYMBOLS_AND_PICTOGRAPHS_EXTENDED_A Unicode Block.
+    static const Block SYMBOLS_AND_PICTOGRAPHS_EXTENDED_A;
+
     /// \brief The CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B Unicode Block.
     static const Block CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B;
-    
+
     /// \brief The CJK_UNIFIED_IDEOGRAPHS_EXTENSION_C Unicode Block.
     static const Block CJK_UNIFIED_IDEOGRAPHS_EXTENSION_C;
-    
+
     /// \brief The CJK_UNIFIED_IDEOGRAPHS_EXTENSION_D Unicode Block.
     static const Block CJK_UNIFIED_IDEOGRAPHS_EXTENSION_D;
-    
+
     /// \brief The CJK_UNIFIED_IDEOGRAPHS_EXTENSION_E Unicode Block.
     static const Block CJK_UNIFIED_IDEOGRAPHS_EXTENSION_E;
-    
+
+    /// \brief The CJK_UNIFIED_IDEOGRAPHS_EXTENSION_F Unicode Block.
+    static const Block CJK_UNIFIED_IDEOGRAPHS_EXTENSION_F;
+
     /// \brief The CJK_COMPATIBILITY_IDEOGRAPHS_SUPPLEMENT Unicode Block.
     static const Block CJK_COMPATIBILITY_IDEOGRAPHS_SUPPLEMENT;
-    
+
     /// \brief The TAGS Unicode Block.
     static const Block TAGS;
-    
+
     /// \brief The VARIATION_SELECTORS_SUPPLEMENT Unicode Block.
     static const Block VARIATION_SELECTORS_SUPPLEMENT;
-    
+
     /// \brief The SUPPLEMENTARY_PRIVATE_USE_AREA_A Unicode Block.
     static const Block SUPPLEMENTARY_PRIVATE_USE_AREA_A;
-    
+
     /// \brief The SUPPLEMENTARY_PRIVATE_USE_AREA_B Unicode Block.
     static const Block SUPPLEMENTARY_PRIVATE_USE_AREA_B;
 
@@ -897,6 +999,7 @@ public:
 };
 
 
+/// \brief A class for breaking lines according to the Unicode standard.
 class Linebreaker
 {
 public:
@@ -932,11 +1035,13 @@ public:
                                              const std::string& language);
 
 protected:
+    /// \brief The language used for line breaking.
     std::string _language;
     
 };
 
 
+/// \brief A class for breaking lines according to the Unicode standard.
 class Wordbreaker
 {
 public:
@@ -949,7 +1054,6 @@ public:
         /// \brief A UTF-8/16 sequence is unfinished.
         INSIDE_CHAR = WORDBREAK_INSIDEACHAR
     };
-
 
     Wordbreaker(const std::string& language = "en");
 
@@ -986,9 +1090,13 @@ public:
     static std::string normalize(const std::string& utf8,
                                  Unicode::NormalizationForm form = Unicode::NormalizationForm::NFC);
 
-
-
-    /// \brief
+    /// \brief Perform case folding.
+    ///
+    /// Performs unicode case folding, to be able to do a case-insensitive
+    /// string comparison.
+    ///
+    /// \param utf8 a utf8-encoded string.
+    /// \returns a case-folded utf8-encoded string.
     static std::string casefold(const std::string& utf8);
 
     /// \brief Check to see if a UTF8 string has valid UTF8 encoding.
@@ -997,33 +1105,55 @@ public:
     static bool isValid(const std::string& utf8);
 
     // check to see if a string starts with a UTF8 BOM (byte order mark)
-    static bool startsWithBOM(const std::string& txt);
+    static bool startsWithBOM(const std::string& utf8);
 
     // attempt to repair a broken UTF8 string
-    static std::string repair(const std::string& txt, char32_t replacement = -1);
+    static std::string repair(const std::string& utf8, char32_t replacement = -1);
 
     static std::string& repairInPlace(std::string& txt, char32_t replacement = -1);
 
     // calculate the number of UTF8 chars (string.length() returns the number of bytes)
-    static std::size_t distance(const std::string& txt);
+    static std::size_t distance(const std::string& utf8);
 
-    // case insensitive comparison of UTF8 strings
+    /// \brief Perform a case-insensitive string comparison on UTF-8 encoded strings.
+    ///
+    /// Strings are normalized and case-folded according to the Unicode standard
+    /// and the strings are then compared.
+    ///
+    /// \param utf8String0 The first UTF8-encoded string to compare.
+    /// \param utf8String1 The second UTF8-encoded string to compare.
+    /// \returs 1) a negative value if utf8String0 appears before the character
+    ///         sequence specified by utf8String1, in lexicographical order,
+    ///         2) (0) zero if both character sequences compare equivalent,
+    ///         3) A positive value if utf8String0 appears after the character
+    ///         sequence specified by utf8String1, in lexicographical order.
     static int icompare(const std::string& utf8String0, const std::string& utf8String1);
 
     // Unicode-based case conversion
-    static std::string toUpper(const std::string& str);
-    static std::string& toUpperInPlace(std::string& str);
-    static std::string toLower(const std::string& str);
-    static std::string& toLowerInPlace(std::string& str);
-    
+    static std::string toUpper(const std::string& utf8);
+    static std::string& toUpperInPlace(std::string& utf8);
+    static std::string toLower(const std::string& utf8);
+    static std::string& toLowerInPlace(std::string& utf8);
+
+    static std::u16string toUTF16(const std::string& utf8);
+    static std::u32string toUTF32(const std::string& utf8);
+};
+
+
+class UTF16
+{
+public:
+    static std::string toUTF8(const std::u16string& utf16);
+    static std::u32string toUTF32(const std::u16string& utf16);
 };
 
 
 class UTF32
 {
 public:
-    /// \param utf32 A Unicode character.
-    /// \returns true iff is a valid Unicode code point.
+    /// \brief Determine if a char32_t is a valid Unicode code point.
+    /// \param utf32 A char32_t value to test.
+    /// \returns true if the given value is a valid Unicode code point.
     static bool isValid(char32_t utf32);
 
     static bool isPrintable(char32_t utf32); // is this a "printable" character?
@@ -1054,38 +1184,109 @@ public:
     static bool isUpper(char32_t utf32);
 
     // conversions
-    static char32_t toLower(char32_t unichar);
-    static char32_t toUpper(char32_t unichar);
-    static char32_t& toLowerInPlace(char32_t& unichar);
-    static char32_t& toUpperInPlace(char32_t& unichar);
+    static char32_t toLower(char32_t utf32);
+    static char32_t toUpper(char32_t utf32);
+    static char32_t& toLowerInPlace(char32_t& utf32);
+    static char32_t& toUpperInPlace(char32_t& utf32);
 
     // Unicode string based conversions
-    static std::u32string toLower(const std::u32string& unichar);
-    static std::u32string toUpper(const std::u32string& unichar);
-    static std::u32string& toLowerInPlace(std::u32string& unichar);
-    static std::u32string& toUpperInPlace(std::u32string& unichar);
+    static std::u32string toLower(const std::u32string& utf32);
+    static std::u32string toUpper(const std::u32string& utf32);
+    static std::u32string& toLowerInPlace(std::u32string& utf32);
+    static std::u32string& toUpperInPlace(std::u32string& utf32);
+
+    static std::string toUTF8(char32_t utf32);
+    static std::string toUTF8(const std::u32string& utf32);
+    static std::u16string toUTF16(char32_t utf32);
+    static std::u16string toUTF16(const std::u32string& utf32);
 
 };
 
 
+/// \brief A class for converting between character sets.
+///
+/// This class is not thread-safe.
 class TextConverter
 {
 public:
-    // to UTF8
-    static std::string toUTF8(const std::u16string& input);
-    static std::string toUTF8(char32_t input);
-    static std::string toUTF8(const std::u32string& input);
+    struct Settings;
 
-    // to UTF16
-    static std::u16string toUTF16(const std::string& input);
-    static std::u16string toUTF16(char32_t input);
-    static std::u16string toUTF16(const std::u32string& input);
+    /// \brief Create an unloaded TextConverter.
+    TextConverter();
 
-    // to UTF32
-    static std::u32string toUTF32(const std::string& input);
-    static std::u32string toUTF32(const std::u16string& input);
+    /// \brief Create a TextConverter with the given Settings.
+    TextConverter(const Settings& settings);
 
-#if defined(USE_POCO_FOR_CHAR_SET_CONVERSION)
+    /// \brief Create a TextConverter with the given input and output encoding.
+    /// \param inputEncoding The input encoding character encoding.
+    /// \param outputEncoding The output encoding character encoding.
+    TextConverter(const std::string& inputEncoding,
+                  const std::string& outputEncoding);
+
+    /// \brief Create a TextConverter with a UTF-8 input encoding.
+    /// \param outputEncoding The desired output encoding.
+    TextConverter(const std::string& outputEncoding);
+
+    /// \brief Destroy the text converter.
+    ~TextConverter();
+
+    /// \brief Set up a TextConverter with a UTF-8 input encoding.
+    /// \param outputEncoding The desired output encoding.
+    /// \returns true if the TextConverter is loaded with valid Settings.
+    bool setup(const std::string& outputEncoding);
+
+    /// \brief Set up a TextConverter with a UTF-8 input encoding.
+    /// \param outputEncoding The desired output encoding.
+    /// \returns true if the TextConverter is loaded with valid Settings.
+    bool setup(const Settings& settings);
+
+    /// \brief True if the TextConverter is loaded with valid Settings.
+    bool isLoaded() const;
+
+    /// \brief Reset the converter state.
+    void reset();
+
+    /// \brief Convert encoded input text to the encoded output text.
+    /// \param input The input string corresponding to inputEncoding.
+    /// \param output A string in which to write the output encoded with outputEncoding.
+    /// \returns -1 if error.
+    ///           0 if no error.
+    ///          >0 For number of invalid byte sequences in source.
+    int convert(const std::string& input, std::string& output) const;
+
+    /// \brief Convert encoded input text to the encoded output text.
+    /// \param input The input string corresponding to inputEncoding.
+    /// \returns the encoded input or an empty string on error.
+    std::string convert(const std::string& input) const;
+
+    /// \brief Settings to configure the TextConverter.
+    struct Settings
+    {
+        /// \brief The input encoding.
+        std::string inputEncoding;
+
+        /// \brief The output encoding.
+        std::string outputEncoding;
+
+        /// \brief True if errors should be skipped.
+        ///
+        /// If errors are skipped, \p defaultCharacter is used.
+        bool skipErrors = true;
+
+        /// \brief If errors are skipped, this character will be used.
+        char defaultCharacter = '?';
+
+        /// \brief Transliterate when an output encoding is not available.
+        ///
+        /// If true, characters unrepresented in output encoding it can be
+        /// approximated by characters that look similar.
+        bool transliterate = false;
+    };
+
+
+    /// \returns a list of available encodings.
+    static std::vector<std::string> encodings();
+
     /// \brief Convert between character sets.
     /// \param input The input string corresponding to inputEncoding.
     /// \param output A string in which to write the output encoded with outputEncoding.
@@ -1150,8 +1351,13 @@ public:
     /// \brief Superset of Latin 1 (ISO 8859-1)
     /// \sa http://en.wikipedia.org/wiki/Windows-1252
     static const std::string ENCODING_WINDOWS_1252;
-#endif
 
+private:
+    /// \brief The Settings for this converter.
+    Settings _settings;
+
+    /// \brief The conversion descriptor.
+    std::shared_ptr<void> _cd = nullptr;
 };
 
 
